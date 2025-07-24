@@ -17,7 +17,8 @@ import {
   useTheme,
   Paper,
   Fade,
-  Grow
+  Grow,
+  CircularProgress
 } from '@mui/material';
 import { 
   Visibility, 
@@ -27,12 +28,16 @@ import {
   ArrowForward,
   FavoriteBorder,
   Lock,
-  ArrowRight
+  ArrowRight,
+  Close
 } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Image from 'next/image';
 import { Eye, EyeOff } from 'lucide-react';
 import {FaGoogle} from 'react-icons/fa';
+import Link from 'next/link';
+import { supabase } from '../supabaseClient';
+import { useRouter } from 'next/navigation';
 
 
 // Custom color definitions with family-friendly palette
@@ -170,7 +175,13 @@ const theme = createTheme({
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState('');
+  const [showError, setShowError] = React.useState(true);
   const theme = useTheme();
+  const router = useRouter();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -180,9 +191,23 @@ export default function SignInPage() {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('Form submitted');
+    setError('');
+    setShowError(true);
+    setLoading(true);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    setLoading(false);
+    if (error) {
+      setError(error.message);
+    } else {
+      setEmail('');
+      setPassword('');
+      router.replace('/ai');
+    }
   };
 
   return (
@@ -275,57 +300,97 @@ export default function SignInPage() {
             p: 4,
           }}
         >
-          <Paper
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{
-              width: '100%',
-              maxWidth: 'md',
-              bgcolor: 'background.paper',
-              p: 6,
-              borderRadius: 4,
-              boxShadow: 3,
-            }}
-            aria-labelledby="signin-heading"
-          >
-            <Typography
-              id="signin-heading"
-              variant="h4"
-              component="h1"
+          <Fade in={true} timeout={900}>
+            <Paper
+              component="form"
+              onSubmit={handleSubmit}
               sx={{
-              textAlign: 'center',
-              mb: 4,
-              color: 'text.primary',
-              fontWeight: 'bold',
+                width: '100%',
+                maxWidth: 700,
+                bgcolor: 'rgba(255,255,255,0.7)',
+                backdropFilter: 'blur(18px)',
+                p: { xs: 4, sm: 7 },
+                borderRadius: 7,
+                boxShadow: '0 12px 40px rgba(31, 38, 135, 0.20)',
+                border: '2px solid rgba(93,156,236,0.13)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 4,
+                position: 'relative',
+                overflow: 'hidden',
+                animation: 'slideUpFadeIn 0.7s cubic-bezier(.4,2,.6,1)'
               }}
+              aria-labelledby="signin-heading"
+              elevation={0}
             >
-              შესვლა
-            </Typography>
+              <Typography
+                id="signin-heading"
+                variant="h4"
+                component="h1"
+                sx={{
+                  textAlign: 'center',
+                  mb: 3,
+                  color: 'text.primary',
+                  fontWeight: 'bold',
+                  letterSpacing: -1.5,
+                  fontSize: { xs: '2.2rem', sm: '2.7rem' },
+                }}
+              >
+                შესვლა
+              </Typography>
 
-            {/* Social Sign-in */}
-            <Box sx={{ mb: 4 }}>
+              {/* Social Sign-in */}
               <Button
                 fullWidth
                 variant="outlined"
-                startIcon={<FaGoogle />}
+                startIcon={<FaGoogle size={20} style={{ color: '#DB4437' }} />}
                 sx={{
-                  py: 1.5,
-                  borderColor: 'divider',
+                  py: 2.2,
+                  mb: 1.5,
+                  borderColor: '#DB4437',
+                  color: '#DB4437',
+                  background: brandColors.primaryLight,
+                  fontWeight: 700,
+                  fontSize: '1.15rem',
+                  borderRadius: 4,
+                  boxShadow: '0 3px 12px rgba(219,68,55,0.09)',
                   '&:hover': {
                     borderColor: '#DB4437',
-                    color: '#DB4437',
+                    background: "fff",
                   },
                 }}
                 aria-label="Continue with Google"
               >
-                გააგრძელეთ Google-ით
+                Google-ით შესვლა
               </Button>
-            </Box>
 
-            <Divider sx={{ my: 4 }}>ან შემოდით იმეილით</Divider>
+              <Divider sx={{ my: 2, fontWeight: 500, color: 'text.secondary' }}>ან იმეილით</Divider>
 
-            {/* Email & Password */}
-            <Box sx={{ mb: 3 }}>
+              {/* Error Alert */}
+              {error && showError && (
+                <Fade in={!!error} timeout={400}>
+                  <Box sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    bgcolor: 'error.light',
+                    color: 'error.dark',
+                    borderRadius: 2,
+                    px: 2,
+                    py: 1,
+                    mb: 1,
+                    boxShadow: 1,
+                    fontSize: '0.97rem',
+                    position: 'relative',
+                  }}>
+                    <span style={{ flex: 1 }}>{error}</span>
+                    <IconButton size="small" onClick={() => setShowError(false)} sx={{ ml: 1 }}>
+                      <Close fontSize="small" />
+                    </IconButton>
+                  </Box>
+                </Fade>
+              )}
+
+              {/* Email & Password */}
               <TextField
                 fullWidth
                 label="იმეილი"
@@ -333,13 +398,28 @@ export default function SignInPage() {
                 required
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">@</InputAdornment>
+                    <InputAdornment position="start">
+                      <span style={{ color: brandColors.primary }}>@</span>
+                    </InputAdornment>
                   ),
                 }}
                 placeholder="თქვენი იმეილი"
-                sx={{ mb: 3 }}
+                sx={{
+                  mb: 2.5,
+                  borderRadius: 4,
+                  background: 'rgba(255,255,255,0.93)',
+                  boxShadow: '0 2px 8px rgba(93,156,236,0.06)',
+                  fontSize: '1.13rem',
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 4,
+                    fontSize: '1.13rem',
+                    minHeight: 56,
+                  },
+                }}
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                autoComplete="email"
               />
-              
               <TextField
                 fullWidth
                 label="პაროლი"
@@ -348,7 +428,7 @@ export default function SignInPage() {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Lock />
+                      <Lock sx={{ color: brandColors.primary }} />
                     </InputAdornment>
                   ),
                   endAdornment: (
@@ -357,6 +437,7 @@ export default function SignInPage() {
                         aria-label="toggle password visibility"
                         onClick={handleTogglePassword}
                         edge="end"
+                        sx={{ color: brandColors.primary }}
                       >
                         {showPassword ? <EyeOff /> : <Eye />}
                       </IconButton>
@@ -364,68 +445,75 @@ export default function SignInPage() {
                   ),
                 }}
                 placeholder="••••••••"
+                sx={{
+                  mb: 2.5,
+                  borderRadius: 4,
+                  background: 'rgba(255,255,255,0.93)',
+                  boxShadow: '0 2px 8px rgba(93,156,236,0.06)',
+                  fontSize: '1.13rem',
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 4,
+                    fontSize: '1.13rem',
+                    minHeight: 56,
+                  },
+                }}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                autoComplete="current-password"
               />
-            </Box>
 
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                mb: 4,
-              }}
-            >
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label="დამიმახსოვრე"
-              />
+              {/* Submit Button */}
               <Button
-                variant="text"
-                size="small"
-                sx={{ color: 'primary.main' }}
+                fullWidth
+                type="submit"
+                variant="contained"
+                endIcon={loading ? <CircularProgress size={22} color="inherit" /> : <ArrowRight />}
+                sx={{
+                  py: 2.3,
+                  mb: 1.5,
+                  fontWeight: 800,
+                  fontSize: '1.18rem',
+                  borderRadius: 4,
+                  background: `linear-gradient(90deg, ${brandColors.primary} 0%, ${brandColors.primaryDark} 100%)`,
+                  boxShadow: '0 6px 24px rgba(93,156,236,0.13)',
+                  letterSpacing: 0.7,
+                  transition: 'background 0.2s, box-shadow 0.2s',
+                  '&:hover': {
+                    background: `linear-gradient(90deg, ${brandColors.primaryDark} 0%, ${brandColors.primary} 100%)`,
+                    boxShadow: '0 10px 32px rgba(93,156,236,0.16)',
+                  },
+                }}
+                disabled={loading}
               >
-                დაგავიწყდათ პაროლი?
+                {loading ? 'იტვირთება...' : 'შესვლა'}
               </Button>
-            </Box>
 
-            {/* Submit Button */}
-            <Button
-              fullWidth
-              type="submit"
-              variant="contained"
-              endIcon={<ArrowRight />}
-              sx={{
-                py: 2,
-                mb: 3,
-                background: `linear-gradient(to right, ${brandColors.primary}, ${brandColors.primaryDark})`,
-                '&:hover': {
-                  background: `linear-gradient(to right, ${brandColors.primaryDark}, ${brandColors.primary})`,
-                },
-              }}
-            >
-              შესვლა
-            </Button>
-
-            {/* Signup Link */}
-            <Typography
-              variant="body2"
-              sx={{
-                textAlign: 'center',
-                color: 'text.secondary',
-              }}
-            >
-              ახალი ხართ?{' '}
-              <Button
-                variant="text"
-                size="small"
-                sx={{ color: 'primary.main' }}
+              {/* Signup Link */}
+              <Typography
+                variant="body2"
+                sx={{
+                  textAlign: 'center',
+                  color: 'text.secondary',
+                  mt: 1,
+                }}
               >
-                შექმენით ანგარიში
-              </Button>
-            </Typography>
-          </Paper>
+                ახალი ხართ?{' '}
+                <Link href="/signup">
+                  <Button
+                    variant="text"
+                    size="small"
+                    sx={{ color: 'primary.main', fontWeight: 600 }}
+                  >
+                    შექმენით ანგარიში
+                  </Button>
+                </Link>
+              </Typography>
+            </Paper>
+          </Fade>
         </Box>
       </Box>
     </ThemeProvider>
   );
 }
+
+// Add keyframes for slideUpFadeIn
