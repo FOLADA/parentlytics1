@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { ExternalLink, Facebook, Heart, MessageCircle, ChevronLeft, ChevronRight, Users } from "lucide-react";
 import { motion } from 'framer-motion';
 
-// Компонент анимированной точки
+
 const Particle = ({ index, colorClass = "bg-purple-400" }: { index: number, colorClass?: string }) => {
   if (typeof window === 'undefined') return null;
   return (
@@ -77,13 +77,13 @@ export default function Community() {
   return (
     <>
       <main className="relative min-h-screen flex flex-col items-center justify-center py-20 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 overflow-hidden">
-        {/* Анимированные фиолетовые точки */}
+      
         <div className="fixed inset-0 pointer-events-none">
           {Array.from({ length: 50 }, (_, i) => (
             <Particle key={i} index={i} />
           ))}
         </div>
-        {/* Удалённый видеофон и overlay */}
+       
 
         {/* Floating blobs */}
 
@@ -180,13 +180,13 @@ export default function Community() {
         aria-labelledby="testimonials-heading"
         className="relative py-20 bg-gradient-to-b from-sky-50 to-white px-4"
       >
-        {/* Анимированные точки на фоне секции отзывов */}
+      
         <div className="absolute inset-0 pointer-events-none z-0">
           {Array.from({ length: 100 }, (_, i) => (
             <Particle key={"testimonial-" + i} index={i} colorClass="bg-purple-300 shadow-lg shadow-purple-400/60" />
           ))}
         </div>
-        {/* Декоративные bubble-иллюстрации */}
+      
         <img
           src="/bubbles.png"
           alt="bubbles left"
@@ -199,7 +199,7 @@ export default function Community() {
           className="hidden md:block absolute right-0 bottom-0 w-[340px] max-w-[40vw] z-0 pointer-events-none select-none opacity-95 saturate-70"
           style={{objectFit: 'contain'}}
         />
-        {/* Фото-иллюстрация справа */}
+     
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <motion.h2
