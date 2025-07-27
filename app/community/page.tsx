@@ -1,8 +1,33 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { ExternalLink, Facebook, Heart, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { ExternalLink, Facebook, Heart, MessageCircle, ChevronLeft, ChevronRight, Users } from "lucide-react";
 import { motion } from 'framer-motion';
+
+// Компонент анимированной точки
+const Particle = ({ index, colorClass = "bg-purple-400" }: { index: number, colorClass?: string }) => {
+  if (typeof window === 'undefined') return null;
+  return (
+    <motion.div
+      className={`absolute w-1 h-1 rounded-full ${colorClass}`}
+      initial={{
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        opacity: 0,
+      }}
+      animate={{
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        opacity: [0, 1, 0],
+      }}
+      transition={{
+        duration: Math.random() * 10 + 10,
+        repeat: Infinity,
+        delay: index * 0.2,
+      }}
+    />
+  );
+};
 
 export default function Community() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -51,29 +76,21 @@ export default function Community() {
 
   return (
     <>
-      <main className="relative min-h-screen flex flex-col items-center justify-center py-20 bg-white overflow-hidden">
-        {/* Background video */}
-        <div className="absolute inset-0 w-full h-full z-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-            src="/bc-video.mp4"
-            aria-hidden="true"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 to-indigo-900/40" />
+      <main className="relative min-h-screen flex flex-col items-center justify-center py-20 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 overflow-hidden">
+        {/* Анимированные фиолетовые точки */}
+        <div className="fixed inset-0 pointer-events-none">
+          {Array.from({ length: 50 }, (_, i) => (
+            <Particle key={i} index={i} />
+          ))}
         </div>
+        {/* Удалённый видеофон и overlay */}
 
         {/* Floating blobs */}
-        <div className="absolute top-20 left-10 w-48 h-48 bg-pink-300/30 rounded-full filter blur-3xl animate-pulse-slow" />
-        <div className="absolute bottom-10 right-10 w-64 h-64 bg-blue-300/30 rounded-full filter blur-3xl animate-pulse-slow animation-delay-2000" />
 
         {/* Main content */}
-        <div className="flex flex-col items-center w-full px-4 relative z-10 text-center">
+        <div className="flex flex-col items-center w-full px-4 relative z-10 text-center text-base md:text-lg mt-[-40px]">
           <motion.span
-            className="inline-flex items-center px-4 py-1 mb-6 rounded-full bg-white/80 border border-blue-100 text-blue-600 font-medium shadow-sm backdrop-blur-lg"
+            className="inline-flex items-center px-4 py-1 mb-6 rounded-full bg-white/80 border font-medium text-base shadow-sm backdrop-blur-lg" style={{ borderColor: 'var(--color-indigo-600)', color: 'var(--color-indigo-600)' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -90,21 +107,22 @@ export default function Community() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Find Your <span className="text-cyan-300 font-serif italic">Parenting Tribe</span>
+            Find Your{' '}
+            <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-purple-300 bg-clip-text text-transparent font-bold">Parenting Tribe</span>
           </motion.h1>
 
           <motion.p
-            className="text-lg sm:text-xl text-blue-100 max-w-2xl backdrop-blur-sm px-4 py-2 rounded-lg mb-10"
+            className="text-lg text-white mb-10 max-w-2xl mx-auto leading-relaxed text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            Connect with thousands of parents who truly understand. Share experiences, celebrate wins, and get support through every challenge.
+            Connect with thousands of parents who truly understand. Share experiences, get support through every challenge.
           </motion.p>
 
           {/* CTA buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -113,36 +131,43 @@ export default function Community() {
               href="https://www.facebook.com/groups/your-group-link"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center justify-center px-8 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold text-lg shadow-lg transition-transform duration-500 hover:scale-105"
+              className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-7 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-200 text-base"
             >
-              <Facebook className="w-5 h-5 mr-3" />
+              <Facebook className="w-5 h-5" />
               Join Our Facebook Group
-              <ExternalLink className="ml-2 w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity" />
+              <ExternalLink className="w-5 h-5 ml-2" />
             </a>
             <a
               href="#testimonials"
-              className="group inline-flex items-center justify-center px-6 py-4 rounded-xl bg-white/90 text-blue-600 font-medium backdrop-blur-md border border-white shadow-sm transition-transform duration-500 hover:scale-105"
+              className="inline-flex items-center justify-center gap-3 bg-white text-indigo-600 px-7 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-200 hover:bg-gray-50 text-base"
             >
-              <MessageCircle className="w-5 h-5 mr-2 text-blue-500 group-hover:text-cyan-500 transition-colors" />
+              <MessageCircle className="w-5 h-5" />
               Hear from parents
             </a>
           </motion.div>
 
           {/* Stats */}
           <motion.div
-            className="flex flex-wrap justify-center gap-6 mt-12 bg-white/20 backdrop-blur-sm px-8 py-4 rounded-2xl border border-white/30"
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
           >
             {[
-              { label: "Parents Connected", value: "25K+" },
-              { label: "Daily Conversations", value: "120+" },
-              { label: "Feel More Supported", value: "98%" }
+              { label: "Parents Connected", value: "25K+", icon: Users },
+              { label: "Daily Conversations", value: "120+", icon: MessageCircle },
+              { label: "Feel More Supported", value: "98%", icon: Heart }
             ].map((stat, idx) => (
-              <div className="text-center" key={idx}>
-                <div className="text-2xl sm:text-3xl font-bold text-white">{stat.value}</div>
-                <div className="text-blue-100">{stat.label}</div>
+              <div key={stat.label} className="relative backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 text-center min-w-[298px]">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full mb-2 shadow-lg">
+                  <stat.icon className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  {stat.value}
+                </div>
+                <div className="text-gray-400">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </motion.div>
@@ -155,6 +180,26 @@ export default function Community() {
         aria-labelledby="testimonials-heading"
         className="relative py-20 bg-gradient-to-b from-sky-50 to-white px-4"
       >
+        {/* Анимированные точки на фоне секции отзывов */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          {Array.from({ length: 100 }, (_, i) => (
+            <Particle key={"testimonial-" + i} index={i} colorClass="bg-purple-300 shadow-lg shadow-purple-400/60" />
+          ))}
+        </div>
+        {/* Декоративные bubble-иллюстрации */}
+        <img
+          src="/bubbles.png"
+          alt="bubbles left"
+          className="hidden md:block absolute left-0 top-[-30px] w-[340px] max-w-[40vw] z-0 pointer-events-none select-none opacity-95 saturate-70"
+          style={{objectFit: 'contain'}}
+        />
+        <img
+          src="/bubbles2.png"
+          alt="bubbles right"
+          className="hidden md:block absolute right-0 bottom-0 w-[340px] max-w-[40vw] z-0 pointer-events-none select-none opacity-95 saturate-70"
+          style={{objectFit: 'contain'}}
+        />
+        {/* Фото-иллюстрация справа */}
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <motion.h2
@@ -188,36 +233,38 @@ export default function Community() {
               className="bg-white/90 backdrop-blur-lg p-8 rounded-3xl shadow-xl border border-blue-50"
             >
               <div className="flex items-start mb-6">
-                <div className="bg-gradient-to-br from-cyan-400 to-blue-500 w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl mr-5">
+                <div className="bg-gradient-to-br from-purple-500 to-indigo-600 w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl mr-5">
                   {testimonials[currentTestimonial].name.charAt(0)}
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-800 text-lg">{testimonials[currentTestimonial].name}</h3>
-                  <p className="text-cyan-600 text-sm">{testimonials[currentTestimonial].role}</p>
+                  <p className="text-purple-600 text-sm">{testimonials[currentTestimonial].role}</p>
                 </div>
                 <Heart className="ml-auto text-rose-400 fill-rose-100" size={24} />
               </div>
-              <p className="text-gray-600 text-lg italic relative pl-6 before:content-['“'] before:absolute before:left-0 before:top-0 before:text-7xl before:font-serif before:text-cyan-200 before:leading-none">
+              <p className="text-gray-600 text-lg italic relative pl-6 before:content-['“'] before:absolute before:left-0 before:top-0 before:text-7xl before:font-serif before:text-purple-300 before:leading-none">
                 {testimonials[currentTestimonial].quote}
               </p>
             </motion.div>
 
             {/* Carousel controls */}
-            <div className="flex justify-center mt-8 space-x-3">
-              <button onClick={prevTestimonial} className="p-3 rounded-full bg-white border border-gray-200 shadow-md hover:bg-gray-50 transition-colors">
+            <div className="flex justify-center items-center space-x-3">
+              <button onClick={prevTestimonial} className="p-3 rounded-full bg-white border border-gray-200 shadow-md hover:bg-gray-50 transition-colors mt-[46px]">
                 <ChevronLeft className="text-gray-600" />
               </button>
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentTestimonial(index)}
-                  className={`w-3 h-3 mx-1 rounded-full transition-all duration-300 ${
-                    currentTestimonial === index ? 'bg-cyan-500 scale-125' : 'bg-gray-300'
-                  }`}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                />
-              ))}
-              <button onClick={nextTestimonial} className="p-3 rounded-full bg-white border border-gray-200 shadow-md hover:bg-gray-50 transition-colors">
+              <div className="flex space-x-3 mt-[44px]">
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentTestimonial(index)}
+                    className={`w-3 h-3 mx-1 rounded-full transition-all duration-300 ${
+                      currentTestimonial === index ? 'bg-purple-500 scale-125' : 'bg-gray-300'
+                    }`}
+                    aria-label={`Go to testimonial ${index + 1}`}
+                  />
+                ))}
+              </div>
+              <button onClick={nextTestimonial} className="p-3 rounded-full bg-white border border-gray-200 shadow-md hover:bg-gray-50 transition-colors mt-[50px]">
                 <ChevronRight className="text-gray-600" />
               </button>
             </div>
@@ -238,9 +285,9 @@ export default function Community() {
               href="https://www.facebook.com/groups/your-group-link"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold text-lg shadow-lg transition-transform hover:scale-105"
+              className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-4 rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all duration-200 text-lg"
             >
-              <Facebook className="w-5 h-5 mr-3" />
+              <Facebook className="w-5 h-5" />
               Join Our Facebook Group Now
             </a>
           </motion.div>

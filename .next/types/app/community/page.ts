@@ -1,4 +1,4 @@
-// File: C:\Users\pc\Desktop\parentlytics\app\community\page.tsx
+// File: /Users/kseniakuksina/Desktop/parentlytics1/app/community/page.tsx
 import * as entry from '../../../../app/community/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

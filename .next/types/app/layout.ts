@@ -1,4 +1,4 @@
-// File: C:\Users\pc\Desktop\parentlytics\app\layout.tsx
+// File: /Users/kseniakuksina/Desktop/parentlytics1/app/layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
