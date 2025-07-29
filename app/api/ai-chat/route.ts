@@ -1,52 +1,103 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest) {
-  const { message, history } = await req.json();
-  const apiKey = process.env.OPENAI_API_KEY;
+// Azure AI Configuration
+const token = "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";
+const endpoint = "https://models.github.ai/inference";
+const model = "openai/gpt-4.1-mini";
 
-  if (!apiKey) {
-    return NextResponse.json({ error: 'OpenAI API key not set.' }, { status: 500 });
-  }
-  if (!message) {
-    return NextResponse.json({ error: 'No message provided.' }, { status: 400 });
-  }
+// System prompt for parenting context
+const systemPrompt = `You are a Georgian parenting expert and child development specialist. You communicate exclusively in Georgian language and provide supportive, practical parenting advice.
 
-  // Prepare messages for OpenAI (system prompt + history + user message)
-  const messages = [
-    {
-      role: 'system',
-      content:
-        'You are a helpful, friendly, and expert baby nurturing assistant. Give practical, evidence-based, and empathetic advice to parents about baby care, sleep, feeding, development, and parenting. Keep answers concise, clear, and supportive.',
-    },
-    ...(Array.isArray(history) ? history : []),
-    { role: 'user', content: message },
-  ];
+IMPORTANT: Respond in plain text only. Do not use any formatting, asterisks, bold text, or special characters. Write in simple, readable Georgian text.
 
+Your role:
+- Provide evidence-based parenting advice
+- Be warm, supportive, and understanding
+- Give practical, actionable suggestions
+- Explain complex topics in simple terms
+- Help parents feel confident and supported
+
+Topics you can help with:
+- Child development and milestones
+- Behavioral issues and discipline
+- Sleep, nutrition, and health
+- Emotional development and mental health
+- Education and learning
+- Family relationships and dynamics
+- Screen time and technology use
+- Parenting strategies and approaches
+
+Always respond in Georgian language only. Keep responses clear, helpful, and free of any formatting symbols.`;
+
+
+
+
+export async function POST(request: NextRequest) {
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const body = await request.json();
+    const { message, history } = body;
+
+    // Prepare messages for Azure AI
+    const messages = [
+      { role: "system", content: systemPrompt },
+      ...history.map((msg: any) => ({
+        role: msg.role === "user" ? "user" : "assistant",
+        content: msg.content
+      })),
+      { role: "user", content: message }
+    ];
+
+    // Make request to Azure AI
+    const response = await fetch(`${endpoint}/chat/completions`, {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages,
+        model: model,
+        messages: messages,
         temperature: 0.7,
-        max_tokens: 512,
-        stream: false,
+        max_tokens: 500,
+        top_p: 0.9,
       }),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      return NextResponse.json({ error: error.error?.message || 'OpenAI error' }, { status: 500 });
+      throw new Error(`Azure AI API error: ${response.status}`);
     }
 
     const data = await response.json();
-    const aiMessage = data.choices?.[0]?.message?.content || '';
-    return NextResponse.json({ aiMessage });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Unknown error' }, { status: 500 });
+    const aiMessage = data.choices?.[0]?.message?.content;
+
+    if (!aiMessage) {
+      throw new Error('No response from AI');
+    }
+
+    return NextResponse.json({ 
+      aiMessage: aiMessage,
+      success: true 
+    });
+
+  } catch (error) {
+    console.error('Azure AI Chat API Error:', error);
+    
+    // Fallback responses in Georgian
+    const fallbackResponses = [
+      "უკაცრავად, ვერ მივიღე პასუხი AI სერვისიდან. სცადეთ თავიდან ან დაუკავშირდით მხარდაჭერას.",
+      "ტექნიკური პრობლემის გამო ვერ შემიძლია პასუხის გაცემა. გთხოვთ სცადოთ მოგვიანებით.",
+      "დროებით ვერ ვუკავშირდები AI სერვისს. გთხოვთ სცადოთ რამდენიმე წუთის შემდეგ."
+    ];
+    
+    const fallbackResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+
+    return NextResponse.json(
+      { 
+        error: 'Failed to get AI response',
+        aiMessage: fallbackResponse 
+      },
+      { status: 500 }
+    );
   }
-} 
+}
+
