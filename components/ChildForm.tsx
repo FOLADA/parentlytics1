@@ -21,7 +21,7 @@ export default function ChildForm({ onSubmit, onCancel, initialData, isEditing =
     height: initialData?.height || 0,
     activity_level: initialData?.activity_level || 'moderate',
     allergies: initialData?.allergies || [],
-    health_notes: initialData?.health_notes || '',
+    other_health_concerns: initialData?.other_health_concerns || '',
   });
 
   const [newAllergy, setNewAllergy] = useState('');
@@ -292,8 +292,8 @@ export default function ChildForm({ onSubmit, onCancel, initialData, isEditing =
                 ჯანმრთელობის შენიშვნები
               </label>
               <textarea
-                value={formData.health_notes}
-                onChange={(e) => setFormData(prev => ({ ...prev, health_notes: e.target.value }))}
+                value={formData.other_health_concerns}
+                onChange={(e) => setFormData(prev => ({ ...prev, other_health_concerns: e.target.value }))}
                 rows={3}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                 placeholder="მაგ: უყვარს ხილი, არ უყვარს ბოსტნეული..."

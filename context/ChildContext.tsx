@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ChildProfile, ChildProfileFormData, AuthContextType, User } from '@/lib/types';
-import { getChildProfile, createChildProfile, updateChildProfile } from '@/lib/supabase';
+import { getChildProfile, createChildProfile, updateChildProfile as updateChildProfileSupabase } from '@/lib/supabase';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -87,18 +87,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     try {
       setIsLoading(true);
+      console.log('Context updateChildProfile called with:', data);
+      console.log('Current childProfile:', childProfile);
+      console.log('Current user:', user);
       
       if (childProfile) {
         // Update existing profile
-        const updated = await updateChildProfile(childProfile.id, {
+        console.log('Updating existing profile with ID:', childProfile.id);
+        const updated = await updateChildProfileSupabase(childProfile.id, {
           ...data,
           updated_at: new Date().toISOString(),
         });
+        console.log('Update result:', updated);
         if (updated) {
           setChildProfile(updated);
         }
       } else {
         // Create new profile
+        console.log('Creating new profile for user:', user.id);
         const newProfile = await createChildProfile({
           user_id: user.id,
           ...data,

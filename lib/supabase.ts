@@ -26,9 +26,22 @@ export async function createChildProfile(profile: Omit<ChildProfile, 'id' | 'cre
   try {
     console.log('Creating child profile with data:', profile);
     
+    // Transform the data to match the database schema
+    const profileData = {
+      user_id: profile.user_id,
+      name: profile.name,
+      birthdate: profile.birthdate,
+      gender: profile.gender,
+      weight: profile.weight,
+      height: profile.height,
+      activity_level: profile.activity_level,
+      allergies: profile.allergies,
+      other_health_concerns: profile.other_health_concerns,
+    };
+    
     const { data, error } = await supabase
       .from('child_profiles')
-      .insert([profile])
+      .insert([profileData])
       .select()
       .single();
 

@@ -3,19 +3,55 @@
 
 -- Create child_profiles table
 CREATE TABLE IF NOT EXISTS child_profiles (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID NOT NULL,
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
   birthdate DATE NOT NULL,
-  gender TEXT CHECK (gender IN ('male', 'female', 'other')) NOT NULL,
-  weight DECIMAL(5,2) NOT NULL,
-  height DECIMAL(5,2) NOT NULL,
-  activity_level TEXT CHECK (activity_level IN ('low', 'moderate', 'high')) NOT NULL,
+  gender TEXT NOT NULL CHECK (gender IN ('male', 'female', 'other')),
+  weight NUMERIC(5,2),
+  height NUMERIC(5,2),
+  activity_level TEXT CHECK (activity_level IN ('low', 'moderate', 'high')),
   allergies TEXT[] DEFAULT '{}',
-  health_notes TEXT,
+  other_health_concerns TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Create unique index on user_id to ensure one profile per user
+CREATE UNIQUE INDEX IF NOT EXISTS idx_child_profiles_user_id ON child_profiles(user_id);
+
+-- Create RLS (Row Level Security) policies
+ALTER TABLE child_profiles ENABLE ROW LEVEL SECURITY;
+
+-- Policy to allow users to view their own child profile
+CREATE POLICY "Users can view own child profile" ON child_profiles
+  FOR SELECT USING (auth.uid() = user_id);
+
+-- Policy to allow users to insert their own child profile
+CREATE POLICY "Users can insert own child profile" ON child_profiles
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- Policy to allow users to update their own child profile
+CREATE POLICY "Users can update own child profile" ON child_profiles
+  FOR UPDATE USING (auth.uid() = user_id);
+
+-- Policy to allow users to delete their own child profile
+CREATE POLICY "Users can delete own child profile" ON child_profiles
+  FOR DELETE USING (auth.uid() = user_id);
+
+-- Create function to automatically update updated_at timestamp
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- Create trigger to automatically update updated_at
+CREATE TRIGGER update_child_profiles_updated_at 
+  BEFORE UPDATE ON child_profiles 
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Create daily_meals table
 CREATE TABLE IF NOT EXISTS daily_meals (
@@ -29,26 +65,11 @@ CREATE TABLE IF NOT EXISTS daily_meals (
 );
 
 -- Create indexes for better performance
-CREATE INDEX IF NOT EXISTS idx_child_profiles_user_id ON child_profiles(user_id);
 CREATE INDEX IF NOT EXISTS idx_daily_meals_user_id ON daily_meals(user_id);
 CREATE INDEX IF NOT EXISTS idx_daily_meals_date ON daily_meals(date);
 
 -- Enable Row Level Security (RLS)
-ALTER TABLE child_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE daily_meals ENABLE ROW LEVEL SECURITY;
-
--- Create RLS policies for child_profiles
-CREATE POLICY "Users can view their own child profiles" ON child_profiles
-  FOR SELECT USING (auth.uid()::text = user_id::text);
-
-CREATE POLICY "Users can insert their own child profiles" ON child_profiles
-  FOR INSERT WITH CHECK (auth.uid()::text = user_id::text);
-
-CREATE POLICY "Users can update their own child profiles" ON child_profiles
-  FOR UPDATE USING (auth.uid()::text = user_id::text);
-
-CREATE POLICY "Users can delete their own child profiles" ON child_profiles
-  FOR DELETE USING (auth.uid()::text = user_id::text);
 
 -- Create RLS policies for daily_meals
 CREATE POLICY "Users can view their own daily meals" ON daily_meals

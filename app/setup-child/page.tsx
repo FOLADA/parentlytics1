@@ -19,10 +19,10 @@ export default function SetupChildPage() {
     }
   }, [user, isLoading, router]);
 
-  // Redirect to dashboard if child profile already exists
+  // Redirect to profile if child profile already exists
   useEffect(() => {
     if (!isLoading && user && childProfile) {
-      router.push('/dashboard');
+      router.push('/profile');
     }
   }, [user, childProfile, isLoading, router]);
 
@@ -31,7 +31,7 @@ export default function SetupChildPage() {
       await updateChildProfile(data);
       // Show success message briefly before redirecting
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push('/profile');
       }, 1000);
     } catch (error) {
       console.error('Error setting up child profile:', error);
