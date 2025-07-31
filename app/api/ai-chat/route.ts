@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Azure AI Configuration
-const token = "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";
-const endpoint = "https://models.github.ai/inference";
-const model = "openai/gpt-4.1-mini";
+const token = process.env.AZURE_AI_TOKEN || "";
+const endpoint = process.env.AZURE_AI_ENDPOINT || "https://models.github.ai/inference";
+const model = process.env.AZURE_AI_MODEL || "openai/gpt-4.1-mini";
 
 // System prompt for parenting context
 const systemPrompt = `You are a Georgian parenting expert and child development specialist. You communicate exclusively in Georgian language and provide supportive, practical parenting advice.
