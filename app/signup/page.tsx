@@ -203,11 +203,16 @@ export default function SignUpPage() {
     if (error) {
       setError(error.message);
     } else {
-      setSuccess('Signup successful! Please check your email to confirm your account.');
+      setSuccess('რეგისტრაცია წარმატებულია! გადავდივართ ბავშვის პროფილის შექმნაზე...');
       setFullName('');
       setEmail('');
       setPassword('');
       setConfirmPassword('');
+      
+      // Redirect to setup-child immediately after successful signup
+      setTimeout(() => {
+        window.location.href = '/setup-child';
+      }, 1500);
     }
   };
 
@@ -339,31 +344,7 @@ export default function SignUpPage() {
               >
                 ანგარიშის შექმნა
               </Typography>
-              {/* Social Sign-in */}
-              <Button
-                fullWidth
-                variant="outlined"
-                startIcon={<FaGoogle size={20} style={{ color: '#DB4437' }} />}
-                sx={{
-                  py: 2.2,
-                  mb: 1.5,
-                  borderColor: '#DB4437',
-                  color: '#DB4437',
-                  background: '#fff',
-                  fontWeight: 700,
-                  fontSize: '1.15rem',
-                  borderRadius: 4,
-                  boxShadow: '0 3px 12px rgba(219,68,55,0.09)',
-                  '&:hover': {
-                    borderColor: '#DB4437',
-                    background: '#fbe9e7',
-                  },
-                }}
-                aria-label="Continue with Google"
-              >
-                დარეგისტრირდით Google-ით
-              </Button>
-              <Divider sx={{ my: 2, fontWeight: 500, color: 'text.secondary' }}>ან დარეგისტრირდით იმეილით</Divider>
+
               {/* Error Alert */}
               {error && showError && (
                 <Fade in={!!error} timeout={400}>

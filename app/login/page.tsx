@@ -196,17 +196,29 @@ export default function SignInPage() {
     setError('');
     setShowError(true);
     setLoading(true);
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    setLoading(false);
-    if (error) {
-      setError(error.message);
-    } else {
-      setEmail('');
-      setPassword('');
-      router.replace('/ai');
+    
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      if (error) {
+        setError(error.message);
+      } else {
+        setEmail('');
+        setPassword('');
+        
+        // For now, always redirect to setup-child after login
+        // This ensures new users go through the proper flow
+        console.log('Login successful, redirecting to setup-child');
+        router.replace('/setup-child');
+      }
+    } catch (err) {
+      setError('Login failed. Please try again.');
+      console.error('Login error:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -339,32 +351,7 @@ export default function SignInPage() {
                 შესვლა
               </Typography>
 
-              {/* Social Sign-in */}
-              <Button
-                fullWidth
-                variant="outlined"
-                startIcon={<FaGoogle size={20} style={{ color: '#DB4437' }} />}
-                sx={{
-                  py: 2.2,
-                  mb: 1.5,
-                  borderColor: '#DB4437',
-                  color: '#DB4437',
-                  background: brandColors.primaryLight,
-                  fontWeight: 700,
-                  fontSize: '1.15rem',
-                  borderRadius: 4,
-                  boxShadow: '0 3px 12px rgba(219,68,55,0.09)',
-                  '&:hover': {
-                    borderColor: '#DB4437',
-                    background: "fff",
-                  },
-                }}
-                aria-label="Continue with Google"
-              >
-                Google-ით შესვლა
-              </Button>
 
-              <Divider sx={{ my: 2, fontWeight: 500, color: 'text.secondary' }}>ან იმეილით</Divider>
 
               {/* Error Alert */}
               {error && showError && (
