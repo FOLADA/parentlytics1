@@ -179,119 +179,13 @@ export function Hero() {
         {/* Holographic UI Panels */}
         
         {/* Advanced AI Dashboard */}
-        <motion.div
-          initial={{ opacity: 0, y: 30, rotateX: -15 }}
-          animate={{ opacity: 1, y: 0, rotateX: 0 }}
-          transition={{ duration: 2, delay: 1.2 }}
-          className="absolute top-20 right-12 bg-white/10 backdrop-blur-xl rounded-3xl p-6 shadow-2xl shadow-sky-500/20 border border-white/20"
-          style={{ 
-            animation: 'float 7s ease-in-out infinite delay-1s',
-            transform: 'perspective(1000px) rotateX(5deg) rotateY(-10deg)'
-          }}
-        >
-          <div className="flex items-center space-x-3 mb-4">
-            <div className="w-8 h-8 bg-gradient-to-r from-sky-400 to-blue-500 rounded-lg flex items-center justify-center">
-              <Cpu className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <div className="text-white/90 text-sm font-medium">Neural Analysis</div>
-              <div className="text-white/60 text-xs">Processing development patterns</div>
-            </div>
-            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
-          </div>
-          
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-white/70 text-xs">Cognitive Growth</span>
-              <span className="text-emerald-300 text-xs font-medium">+12.4%</span>
-            </div>
-            <div className="w-48 h-2 bg-white/20 rounded-full overflow-hidden">
-              <motion.div 
-                className="h-full bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: '87%' }}
-                transition={{ duration: 2, delay: 2 }}
-              />
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <span className="text-white/70 text-xs">Social Skills</span>
-              <span className="text-sky-300 text-xs font-medium">+8.7%</span>
-            </div>
-            <div className="w-48 h-2 bg-white/20 rounded-full overflow-hidden">
-              <motion.div 
-                className="h-full bg-gradient-to-r from-sky-400 to-indigo-400 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: '73%' }}
-                transition={{ duration: 2, delay: 2.2 }}
-              />
-            </div>
-          </div>
-        </motion.div>
+        {/* REMOVED: Neural Analysis card */}
 
         {/* Milestone Achievement Hologram */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, z: -100 }}
-          animate={{ opacity: 1, scale: 1, z: 0 }}
-          transition={{ duration: 1.8, delay: 1.8 }}
-          className="absolute bottom-32 left-16 bg-white/15 backdrop-blur-xl rounded-2xl p-5 shadow-2xl shadow-indigo-500/25 border border-white/25"
-          style={{ 
-            animation: 'hologramFloat 8s ease-in-out infinite delay-2s',
-            transform: 'perspective(1000px) rotateX(-5deg) rotateY(10deg)'
-          }}
-        >
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-xl flex items-center justify-center relative">
-              <Target className="w-5 h-5 text-white" />
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-xl animate-ping opacity-25"></div>
-            </div>
-            <div>
-              <div className="text-white/95 text-sm font-medium">New Milestone!</div>
-              <div className="text-white/70 text-xs">Language Development</div>
-            </div>
-          </div>
-          
-          <div className="bg-white/10 rounded-lg p-3 mb-3">
-            <div className="text-white/90 text-sm mb-1">"First Complete Sentence"</div>
-            <div className="text-indigo-200 text-xs">Age: 2y 3m • Expected: 2y 6m</div>
-          </div>
-          
-          <div className="flex items-center justify-between">
-            <div className="text-emerald-300 text-xs font-medium">3 months early! 🎉</div>
-            <div className="text-purple-200 text-xs">+150 XP</div>
-          </div>
-        </motion.div>
+        {/* REMOVED: New Milestone card */}
 
         {/* AI Insight Stream */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 2, delay: 2.2 }}
-          className="absolute top-1/2 left-8 bg-white/12 backdrop-blur-xl rounded-2xl p-4 shadow-2xl shadow-blue-500/20 border border-white/20"
-          style={{ 
-            animation: 'streamFloat 6s ease-in-out infinite delay-3s',
-            transform: 'perspective(1000px) rotateY(5deg)'
-          }}
-        >
-          <div className="flex items-center space-x-2 mb-3">
-            <Eye className="w-4 h-4 text-sky-300" />
-            <span className="text-white/90 text-xs font-medium">AI Insights</span>
-            <div className="flex space-x-1">
-              <div className="w-1 h-1 bg-sky-400 rounded-full animate-pulse"></div>
-              <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse delay-100"></div>
-              <div className="w-1 h-1 bg-indigo-400 rounded-full animate-pulse delay-200"></div>
-            </div>
-          </div>
-          
-          <div className="space-y-2 text-xs">
-            <div className="text-white/80 bg-white/10 rounded-lg p-2">
-              Reading time increased 40% this week
-            </div>
-            <div className="text-white/80 bg-white/10 rounded-lg p-2">
-              Motor skills developing ahead of curve
-            </div>
-          </div>
-        </motion.div>
+        {/* REMOVED: AI Insights card */}
 
         {/* Particle System */}
         {[...Array(25)].map((_, i) => (
