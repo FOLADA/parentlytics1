@@ -4,7 +4,7 @@ import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { MessageCircle, TrendingUp, Lightbulb, Users, Clock, Target, BarChart3, Heart, Star, Quote, CheckCircle, Zap, Shield, Sparkles } from "lucide-react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export function Features() {
   const containerRef = useRef(null);
@@ -13,9 +13,63 @@ export function Features() {
     offset: ["start end", "end start"]
   });
 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
   const rotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
+
+  // Fixed positions for floating particles
+  const floatingParticles = [
+    { left: "64.30%", top: "38.62%", duration: 6.5, delay: 0.3 },
+    { left: "45.91%", top: "11.68%", duration: 5.2, delay: 1.7 },
+    { left: "64.98%", top: "34.91%", duration: 7.8, delay: 0.8 },
+    { left: "61.05%", top: "18.98%", duration: 6.1, delay: 1.2 },
+    { left: "34.92%", top: "34.26%", duration: 5.9, delay: 0.5 },
+    { left: "26.51%", top: "7.62%", duration: 8.2, delay: 1.9 },
+    { left: "51.20%", top: "25.98%", duration: 6.7, delay: 0.7 },
+    { left: "96.76%", top: "98.53%", duration: 5.4, delay: 1.4 },
+    { left: "45.29%", top: "60.30%", duration: 7.3, delay: 0.9 },
+    { left: "23.18%", top: "50.80%", duration: 6.8, delay: 1.1 },
+    { left: "13.40%", top: "5.06%", duration: 8.5, delay: 0.2 },
+    { left: "77.96%", top: "95.26%", duration: 5.7, delay: 1.6 },
+    { left: "68.99%", top: "79.59%", duration: 7.1, delay: 0.4 },
+    { left: "36.90%", top: "0.21%", duration: 6.3, delay: 1.8 },
+    { left: "44.87%", top: "75.14%", duration: 8.1, delay: 0.6 },
+    { left: "27.81%", top: "2.81%", duration: 5.8, delay: 1.3 },
+    { left: "47.48%", top: "42.66%", duration: 7.4, delay: 0.1 },
+    { left: "20.71%", top: "62.94%", duration: 6.9, delay: 1.5 },
+    { left: "12.41%", top: "80.56%", duration: 8.3, delay: 0.8 },
+    { left: "28.46%", top: "51.11%", duration: 6.2, delay: 1.0 }
+  ];
+
+  // Fixed positions for matrix code rain
+  const matrixLines = [
+    { left: "1.31%", duration: 4.2, delay: 0.3 },
+    { left: "8.95%", duration: 5.8, delay: 1.7 },
+    { left: "14.83%", duration: 6.1, delay: 0.8 },
+    { left: "16.91%", duration: 4.9, delay: 1.2 },
+    { left: "23.19%", duration: 5.5, delay: 0.5 },
+    { left: "25.13%", duration: 6.7, delay: 1.9 },
+    { left: "34.49%", duration: 4.8, delay: 0.7 },
+    { left: "39.30%", duration: 5.3, delay: 1.4 },
+    { left: "43.93%", duration: 6.9, delay: 0.9 },
+    { left: "49.60%", duration: 5.1, delay: 1.1 },
+    { left: "54.73%", duration: 7.2, delay: 0.2 },
+    { left: "58.24%", duration: 4.6, delay: 1.6 },
+    { left: "62.68%", duration: 6.4, delay: 0.4 },
+    { left: "67.12%", duration: 5.7, delay: 1.8 },
+    { left: "70.89%", duration: 6.8, delay: 0.6 },
+    { left: "77.97%", duration: 4.7, delay: 1.3 },
+    { left: "82.46%", duration: 5.9, delay: 0.1 },
+    { left: "89.55%", duration: 6.3, delay: 1.5 },
+    { left: "90.43%", duration: 5.4, delay: 0.8 },
+    { left: "96.86%", duration: 7.1, delay: 1.0 }
+  ];
 
   const mainFeatures = [
     {
@@ -99,143 +153,107 @@ export function Features() {
 
   return (
     <section id="features" className="py-20 relative overflow-hidden" ref={containerRef}>
-      {/* Main Features Section */}
-      <div className="bg-white py-20 relative overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Floating Geometric Shapes */}
+      {/* Enhanced Background with Fixed Particles */}
+      <div className="absolute inset-0 bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50">
+        {isClient && floatingParticles.map((particle, i) => (
           <motion.div
-            style={{ y: y1 }}
-            className="absolute top-10 left-10 w-20 h-20 bg-gradient-to-br from-sky-200/30 to-blue-300/30 rounded-full blur-xl"
-            animate={{ 
-              scale: [1, 1.2, 1],
-              rotate: [0, 180, 360]
+            key={i}
+            className="absolute w-1 h-1 bg-sky-400/40 rounded-full"
+            style={{
+              left: particle.left,
+              top: particle.top,
             }}
-            transition={{ 
-              duration: 8,
+            animate={{
+              y: [0, -30, 0],
+              opacity: [0.2, 1, 0.2],
+              scale: [1, 1.5, 1]
+            }}
+            transition={{
+              duration: particle.duration,
               repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-          <motion.div
-            style={{ y: y2 }}
-            className="absolute top-1/4 right-20 w-16 h-16 bg-gradient-to-br from-indigo-200/30 to-purple-300/30 rounded-lg blur-lg"
-            animate={{ 
-              rotate: [0, -180, -360],
-              scale: [1, 0.8, 1]
-            }}
-            transition={{ 
-              duration: 12,
-              repeat: Infinity,
+              delay: particle.delay,
               ease: "easeInOut"
             }}
           />
-          <motion.div
-            style={{ y: y1, rotate, clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }}
-            className="absolute bottom-1/4 left-1/4 w-12 h-12 bg-gradient-to-br from-blue-200/30 to-sky-300/30"
-          />
+        ))}
+      </div>
 
-          {/* Particle System */}
-          {[...Array(15)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-sky-400/40 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -30, 0],
-                opacity: [0.2, 1, 0.2],
-                scale: [1, 1.5, 1]
-              }}
-              transition={{
-                duration: 4 + Math.random() * 4,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-                ease: "easeInOut"
-              }}
-            />
-          ))}
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl lg:text-4xl text-slate-800 mb-4">
+            Everything you need to support your child's growth
+          </h2>
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+            Four core features that transform parenting from overwhelming to empowering
+          </p>
+        </motion.div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl lg:text-4xl text-slate-800 mb-4">
-              Everything you need to support your child's growth
-            </h2>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Four core features that transform parenting from overwhelming to empowering
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {mainFeatures.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 50, rotateX: -15 }}
-                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                  whileHover={{ 
-                    y: -10,
-                    rotateX: 5,
-                    rotateY: 5,
-                    scale: 1.02
-                  }}
-                  transition={{ 
-                    duration: 0.6, 
-                    delay: feature.delay,
-                    type: "spring",
-                    stiffness: 100
-                  }}
-                  viewport={{ once: true }}
-                  className="group perspective-1000"
-                >
-                  <Card className="h-full bg-gradient-to-br from-sky-50 to-blue-50 border-sky-200/50 hover:shadow-2xl hover:shadow-sky-500/20 transition-all duration-500 transform-gpu">
-                    <CardContent className="p-6 relative overflow-hidden">
-                      {/* Card Background Animation */}
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-br from-sky-100/50 to-blue-100/50 opacity-0 group-hover:opacity-100"
-                        transition={{ duration: 0.3 }}
-                      />
-                      
-                      <motion.div 
-                        className={`w-12 h-12 bg-gradient-to-r ${feature.color} rounded-xl flex items-center justify-center mb-4 relative z-10`}
-                        whileHover={{ 
-                          scale: 1.2, 
-                          rotate: 360,
-                          boxShadow: "0 10px 25px rgba(56, 189, 248, 0.3)"
-                        }}
-                        transition={{ 
-                          type: "spring", 
-                          stiffness: 200,
-                          damping: 10
-                        }}
-                      >
-                        <Icon className="w-6 h-6 text-white" />
-                      </motion.div>
-                      
-                      <h3 className="text-slate-800 mb-3 relative z-10">{feature.title}</h3>
-                      <p className="text-slate-600 leading-relaxed relative z-10">{feature.description}</p>
-                      
-                      {/* Hover Effect Overlay */}
-                      <motion.div
-                        className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-400 to-blue-500 opacity-0 group-hover:opacity-100"
-                        transition={{ duration: 0.3 }}
-                      />
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              );
-            })}
-          </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {mainFeatures.map((feature, index) => {
+            const Icon = feature.icon;
+            return (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 50, rotateX: -15 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                whileHover={{ 
+                  y: -10,
+                  rotateX: 5,
+                  rotateY: 5,
+                  scale: 1.02
+                }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: feature.delay,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                viewport={{ once: true }}
+                className="group perspective-1000"
+              >
+                <Card className="h-full bg-gradient-to-br from-sky-50 to-blue-50 border-sky-200/50 hover:shadow-2xl hover:shadow-sky-500/20 transition-all duration-500 transform-gpu">
+                  <CardContent className="p-6 relative overflow-hidden">
+                    {/* Card Background Animation */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-br from-sky-100/50 to-blue-100/50 opacity-0 group-hover:opacity-100"
+                      transition={{ duration: 0.3 }}
+                    />
+                    
+                    <motion.div 
+                      className={`w-12 h-12 bg-gradient-to-r ${feature.color} rounded-xl flex items-center justify-center mb-4 relative z-10`}
+                      whileHover={{ 
+                        scale: 1.2, 
+                        rotate: 360,
+                        boxShadow: "0 10px 25px rgba(56, 189, 248, 0.3)"
+                      }}
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 200,
+                        damping: 10
+                      }}
+                    >
+                      <Icon className="w-6 h-6 text-white" />
+                    </motion.div>
+                    
+                    <h3 className="text-slate-800 mb-3 relative z-10">{feature.title}</h3>
+                    <p className="text-slate-600 leading-relaxed relative z-10">{feature.description}</p>
+                    
+                    {/* Hover Effect Overlay */}
+                    <motion.div
+                      className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-400 to-blue-500 opacity-0 group-hover:opacity-100"
+                      transition={{ duration: 0.3 }}
+                    />
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
@@ -243,13 +261,13 @@ export function Features() {
       <div id="ai-benefits" className="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 py-20 relative overflow-hidden">
         {/* Advanced Background Elements */}
         <div className="absolute inset-0">
-          {/* Matrix-like Code Rain */}
-          {[...Array(20)].map((_, i) => (
+          {/* Matrix-like Code Rain with Fixed Positions */}
+          {isClient && matrixLines.map((line, i) => (
             <motion.div
               key={i}
               className="absolute w-px bg-gradient-to-b from-transparent via-sky-400/30 to-transparent"
               style={{
-                left: `${(i * 5) + Math.random() * 5}%`,
+                left: line.left,
                 height: '100%'
               }}
               animate={{
@@ -257,9 +275,9 @@ export function Features() {
                 opacity: [0, 1, 0]
               }}
               transition={{
-                duration: 3 + Math.random() * 2,
+                duration: line.duration,
                 repeat: Infinity,
-                delay: Math.random() * 3,
+                delay: line.delay,
                 ease: "linear"
               }}
             />
@@ -269,26 +287,25 @@ export function Features() {
           <motion.div
             className="absolute top-1/4 left-1/4 w-64 h-64 bg-sky-500/10 rounded-full blur-3xl"
             animate={{
-              scale: [1, 1.3, 1],
+              scale: [1, 1.2, 1],
               opacity: [0.3, 0.6, 0.3]
             }}
             transition={{
-              duration: 6,
+              duration: 4,
               repeat: Infinity,
               ease: "easeInOut"
             }}
           />
           <motion.div
-            className="absolute bottom-1/3 right-1/3 w-48 h-48 bg-blue-500/10 rounded-full blur-2xl"
+            className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl"
             animate={{
-              scale: [1.2, 0.8, 1.2],
-              opacity: [0.4, 0.7, 0.4]
+              scale: [1.2, 1, 1.2],
+              opacity: [0.6, 0.3, 0.6]
             }}
             transition={{
-              duration: 8,
+              duration: 6,
               repeat: Infinity,
-              ease: "easeInOut",
-              delay: 2
+              ease: "easeInOut"
             }}
           />
         </div>

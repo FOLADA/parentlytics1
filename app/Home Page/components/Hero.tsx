@@ -3,8 +3,60 @@
 import { Button } from "./ui/button";
 import { ArrowRight, Sparkles, Brain, Heart, TrendingUp, MessageCircle, Target, Activity, Zap, Eye, Cpu, Network } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export function Hero() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Fixed positions for neural nodes to avoid hydration mismatch
+  const neuralNodes = [
+    { cx: 276, cy: 207 },
+    { cx: 337, cy: 361 },
+    { cx: 428, cy: 400 },
+    { cx: 410, cy: 453 },
+    { cx: 604, cy: 63 },
+    { cx: 565, cy: 144 },
+    { cx: 720, cy: 305 },
+    { cx: 812, cy: 463 },
+    { cx: 779, cy: 520 },
+    { cx: 823, cy: 359 },
+    { cx: 1069, cy: 170 },
+    { cx: 1147, cy: 198 }
+  ];
+
+  // Fixed positions for particles
+  const particles = [
+    { left: "59.27%", top: "43.27%", opacity: 0.22, animation: "particle 7.82s ease-in-out infinite 0.002s" },
+    { left: "8.82%", top: "16.27%", opacity: 0.50, animation: "particle 5.00s ease-in-out infinite 2.70s" },
+    { left: "42.66%", top: "42.13%", opacity: 0.88, animation: "particle 10.17s ease-in-out infinite 1.74s" },
+    { left: "83.65%", top: "30.59%", opacity: 0.69, animation: "particle 9.75s ease-in-out infinite 1.82s" },
+    { left: "32.41%", top: "27.68%", opacity: 0.47, animation: "particle 6.28s ease-in-out infinite 1.16s" },
+    { left: "94.77%", top: "54.08%", opacity: 0.38, animation: "particle 10.11s ease-in-out infinite 2.12s" },
+    { left: "27.81%", top: "2.81%", opacity: 0.72, animation: "particle 11.49s ease-in-out infinite 0.90s" },
+    { left: "47.48%", top: "42.66%", opacity: 0.24, animation: "particle 11.23s ease-in-out infinite 2.02s" },
+    { left: "20.71%", top: "62.94%", opacity: 0.77, animation: "particle 11.84s ease-in-out infinite 1.03s" },
+    { left: "12.41%", top: "80.56%", opacity: 0.24, animation: "particle 9.97s ease-in-out infinite 2.45s" },
+    { left: "28.46%", top: "51.11%", opacity: 0.22, animation: "particle 10.05s ease-in-out infinite 2.46s" },
+    { left: "84.97%", top: "79.29%", opacity: 0.77, animation: "particle 8.74s ease-in-out infinite 1.74s" },
+    { left: "59.01%", top: "45.44%", opacity: 0.80, animation: "particle 11.71s ease-in-out infinite 3.29s" },
+    { left: "34.42%", top: "11.98%", opacity: 0.97, animation: "particle 4.71s ease-in-out infinite 2.64s" },
+    { left: "81.80%", top: "22.21%", opacity: 0.47, animation: "particle 9.27s ease-in-out infinite 0.20s" },
+    { left: "3.55%", top: "26.88%", opacity: 0.99, animation: "particle 5.26s ease-in-out infinite 3.32s" },
+    { left: "75.38%", top: "93.38%", opacity: 0.73, animation: "particle 9.16s ease-in-out infinite 1.95s" },
+    { left: "69.67%", top: "7.29%", opacity: 0.25, animation: "particle 11.98s ease-in-out infinite 1.32s" },
+    { left: "59.32%", top: "6.13%", opacity: 0.34, animation: "particle 11.06s ease-in-out infinite 3.49s" },
+    { left: "75.86%", top: "37.51%", opacity: 0.37, animation: "particle 8.62s ease-in-out infinite 0.07s" },
+    { left: "8.58%", top: "11.98%", opacity: 0.77, animation: "particle 8.23s ease-in-out infinite 3.23s" },
+    { left: "3.02%", top: "90.08%", opacity: 0.71, animation: "particle 4.20s ease-in-out infinite 2.11s" },
+    { left: "69.62%", top: "38.65%", opacity: 0.40, animation: "particle 10.24s ease-in-out infinite 0.04s" },
+    { left: "49.97%", top: "28.24%", opacity: 0.82, animation: "particle 8.63s ease-in-out infinite 1.15s" },
+    { left: "80.82%", top: "24.36%", opacity: 0.84, animation: "particle 11.91s ease-in-out infinite 2.62s" }
+  ];
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 min-h-screen flex items-center">
       {/* Advanced 3D Scene Container */}
@@ -66,12 +118,12 @@ export function Hero() {
             transition={{ duration: 3, delay: 2, ease: "easeInOut" }}
           />
 
-          {/* Neural Nodes */}
-          {[...Array(12)].map((_, i) => (
+          {/* Neural Nodes with fixed positions */}
+          {neuralNodes.map((node, i) => (
             <motion.circle
               key={i}
-              cx={100 + i * 80 + Math.random() * 200}
-              cy={150 + Math.sin(i) * 200 + Math.random() * 300}
+              cx={node.cx}
+              cy={node.cy}
               r="4"
               fill="url(#connectionGradient)"
               filter="url(#glow)"
@@ -187,16 +239,16 @@ export function Hero() {
         {/* AI Insight Stream */}
         {/* REMOVED: AI Insights card */}
 
-        {/* Particle System */}
-        {[...Array(25)].map((_, i) => (
+        {/* Particle System with fixed positions */}
+        {isClient && particles.map((particle, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.8 + 0.2,
-              animation: `particle ${4 + Math.random() * 8}s ease-in-out infinite ${Math.random() * 4}s`,
+              left: particle.left,
+              top: particle.top,
+              opacity: particle.opacity,
+              animation: particle.animation,
               boxShadow: '0 0 4px rgba(56, 189, 248, 0.5)'
             }}
           />
