@@ -134,7 +134,7 @@ export default function Pricing() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0">
         <motion.div
@@ -238,7 +238,7 @@ export default function Pricing() {
                 onMouseEnter={() => setHoveredPlan(plan.title)}
                 onMouseLeave={() => setHoveredPlan(null)}
                 className={`rounded-3xl p-8 border border-white/20 transition-all duration-300 relative overflow-hidden
-                  bg-gradient-to-b ${plan.color} backdrop-blur-sm
+                  bg-white backdrop-blur-sm
                   ${plan.isPopular
                     ? "scale-105 z-20 shadow-2xl -mt-6 md:-mt-12"
                     : "z-10 shadow-xl"}
@@ -282,38 +282,38 @@ export default function Pricing() {
                 )}
                 
                 <motion.h3 
-                  className="text-2xl font-bold text-gray-800 mb-2 relative z-10"
+                  className="text-2xl font-bold text-slate-800 mb-2 relative z-10"
                   whileHover={{ scale: 1.02 }}
                 >
                   {plan.title}
                 </motion.h3>
                 
                 <motion.p 
-                  className="text-gray-700 text-base mb-6 relative z-10"
+                  className="text-slate-600 text-base mb-6 relative z-10"
                   whileHover={{ x: 5 }}
                 >
                   {plan.description}
                 </motion.p>
                 
                 <motion.div 
-                  className="text-4xl font-extrabold text-gray-900 mb-6 relative z-10"
+                  className="text-4xl font-extrabold text-slate-900 mb-6 relative z-10"
                   whileHover={{ scale: 1.05 }}
                 >
                   {plan.price}
-                  <span className="text-base font-medium text-gray-600">{plan.period}</span>
+                  <span className="text-base font-medium text-slate-600">{plan.period}</span>
                 </motion.div>
                 
                 <ul className="space-y-3 text-left mb-8 relative z-10">
                   {plan.features.map((feature, i) => (
                     <motion.li 
                       key={i} 
-                      className="flex items-start gap-2 text-gray-700"
+                      className="flex items-start gap-2 text-slate-600"
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3, delay: 0.1 * i }}
                       whileHover={{ x: 5 }}
                     >
-                      <Check className="text-indigo-600 mt-1 flex-shrink-0" size={20} />
+                      <Check className="text-sky-600 mt-1 flex-shrink-0" size={20} />
                       <span>{feature}</span>
                     </motion.li>
                   ))}
@@ -327,8 +327,8 @@ export default function Pricing() {
                   whileTap={{ scale: 0.97 }}
                   className={`w-full py-3 px-6 rounded-xl font-bold text-lg transition-colors duration-300 relative z-10
                     ${plan.isPopular
-                      ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
-                      : "bg-white text-indigo-700 shadow"}
+                      ? "bg-gradient-to-r from-sky-600 to-blue-600 text-white shadow-lg"
+                      : "bg-sky-600 text-white shadow"}
                   `}
                 >
                   დარეგისტრირდი და მიიღე 7 დღიანი უფასო ტრიალი
