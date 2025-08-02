@@ -152,7 +152,7 @@ export function Features() {
   ];
 
   return (
-    <section id="features" className="py-20 relative overflow-hidden" ref={containerRef}>
+    <section id="features" className="py-32 relative overflow-hidden" ref={containerRef}>
       {/* Enhanced Background with Fixed Particles */}
       <div className="absolute inset-0 bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50">
         {isClient && floatingParticles.map((particle, i) => (
@@ -178,13 +178,13 @@ export function Features() {
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 -mt-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 -mt-20">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-24"
         >
           <h2 className="text-3xl lg:text-4xl text-slate-800 mb-4">
             Everything you need to support your child's growth
@@ -256,6 +256,9 @@ export function Features() {
           })}
         </div>
       </div>
+      
+      {/* Additional spacing after cards */}
+      <div className="h-24"></div>
 
       {/* AI Benefits Section - Enhanced Dark Theme */}
       <div id="ai-benefits" className="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 py-20 relative overflow-hidden">
