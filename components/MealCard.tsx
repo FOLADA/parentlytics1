@@ -17,33 +17,33 @@ interface MealCardProps {
 const mealTypeConfig = {
   breakfast: {
     icon: '🌅',
-    color: 'from-orange-100 to-yellow-100',
-    borderColor: 'border-orange-200',
-    bgColor: 'bg-orange-50'
+    color: 'bg-white',
+    borderColor: 'border-blue-200',
+    bgColor: 'bg-blue-50'
   },
   lunch: {
     icon: '☀️',
-    color: 'from-yellow-100 to-orange-100',
-    borderColor: 'border-yellow-200',
-    bgColor: 'bg-yellow-50'
+    color: 'bg-white',
+    borderColor: 'border-blue-200',
+    bgColor: 'bg-blue-50'
   },
   dinner: {
     icon: '🌙',
-    color: 'from-purple-100 to-blue-100',
-    borderColor: 'border-purple-200',
-    bgColor: 'bg-purple-50'
+    color: 'bg-white',
+    borderColor: 'border-blue-200',
+    bgColor: 'bg-blue-50'
   },
   snack1: {
     icon: '🍎',
-    color: 'from-green-100 to-emerald-100',
-    borderColor: 'border-green-200',
-    bgColor: 'bg-green-50'
+    color: 'bg-white',
+    borderColor: 'border-blue-200',
+    bgColor: 'bg-blue-50'
   },
   snack2: {
     icon: '🥕',
-    color: 'from-emerald-100 to-green-100',
-    borderColor: 'border-emerald-200',
-    bgColor: 'bg-emerald-50'
+    color: 'bg-white',
+    borderColor: 'border-blue-200',
+    bgColor: 'bg-blue-50'
   }
 };
 
@@ -55,7 +55,7 @@ export default function MealCard({ title, meal, mealType, index }: MealCardProps
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      className={`relative overflow-hidden rounded-2xl border-2 ${config.borderColor} bg-gradient-to-br ${config.color} p-6 shadow-lg hover:shadow-xl transition-all duration-300`}
+      className={`relative overflow-hidden rounded-2xl border-2 ${config.borderColor} ${config.color} p-6 shadow-lg hover:shadow-xl transition-all duration-300`}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">

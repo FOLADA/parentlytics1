@@ -8,7 +8,7 @@ interface LoadingIndicatorProps {
 
 export default function LoadingIndicator({ message = "Creating your personalized meal plan..." }: LoadingIndicatorProps) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] space-y-6">
+    <div className="flex flex-col items-center justify-center min-h-screen space-y-6 -mt-24">
       {/* Animated icons */}
       <div className="relative">
         <motion.div
@@ -16,7 +16,7 @@ export default function LoadingIndicator({ message = "Creating your personalized
           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
           className="w-16 h-16"
         >
-          <Loader2 className="w-full h-full text-orange-500" />
+          <Loader2 className="w-full h-full text-blue-500" />
         </motion.div>
         
         <motion.div
@@ -27,7 +27,7 @@ export default function LoadingIndicator({ message = "Creating your personalized
           transition={{ duration: 1.5, repeat: Infinity }}
           className="absolute inset-0 flex items-center justify-center"
         >
-          <ChefHat className="w-8 h-8 text-orange-400" />
+          <ChefHat className="w-8 h-8 text-blue-400" />
         </motion.div>
       </div>
 
@@ -56,7 +56,7 @@ export default function LoadingIndicator({ message = "Creating your personalized
               repeat: Infinity, 
               delay: i * 0.2 
             }}
-            className="w-3 h-3 bg-orange-400 rounded-full"
+            className="w-3 h-3 bg-blue-400 rounded-full"
           />
         ))}
       </div>
@@ -69,7 +69,7 @@ export default function LoadingIndicator({ message = "Creating your personalized
             y: [0, -10, 0]
           }}
           transition={{ duration: 3, repeat: Infinity }}
-          className="absolute top-20 left-10 text-2xl opacity-20"
+          className="absolute top-1/4 left-1/4 text-2xl opacity-20"
         >
           🍎
         </motion.div>
@@ -79,7 +79,7 @@ export default function LoadingIndicator({ message = "Creating your personalized
             y: [0, 15, 0]
           }}
           transition={{ duration: 2.5, repeat: Infinity }}
-          className="absolute top-32 right-20 text-2xl opacity-20"
+          className="absolute top-1/3 right-1/4 text-2xl opacity-20"
         >
           🥕
         </motion.div>
@@ -89,7 +89,7 @@ export default function LoadingIndicator({ message = "Creating your personalized
             y: [0, -5, 0]
           }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-32 left-20 text-2xl opacity-20"
+          className="absolute bottom-1/3 left-1/4 text-2xl opacity-20"
         >
           🥛
         </motion.div>
