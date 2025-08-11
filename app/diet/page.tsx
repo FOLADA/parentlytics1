@@ -401,7 +401,7 @@ export default function DietPage() {
               day: 'numeric' 
             })}
           </p>
-          <p className="text-gray-500 text-sm mt-2">
+         <p className="text-gray-500 text-sm mt-2">
             Включает рекомендации по BLW (Baby-Led Weaning) для детей 6+ месяцев
           </p>
         </motion.div>
@@ -416,7 +416,7 @@ export default function DietPage() {
           <button
             onClick={generateMealPlanNow}
             disabled={generating}
-            className="inline-flex items-center gap-2 px-5 py-3 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-colors disabled:opacity-50"
+            className="purple-gradient-btn inline-flex items-center gap-2 disabled:opacity-50"
           >
             {generating ? (
               <>
@@ -433,7 +433,7 @@ export default function DietPage() {
           
           <button
             onClick={generateGroceryList}
-            className="inline-flex items-center gap-2 px-5 py-3 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-colors"
+            className="purple-gradient-btn inline-flex items-center gap-2"
           >
             <ShoppingCart className="w-5 h-5" />
             Grocery List
@@ -441,7 +441,7 @@ export default function DietPage() {
 
           <button
             onClick={() => setShowProfileSetup(true)}
-            className="inline-flex items-center gap-2 px-5 py-3 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-colors"
+            className="purple-gradient-btn inline-flex items-center gap-2"
           >
             <User className="w-5 h-5" />
             Edit Profile
