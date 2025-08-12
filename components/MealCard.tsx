@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Clock, Utensils, Apple } from 'lucide-react';
+import { Clock, Utensils, Apple, Sun, Moon, Carrot, Coffee } from 'lucide-react';
 
 interface MealCardProps {
   title: string;
@@ -14,33 +14,38 @@ interface MealCardProps {
   index: number;
 }
 
-const mealTypeConfig = {
+const mealTypeConfig: Record<string, {
+  icon: React.ReactNode;
+  color: string;
+  borderColor: string;
+  bgColor: string;
+}> = {
   breakfast: {
-    icon: '🌅',
+    icon: <Sun className="w-6 h-6 text-purple-500" />,
     color: 'bg-white',
     borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50'
   },
   lunch: {
-    icon: '☀️',
+    icon: <Sun className="w-6 h-6 text-purple-500" />,
     color: 'bg-white',
     borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50'
   },
   dinner: {
-    icon: '🌙',
+    icon: <Moon className="w-6 h-6 text-purple-500" />,
     color: 'bg-white',
     borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50'
   },
   snack1: {
-    icon: '🍎',
+    icon: <Coffee className="w-6 h-6 text-purple-500" />,
     color: 'bg-white',
     borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50'
   },
   snack2: {
-    icon: '🥕',
+    icon: <Carrot className="w-6 h-6 text-purple-500" />,
     color: 'bg-white',
     borderColor: 'border-blue-200',
     bgColor: 'bg-blue-50'

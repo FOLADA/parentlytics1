@@ -63,10 +63,10 @@ export default function NutritionChart({
   const targets = getAgeBasedTargets();
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-lg border border-orange-200">
+    <div className="bg-white rounded-2xl p-6 shadow-lg border border-blue-200">
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
-        <Heart className="w-6 h-6 text-orange-500" />
+        <Heart className="w-6 h-6 text-purple-500" />
         <h3 className="text-xl font-semibold text-gray-800">Today's Nutrition Summary</h3>
       </div>
 
@@ -78,9 +78,9 @@ export default function NutritionChart({
             <div>
               <div className="text-2xl font-bold text-gray-800">5</div>
               <div className="text-sm text-gray-600">Total Meals</div>
-              <div className="text-xs text-blue-600">+2 from yesterday</div>
+              <div className="text-xs text-purple-600">+2 from yesterday</div>
             </div>
-            <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
               <Heart className="w-5 h-5 text-white" />
             </div>
           </div>
@@ -92,9 +92,9 @@ export default function NutritionChart({
             <div>
               <div className="text-2xl font-bold text-gray-800">{Math.round(totalCalories * 0.8)}ml</div>
               <div className="text-sm text-gray-600">Total Volume</div>
-              <div className="text-xs text-blue-600">{Math.round(caloriePercentage)}% of norm</div>
+              <div className="text-xs text-purple-600">{Math.round(caloriePercentage)}% of norm</div>
             </div>
-            <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
               <Droplets className="w-5 h-5 text-white" />
             </div>
           </div>
@@ -106,9 +106,9 @@ export default function NutritionChart({
             <div>
               <div className="text-2xl font-bold text-gray-800">{totalCalories} kcal</div>
               <div className="text-sm text-gray-600">Calories</div>
-              <div className="text-xs text-green-600">Within norm</div>
+              <div className="text-xs text-purple-600">Within norm</div>
             </div>
-            <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
               <TrendingUp className="w-5 h-5 text-white" />
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function NutritionChart({
       {/* Daily Goals Progress */}
       <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
         <div className="flex items-center gap-3 mb-6">
-          <Target className="w-6 h-6 text-blue-500" />
+          <Target className="w-6 h-6 text-purple-500" />
           <h4 className="text-lg font-semibold text-gray-800">Daily Goals</h4>
         </div>
         
@@ -149,7 +149,7 @@ export default function NutritionChart({
               initial={{ width: 0 }}
               animate={{ width: `${Math.min((totalCalories * 0.15 / 250) * 100, 100)}%` }}
               transition={{ duration: 1, delay: 0.2 }}
-              className="h-3 rounded-full bg-green-500"
+              className="h-3 rounded-full bg-blue-500"
             />
           </div>
         </div>
@@ -165,7 +165,7 @@ export default function NutritionChart({
               initial={{ width: 0 }}
               animate={{ width: "50%" }}
               transition={{ duration: 1, delay: 0.4 }}
-              className="h-3 rounded-full bg-blue-400"
+              className="h-3 rounded-full bg-blue-500"
             />
           </div>
         </div>
@@ -196,7 +196,7 @@ export default function NutritionChart({
       {childAgeInMonths >= 12 && caloriePercentage >= 80 && (
         <div className="mt-4 p-4 bg-green-50 rounded-lg">
           <div className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-green-600" />
+            <TrendingUp className="w-4 h-4 text-purple-600" />
             <p className="text-sm text-green-700">
               <strong>Great job!</strong> Your child is meeting their daily nutrition goals. 
               Keep up the balanced diet!
