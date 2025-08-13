@@ -129,12 +129,12 @@ export default function BLWExpandedCards({
       {/* Header with Toggle Button */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Utensils className="w-6 h-6 text-green-500" />
+          <Utensils className="w-6 h-6 text-purple-500" />
           <h2 className="text-2xl font-bold text-gray-800">BLW - Baby Led Weaning</h2>
         </div>
         <button
           onClick={onToggle}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-full font-medium hover:bg-green-600 transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full font-medium hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 shadow-md hover:shadow-xl"
         >
           {isExpanded ? (
             <>
@@ -162,9 +162,9 @@ export default function BLWExpandedCards({
           >
             {/* Recipes Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-green-200">
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-purple-200">
                 <div className="flex items-center gap-3 mb-4">
-                  <BookOpen className="w-6 h-6 text-green-500" />
+                  <BookOpen className="w-6 h-6 text-purple-500" />
                   <h3 className="text-xl font-semibold text-gray-800">BLW Recipes</h3>
                 </div>
                 <div className="space-y-4">
@@ -172,7 +172,7 @@ export default function BLWExpandedCards({
                     <div key={idx} className="bg-gray-50 rounded-lg p-4">
                       <div className="flex justify-between items-start mb-2">
                         <h4 className="font-semibold text-gray-800">{recipe.name}</h4>
-                        <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                        <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
                           {recipe.age}
                         </span>
                       </div>
@@ -187,21 +187,21 @@ export default function BLWExpandedCards({
               </div>
 
               {/* Step-by-Step Guide */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-blue-200">
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-purple-200">
                 <div className="flex items-center gap-3 mb-4">
-                  <Clock className="w-6 h-6 text-blue-500" />
+                  <Clock className="w-6 h-6 text-purple-500" />
                   <h3 className="text-xl font-semibold text-gray-800">Step-by-Step Implementation Plan</h3>
                 </div>
                 <div className="space-y-4">
                   {blwSteps.map((step, idx) => (
                     <div key={idx} className="flex gap-4">
-                      <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                      <div className="w-8 h-8 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
                         {step.step}
                       </div>
                       <div className="flex-1">
                         <h4 className="font-semibold text-gray-800 mb-1">{step.title}</h4>
                         <p className="text-sm text-gray-600 mb-1">{step.description}</p>
-                        <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                        <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
                           {step.age}
                         </span>
                       </div>
@@ -212,14 +212,14 @@ export default function BLWExpandedCards({
             </div>
 
             {/* FAQ Section */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-yellow-200">
+            <div className="bg-white rounded-2xl p-6 shadow-lg border border-purple-200">
               <div className="flex items-center gap-3 mb-4">
-                <Lightbulb className="w-6 h-6 text-yellow-500" />
+                <Lightbulb className="w-6 h-6 text-purple-500" />
                                   <h3 className="text-xl font-semibold text-gray-800">Frequently Asked Questions</h3>
               </div>
               <div className="space-y-4">
                 {blwFAQ.map((faq, idx) => (
-                  <div key={idx} className="bg-yellow-50 rounded-lg p-4">
+                  <div key={idx} className="bg-purple-50 rounded-lg p-4">
                     <h4 className="font-semibold text-gray-800 mb-2">{faq.question}</h4>
                     <p className="text-sm text-gray-700">{faq.answer}</p>
                   </div>

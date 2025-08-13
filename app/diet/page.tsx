@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, RefreshCw, ShoppingCart, Heart, AlertCircle, User, Utensils, Apple, Carrot, Coffee, Milk, Wheat, Banana, Grape, Fish, Egg, Circle, Square, Triangle } from 'lucide-react';
 import MealCard from '../../components/MealCard';
@@ -25,6 +25,7 @@ export default function DietPage() {
   const [showProfileSetup, setShowProfileSetup] = useState(false);
   const [blwExpanded, setBlwExpanded] = useState(false);
   const { user, childProfile, updateChildProfile } = useAuth();
+  const profileFormRef = useRef<HTMLDivElement>(null);
 
 
 
@@ -604,7 +605,20 @@ export default function DietPage() {
           </button>
 
           <button
-            onClick={() => setShowProfileSetup(true)}
+            onClick={() => {
+              setShowProfileSetup(true);
+              
+              // Scroll to form after a short delay to ensure it's rendered
+              setTimeout(() => {
+                if (profileFormRef.current) {
+                  profileFormRef.current.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                    inline: 'nearest'
+                  });
+                }
+              }, 100);
+            }}
             className="purple-gradient-btn inline-flex items-center gap-2"
           >
             <User className="w-5 h-5" />
@@ -716,30 +730,38 @@ export default function DietPage() {
           />
         </motion.div>
 
-        {/* Child Profile Setup Modal */}
+                {/* Child Profile Setup Modal */}
         {showProfileSetup && (
-          <ChildForm
-            onSubmit={async (data: ChildProfileFormData) => {
-              try {
-                await updateChildProfile(data);
-                setShowProfileSetup(false);
-              } catch (error) {
-                console.error('Error updating child profile:', error);
-              }
-            }}
-            onCancel={() => setShowProfileSetup(false)}
-            isEditing={!!childProfile}
-            initialData={childProfile ? {
-              name: childProfile.name,
-              birthdate: childProfile.birthdate,
-              gender: childProfile.gender,
-              weight: childProfile.weight,
-              height: childProfile.height,
-              activity_level: childProfile.activity_level,
-              allergies: childProfile.allergies,
-              other_health_concerns: childProfile.other_health_concerns,
-            } : undefined}
-          />
+          <motion.div 
+            ref={profileFormRef}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="mt-8"
+          >
+            <ChildForm
+              onSubmit={async (data: ChildProfileFormData) => {
+                try {
+                  await updateChildProfile(data);
+                  setShowProfileSetup(false);
+                } catch (error) {
+                  console.error('Error updating child profile:', error);
+                }
+              }}
+              onCancel={() => setShowProfileSetup(false)}
+              isEditing={!!childProfile}
+              initialData={childProfile ? {
+                name: childProfile.name,
+                birthdate: childProfile.birthdate,
+                gender: childProfile.gender,
+                weight: childProfile.weight,
+                height: childProfile.height,
+                activity_level: childProfile.activity_level,
+                allergies: childProfile.allergies,
+                other_health_concerns: childProfile.other_health_concerns,
+              } : undefined}
+            />
+          </motion.div>
         )}
       </div>
     </div>
