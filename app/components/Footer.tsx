@@ -21,7 +21,7 @@ export default function Footer() {
           <ul className="space-y-1 text-sm">
             <li><Link href="/" className="hover:text-indigo-600 transition">მთავარი</Link></li>
             <li><Link href="/ai" className="hover:text-indigo-600 transition">ასისტენტი</Link></li>
-            <li><Link href="/dashboard" className="hover:text-indigo-600 transition">დაშბოარდი</Link></li>
+    
             <li><Link href="/community" className="hover:text-indigo-600 transition">ქომუნითი</Link></li>
           </ul>
         </div>

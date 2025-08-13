@@ -47,7 +47,7 @@ export default function SetupChildPage() {
   };
 
   const handleContinue = () => {
-    router.push('/dashboard');
+    router.push('/profile');
   };
 
   const handleAddChild = () => {
