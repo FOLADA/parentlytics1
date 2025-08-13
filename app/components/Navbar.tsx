@@ -9,6 +9,7 @@ const navLinks = [
   { name: 'მთავარი', href: '/' },
   { name: 'ასისტენტი', href: '/ai' },
   { name: 'კვება', href: '/diet' },
+  { name: 'ზრდა', href: '/milestones' },
   { name: 'დაშბოარდი', href: '/dashboard' },
   { name: 'ქომუნითი', href: '/community' },
 ];
