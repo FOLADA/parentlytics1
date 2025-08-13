@@ -1,16 +1,22 @@
 'use client';
 
 import { Button } from "./ui/button";
-import { ArrowRight, Sparkles, Brain, Heart, TrendingUp, MessageCircle, Target, Activity, Zap, Eye, Cpu, Network } from "lucide-react";
+import { ArrowRight, Sparkles, Brain, Heart, TrendingUp, Target, Activity, Zap, Network } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 
 export function Hero() {
   const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const handleStartNow = () => {
+    router.push('/setup-child');
+  };
 
   // Fixed positions for neural nodes to avoid hydration mismatch
   const neuralNodes = [
@@ -347,27 +353,17 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.9 }}
-            className="flex flex-col lg:flex-row items-center justify-center space-y-6 lg:space-y-0 lg:space-x-8 mb-20"
+            className="flex items-center justify-center mb-20"
           >
             <Button 
               size="lg"
-              className="bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500 text-white border-0 hover:from-sky-500 hover:via-blue-600 hover:to-indigo-600 px-12 py-5 text-xl rounded-2xl shadow-2xl shadow-sky-500/30 group transform hover:scale-105 transition-all duration-500 relative overflow-hidden"
+              onClick={handleStartNow}
+              className="bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500 text-white border-0 hover:from-sky-500 hover:via-blue-600 hover:to-indigo-600 px-24 py-6 text-2xl rounded-2xl shadow-2xl shadow-sky-500/30 group transform hover:scale-105 transition-all duration-500 relative overflow-hidden cursor-pointer"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <span className="relative z-10 flex items-center">
-                Initialize Neural Scan
-                <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
-              </span>
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-2 border-sky-200/50 text-slate-700 hover:bg-white/50 px-12 py-5 text-xl rounded-2xl backdrop-blur-xl bg-white/20 hover:bg-white/40 transition-all duration-500 hover:border-sky-300 hover:shadow-xl hover:shadow-sky-500/10"
-            >
-              <span className="flex items-center">
-                <Eye className="mr-3 w-5 h-5" />
-                View Demo Simulation
+                Start now
+                <ArrowRight className="ml-3 w-7 h-7 group-hover:translate-x-2 transition-transform duration-300" />
               </span>
             </Button>
           </motion.div>

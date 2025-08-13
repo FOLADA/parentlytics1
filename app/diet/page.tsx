@@ -26,12 +26,16 @@ export default function DietPage() {
   const [blwExpanded, setBlwExpanded] = useState(false);
   const { user, childProfile, updateChildProfile } = useAuth();
 
+
+
   // Use child name from context
   const childName = childProfile?.name || '';
 
   useEffect(() => {
     fetchTodayMeal();
   }, []);
+
+
 
   const fetchTodayMeal = async () => {
     try {
@@ -302,7 +306,7 @@ export default function DietPage() {
             </div>
             <h2 className="text-2xl font-bold text-gray-800">Oops! No meal plan found</h2>
             <p className="text-gray-600">{error}</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <button
                 onClick={generateMealPlanNow}
                 disabled={generating}
@@ -319,13 +323,6 @@ export default function DietPage() {
                     Generate Today's Meal Plan
                   </>
                 )}
-              </button>
-              <button
-                onClick={() => setShowProfileSetup(true)}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-600 transition-colors"
-              >
-                              <User className="w-5 h-5" />
-              Set Up Child Profile
               </button>
             </div>
           </motion.div>
@@ -568,7 +565,7 @@ export default function DietPage() {
               day: 'numeric' 
             })}
           </p>
-         <p className="text-gray-500 text-sm mt-2">
+          <p className="text-gray-500 text-sm mt-2">
             Включает рекомендации по BLW (Baby-Led Weaning) для детей 6+ месяцев
           </p>
         </motion.div>

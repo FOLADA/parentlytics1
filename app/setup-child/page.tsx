@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Heart, ArrowLeft, CheckCircle } from 'lucide-react';
@@ -13,6 +13,7 @@ export default function SetupChildPage() {
   const { user, childProfile, updateChildProfile, isLoading } = useAuth();
   const [showWelcome, setShowWelcome] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
 
   // Redirect if user is not authenticated
   useEffect(() => {
@@ -51,17 +52,28 @@ export default function SetupChildPage() {
 
   const handleAddChild = () => {
     setShowForm(true);
+    
+    // Scroll to form after a short delay to ensure it's rendered
+    setTimeout(() => {
+      if (formRef.current) {
+        formRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
+      }
+    }, 100);
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-50 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="text-center"
         >
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto mb-4"></div>
           <p className="text-gray-600">იტვირთება...</p>
         </motion.div>
       </div>
@@ -75,7 +87,7 @@ export default function SetupChildPage() {
   // Show welcome page after successful form submission
   if (showWelcome) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-50">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <motion.div
@@ -84,12 +96,12 @@ export default function SetupChildPage() {
             className="text-center mb-8"
           >
             <div className="flex items-center justify-center gap-3 mb-4">
-              <Heart className="w-8 h-8 text-pink-500" />
+              <Heart className="w-8 h-8 text-purple-500" />
               <h1 className="text-3xl font-bold text-gray-800">
                 მოგესალმებთ Parentlytics-ში! 💕
               </h1>
-              <Heart className="w-6 h-6 text-pink-500" />
-              <Heart className="w-4 h-4 text-pink-500" />
+              <Heart className="w-6 h-6 text-purple-500" />
+              <Heart className="w-4 h-4 text-purple-500" />
             </div>
             
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
@@ -105,9 +117,9 @@ export default function SetupChildPage() {
             className="max-w-4xl mx-auto mb-8"
           >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-pink-200">
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-purple-200">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">
+                  <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold">
                     1
                   </div>
                   <h3 className="text-lg font-semibold text-gray-800">პროფილის შექმნა</h3>
@@ -117,9 +129,9 @@ export default function SetupChildPage() {
                 </p>
               </div>
 
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-pink-200">
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-purple-200">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">
+                  <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold">
                     2
                   </div>
                   <h3 className="text-lg font-semibold text-gray-800">ჯანმრთელობის ინფო</h3>
@@ -129,9 +141,9 @@ export default function SetupChildPage() {
                 </p>
               </div>
 
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-pink-200">
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-purple-200">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">
+                  <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold">
                     3
                   </div>
                   <h3 className="text-lg font-semibold text-gray-800">პერსონალიზაცია</h3>
@@ -152,7 +164,7 @@ export default function SetupChildPage() {
           >
             <button
               onClick={handleContinue}
-              className="px-8 py-4 bg-pink-500 text-white rounded-2xl hover:bg-pink-600 transition-colors font-semibold text-lg shadow-lg"
+              className="px-8 py-4 bg-purple-500 text-white rounded-2xl hover:bg-purple-600 transition-colors font-semibold text-lg shadow-lg"
             >
               გაგრძელება
             </button>
@@ -163,7 +175,7 @@ export default function SetupChildPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -180,7 +192,7 @@ export default function SetupChildPage() {
           </button>
           
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Heart className="w-8 h-8 text-pink-500" />
+            <Heart className="w-8 h-8 text-purple-500" />
             <h1 className="text-3xl font-bold text-gray-800">
               მოგესალმებთ Parentlytics-ში! 💕
             </h1>
@@ -199,9 +211,9 @@ export default function SetupChildPage() {
           className="max-w-4xl mx-auto mb-8"
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-pink-200">
+            <div className="bg-white rounded-2xl p-6 shadow-lg border border-purple-200">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">
+                <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold">
                   1
                 </div>
                 <h3 className="text-lg font-semibold text-gray-800">პროფილის შექმნა</h3>
@@ -211,9 +223,9 @@ export default function SetupChildPage() {
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-pink-200">
+            <div className="bg-white rounded-2xl p-6 shadow-lg border border-purple-200">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">
+                <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold">
                   2
                 </div>
                 <h3 className="text-lg font-semibold text-gray-800">ჯანმრთელობის ინფო</h3>
@@ -223,9 +235,9 @@ export default function SetupChildPage() {
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-pink-200">
+            <div className="bg-white rounded-2xl p-6 shadow-lg border border-purple-200">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">
+                <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold">
                   3
                 </div>
                 <h3 className="text-lg font-semibold text-gray-800">პერსონალიზაცია</h3>
@@ -244,12 +256,14 @@ export default function SetupChildPage() {
           transition={{ delay: 0.4 }}
           className="text-center"
         >
-          <button
+          <motion.button
             onClick={handleAddChild}
-            className="px-8 py-4 bg-pink-500 text-white rounded-2xl hover:bg-pink-600 transition-colors font-semibold text-lg shadow-lg"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-8 py-4 bg-purple-500 text-white rounded-2xl hover:bg-purple-600 transition-all duration-200 font-semibold text-lg shadow-lg hover:shadow-xl"
           >
             დაამატეთ თქვენი ბავშვი
-          </button>
+          </motion.button>
         </motion.div>
 
         {/* Benefits */}
@@ -263,47 +277,55 @@ export default function SetupChildPage() {
             რატომ ღირს Parentlytics-ის გამოყენება?
           </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-pink-100">
-              <div className="flex items-center gap-3 mb-3">
-                <CheckCircle className="w-5 h-5 text-green-500" />
-                <h4 className="font-semibold text-gray-800">პერსონალიზებული კვება</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="bg-white rounded-xl p-6 shadow-lg border border-purple-100">
+                <div className="flex items-center gap-3 mb-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <h4 className="font-semibold text-gray-800">პერსონალიზებული კვება</h4>
+                </div>
+                <p className="text-gray-600 text-sm">
+                  მიიღეთ ყოველდღიური კვების გეგმა თქვენი ბავშვის ასაკისა და ჯანმრთელობის მიხედვით
+                </p>
               </div>
-              <p className="text-gray-600 text-sm">
-                მიიღეთ ყოველდღიური კვების გეგმა თქვენი ბავშვის ასაკისა და ჯანმრთელობის მიხედვით
-              </p>
-            </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-pink-100">
-              <div className="flex items-center gap-3 mb-3">
-                <CheckCircle className="w-5 h-5 text-green-500" />
-                <h4 className="font-semibold text-gray-800">AI ასისტენტი</h4>
+                          <div className="bg-white rounded-xl p-6 shadow-lg border border-purple-100">
+                <div className="flex items-center gap-3 mb-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <h4 className="font-semibold text-gray-800">AI ასისტენტი</h4>
+                </div>
+                <p className="text-gray-600 text-sm">
+                  მიიღეთ პასუხები ყველა კითხვაზე ბავშვის აღზრდის შესახებ
+                </p>
               </div>
-              <p className="text-gray-600 text-sm">
-                მიიღეთ პასუხები ყველა კითხვაზე ბავშვის აღზრდის შესახებ
-              </p>
-            </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-lg border border-pink-100">
-              <div className="flex items-center gap-3 mb-3">
-                <CheckCircle className="w-5 h-5 text-green-500" />
-                <h4 className="font-semibold text-gray-800">უსაფრთხოება</h4>
+                          <div className="bg-white rounded-xl p-6 shadow-lg border border-purple-100">
+                <div className="flex items-center gap-3 mb-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <h4 className="font-semibold text-gray-800">უსაფრთხოება</h4>
+                </div>
+                <p className="text-gray-600 text-sm">
+                  თქვენი ბავშვის ინფორმაცია უსაფრთხოდ ინახება და დაცულია
+                </p>
               </div>
-              <p className="text-gray-600 text-sm">
-                თქვენი ბავშვის ინფორმაცია უსაფრთხოდ ინახება და დაცულია
-              </p>
-            </div>
           </div>
         </motion.div>
       </div>
 
       {/* Child Form Modal */}
       {showForm && (
-        <ChildForm
-          onSubmit={handleSubmit}
-          onCancel={() => setShowForm(false)}
-          isEditing={false}
-        />
+        <motion.div 
+          ref={formRef}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="mt-8"
+        >
+          <ChildForm
+            onSubmit={handleSubmit}
+            onCancel={() => setShowForm(false)}
+            isEditing={false}
+          />
+        </motion.div>
       )}
     </div>
   );
