@@ -62,7 +62,7 @@ export default function MealCard({ title, meal, mealType, index }: MealCardProps
       transition={{ delay: index * 0.1 }}
       className={`relative overflow-hidden rounded-2xl border-2 ${config.borderColor} ${config.color} p-6 shadow-lg hover:shadow-xl transition-all duration-300`}
     >
-      {/* Header */}
+    
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <span className="text-2xl">{config.icon}</span>
