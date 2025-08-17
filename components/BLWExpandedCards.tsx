@@ -126,7 +126,7 @@ export default function BLWExpandedCards({
 
   return (
     <div className="space-y-6">
-      {/* Header with Toggle Button */}
+    
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Utensils className="w-6 h-6 text-purple-500" />
