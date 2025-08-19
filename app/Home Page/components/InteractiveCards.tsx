@@ -2,34 +2,29 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { MessageSquare, LineChart, Lightbulb, Heart, Sparkles } from 'lucide-react';
 
 const cards = [
   {
-    icon: MessageSquare,
-    title: "AI Chat",
-    description: "24/7 intelligent parenting support",
+    title: "AI ჩატი",
+    description: "24/7 ინტელექტუალური მხარდაჭერა მშობლებისთვის",
     color: "from-blue-500 to-cyan-500",
     bgColor: "from-blue-50 to-cyan-50"
   },
   {
-    icon: LineChart,
-    title: "Analytics",
-    description: "Deep insights into child development",
+    title: "ანალიტიკა",
+    description: "გაგება ბავშვთა განვითარების ღრმა დეტალებში",
     color: "from-purple-500 to-pink-500",
     bgColor: "from-purple-50 to-pink-50"
   },
   {
-    icon: Lightbulb,
-    title: "Smart Tips",
-    description: "Personalized parenting advice",
+    title: "ჭკვიანი რჩევები",
+    description: "პერსონალური მშობლობის რჩევები",
     color: "from-orange-500 to-red-500",
     bgColor: "from-orange-50 to-red-50"
   },
   {
-    icon: Heart,
-    title: "Care",
-    description: "Emotional support and guidance",
+    title: "ზრუნვა",
+    description: "ემოციური მხარდაჭერა და მიმართულება",
     color: "from-green-500 to-emerald-500",
     bgColor: "from-green-50 to-emerald-50"
   }
@@ -49,10 +44,10 @@ export function InteractiveCards() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Interactive <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">3D</span> Experience
+            ინტერაქტიული <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">3D</span> გამოცდილება
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Explore our features with immersive 3D interactions and smooth animations
+            გამოიკვლიე ჩვენი ფუნქციები ინტეგრირებული 3D ინტერაქციებით და სქელ ენიმაციებით
           </p>
         </motion.div>
 
@@ -80,12 +75,7 @@ export function InteractiveCards() {
                   stiffness: 300, 
                   damping: 20 
                 }}
-                className={`
-                  relative bg-gradient-to-br ${card.bgColor} 
-                  rounded-2xl p-8 h-80 border border-gray-200 
-                  shadow-lg hover:shadow-2xl transition-all duration-500
-                  cursor-pointer overflow-hidden
-                `}
+                className={`relative bg-gradient-to-br ${card.bgColor} rounded-2xl p-8 h-80 border border-gray-200 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden`}
               >
                 {/* 3D Background Effect */}
                 <motion.div
@@ -96,18 +86,6 @@ export function InteractiveCards() {
                   transition={{ duration: 2, ease: "linear" }}
                   className="absolute -top-10 -right-10 w-20 h-20 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-xl"
                 />
-
-                {/* Icon */}
-                <motion.div
-                  whileHover={{ 
-                    scale: 1.2,
-                    rotate: 360
-                  }}
-                  transition={{ duration: 0.6 }}
-                  className={`w-16 h-16 bg-gradient-to-br ${card.color} rounded-2xl flex items-center justify-center mb-6 shadow-lg`}
-                >
-                  <card.icon className="w-8 h-8 text-white" />
-                </motion.div>
 
                 {/* Content */}
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">
@@ -124,10 +102,8 @@ export function InteractiveCards() {
                     opacity: hoveredIndex === index ? [0.5, 1, 0.5] : 0.3
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="absolute bottom-4 right-4"
-                >
-                  <Sparkles className="w-6 h-6 text-gray-400" />
-                </motion.div>
+                  className="absolute bottom-4 right-4 w-6 h-6 bg-white/20 rounded-full blur-lg"
+                />
 
                 {/* Glow Effect */}
                 <motion.div
@@ -144,4 +120,4 @@ export function InteractiveCards() {
       </div>
     </section>
   );
-} 
+}

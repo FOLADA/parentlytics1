@@ -1,9 +1,22 @@
-import { supabase } from '@/app/supabaseClient';
+import { supabase, handleSupabaseError } from '@/app/supabaseClient';
 import { ChildProfile, DailyMeal, MealPlan } from './types';
 
 // Child Profile functions
 export async function getChildProfile(userId: string): Promise<ChildProfile | null> {
   try {
+    console.log('Attempting to fetch child profile for user:', userId);
+    
+    // First check if the table exists and is accessible
+    const { error: tableCheckError } = await supabase
+      .from('child_profiles')
+      .select('id')
+      .limit(1);
+    
+    if (tableCheckError) {
+      console.warn('Table check failed (expected in mock mode):', tableCheckError);
+      return null;
+    }
+    
     const { data, error } = await supabase
       .from('child_profiles')
       .select('*')
@@ -11,13 +24,22 @@ export async function getChildProfile(userId: string): Promise<ChildProfile | nu
       .single();
 
     if (error) {
-      console.error('Error fetching child profile:', error);
+      console.log('Supabase returned error:', error);
+      const handledError = handleSupabaseError(error);
+      if (handledError) {
+        console.error('Error fetching child profile:', error);
+      }
       return null;
     }
 
+    console.log('Successfully fetched child profile:', data);
     return data;
   } catch (error) {
-    console.error('Error in getChildProfile:', error);
+    console.log('Exception caught in getChildProfile:', error);
+    const handledError = handleSupabaseError(error);
+    if (handledError) {
+      console.error('Error in getChildProfile:', error);
+    }
     return null;
   }
 }
@@ -46,20 +68,26 @@ export async function createChildProfile(profile: Omit<ChildProfile, 'id' | 'cre
       .single();
 
     if (error) {
-      console.error('Error creating child profile:', error);
-      console.error('Error details:', {
-        message: error.message,
-        details: error.details,
-        hint: error.hint,
-        code: error.code
-      });
+      const handledError = handleSupabaseError(error);
+      if (handledError) {
+        console.error('Error creating child profile:', error);
+        console.error('Error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+      }
       return null;
     }
 
     console.log('Child profile created successfully:', data);
     return data;
   } catch (error) {
-    console.error('Error in createChildProfile:', error);
+    const handledError = handleSupabaseError(error);
+    if (handledError) {
+      console.error('Error in createChildProfile:', error);
+    }
     return null;
   }
 }
@@ -74,13 +102,19 @@ export async function updateChildProfile(id: string, updates: Partial<ChildProfi
       .single();
 
     if (error) {
-      console.error('Error updating child profile:', error);
+      const handledError = handleSupabaseError(error);
+      if (handledError) {
+        console.error('Error updating child profile:', error);
+      }
       return null;
     }
 
     return data;
   } catch (error) {
-    console.error('Error in updateChildProfile:', error);
+    const handledError = handleSupabaseError(error);
+    if (handledError) {
+      console.error('Error in updateChildProfile:', error);
+    }
     return null;
   }
 }
@@ -98,13 +132,19 @@ export async function getTodayMeal(userId: string): Promise<DailyMeal | null> {
       .single();
 
     if (error && error.code !== 'PGRST116') { // PGRST116 is "not found"
-      console.error('Error fetching today\'s meal:', error);
+      const handledError = handleSupabaseError(error);
+      if (handledError) {
+        console.error('Error fetching today\'s meal:', error);
+      }
       return null;
     }
 
     return data || null;
   } catch (error) {
-    console.error('Error in getTodayMeal:', error);
+    const handledError = handleSupabaseError(error);
+    if (handledError) {
+      console.error('Error in getTodayMeal:', error);
+    }
     return null;
   }
 }
@@ -118,13 +158,19 @@ export async function createDailyMeal(meal: Omit<DailyMeal, 'id' | 'created_at'>
       .single();
 
     if (error) {
-      console.error('Error creating daily meal:', error);
+      const handledError = handleSupabaseError(error);
+      if (handledError) {
+        console.error('Error creating daily meal:', error);
+      }
       return null;
     }
 
     return data;
   } catch (error) {
-    console.error('Error in createDailyMeal:', error);
+    const handledError = handleSupabaseError(error);
+    if (handledError) {
+      console.error('Error in createDailyMeal:', error);
+    }
     return null;
   }
 }
@@ -137,13 +183,19 @@ export async function getAllChildProfiles(userId: string): Promise<ChildProfile[
       .eq('user_id', userId);
 
     if (error) {
-      console.error('Error fetching child profiles:', error);
+      const handledError = handleSupabaseError(error);
+      if (handledError) {
+        console.error('Error fetching child profiles:', error);
+      }
       return [];
     }
 
     return data || [];
   } catch (error) {
-    console.error('Error in getAllChildProfiles:', error);
+    const handledError = handleSupabaseError(error);
+    if (handledError) {
+      console.error('Error in getAllChildProfiles:', error);
+    }
     return [];
   }
 }

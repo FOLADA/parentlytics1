@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Clock, Utensils, Apple } from 'lucide-react';
+import { Clock, Utensils, Apple, Sun, Moon, Carrot, Coffee } from 'lucide-react';
 
 interface MealCardProps {
   title: string;
@@ -14,36 +14,41 @@ interface MealCardProps {
   index: number;
 }
 
-const mealTypeConfig = {
+const mealTypeConfig: Record<string, {
+  icon: React.ReactNode;
+  color: string;
+  borderColor: string;
+  bgColor: string;
+}> = {
   breakfast: {
-    icon: '🌅',
-    color: 'from-orange-100 to-yellow-100',
-    borderColor: 'border-orange-200',
-    bgColor: 'bg-orange-50'
+    icon: <Sun className="w-6 h-6 text-purple-500" />,
+    color: 'bg-white',
+    borderColor: 'border-blue-200',
+    bgColor: 'bg-blue-50'
   },
   lunch: {
-    icon: '☀️',
-    color: 'from-yellow-100 to-orange-100',
-    borderColor: 'border-yellow-200',
-    bgColor: 'bg-yellow-50'
+    icon: <Sun className="w-6 h-6 text-purple-500" />,
+    color: 'bg-white',
+    borderColor: 'border-blue-200',
+    bgColor: 'bg-blue-50'
   },
   dinner: {
-    icon: '🌙',
-    color: 'from-purple-100 to-blue-100',
-    borderColor: 'border-purple-200',
-    bgColor: 'bg-purple-50'
+    icon: <Moon className="w-6 h-6 text-purple-500" />,
+    color: 'bg-white',
+    borderColor: 'border-blue-200',
+    bgColor: 'bg-blue-50'
   },
   snack1: {
-    icon: '🍎',
-    color: 'from-green-100 to-emerald-100',
-    borderColor: 'border-green-200',
-    bgColor: 'bg-green-50'
+    icon: <Coffee className="w-6 h-6 text-purple-500" />,
+    color: 'bg-white',
+    borderColor: 'border-blue-200',
+    bgColor: 'bg-blue-50'
   },
   snack2: {
-    icon: '🥕',
-    color: 'from-emerald-100 to-green-100',
-    borderColor: 'border-emerald-200',
-    bgColor: 'bg-emerald-50'
+    icon: <Carrot className="w-6 h-6 text-purple-500" />,
+    color: 'bg-white',
+    borderColor: 'border-blue-200',
+    bgColor: 'bg-blue-50'
   }
 };
 
@@ -55,7 +60,7 @@ export default function MealCard({ title, meal, mealType, index }: MealCardProps
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      className={`relative overflow-hidden rounded-2xl border-2 ${config.borderColor} bg-gradient-to-br ${config.color} p-6 shadow-lg hover:shadow-xl transition-all duration-300`}
+      className={`relative overflow-hidden rounded-2xl border-2 ${config.borderColor} ${config.color} p-6 shadow-lg hover:shadow-xl transition-all duration-300`}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
@@ -65,7 +70,7 @@ export default function MealCard({ title, meal, mealType, index }: MealCardProps
         </div>
         <div className="flex items-center gap-1 text-sm text-gray-600">
           <Utensils className="w-4 h-4" />
-          <span>{meal.calories} cal</span>
+          <span>{meal.calories} კალ</span> {/* Changed cal to კალ */}
         </div>
       </div>
 
@@ -79,7 +84,7 @@ export default function MealCard({ title, meal, mealType, index }: MealCardProps
       <div className="space-y-2">
         <div className="flex items-center gap-2 text-sm font-medium text-gray-600">
           <Apple className="w-4 h-4" />
-          <span>Ingredients:</span>
+          <span>ინგრედიენტები:</span> {/* Changed Ingredients: */}
         </div>
         <div className="flex flex-wrap gap-2">
           {meal.ingredients.map((ingredient, idx) => (
@@ -99,4 +104,4 @@ export default function MealCard({ title, meal, mealType, index }: MealCardProps
       </div>
     </motion.div>
   );
-} 
+}

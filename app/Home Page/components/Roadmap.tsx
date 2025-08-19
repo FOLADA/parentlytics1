@@ -4,7 +4,7 @@ import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { CheckCircle, Circle, Clock, Code, Rocket, Users, ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export function Roadmap() {
   const containerRef = useRef(null);
@@ -13,124 +13,201 @@ export function Roadmap() {
     offset: ["start end", "end start"]
   });
 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const timelineProgress = useTransform(scrollYProgress, [0.2, 0.8], [0, 100]);
+
+  // Fixed positions for floating code elements
+  const floatingCodeElements = [
+    { left: "43.55%", top: "0px" },
+    { left: "71.10%", top: "20px" },
+    { left: "77.52%", top: "40px" },
+    { left: "41.05%", top: "60px" },
+    { left: "86.26%", top: "80px" },
+    { left: "54.66%", top: "100px" },
+    { left: "1.67%", top: "120px" },
+    { left: "8.29%", top: "140px" },
+    { left: "27.77%", top: "160px" },
+    { left: "59.43%", top: "180px" },
+    { left: "78.13%", top: "200px" },
+    { left: "66.16%", top: "220px" },
+    { left: "95.87%", top: "240px" },
+    { left: "11.04%", top: "260px" },
+    { left: "22.67%", top: "280px" },
+    { left: "49.97%", top: "300px" },
+    { left: "56.03%", top: "320px" },
+    { left: "84.30%", top: "340px" },
+    { left: "93.23%", top: "360px" },
+    { left: "77.72%", top: "380px" },
+    { left: "78.17%", top: "400px" },
+    { left: "69.56%", top: "420px" },
+    { left: "52.74%", top: "440px" },
+    { left: "40.67%", top: "460px" },
+    { left: "78.60%", top: "480px" },
+    { left: "11.09%", top: "500px" },
+    { left: "16.32%", top: "520px" },
+    { left: "17.84%", top: "540px" },
+    { left: "8.73%", top: "560px" },
+    { left: "20.79%", top: "580px" },
+    { left: "76.11%", top: "600px" },
+    { left: "26.14%", top: "620px" },
+    { left: "36.45%", top: "640px" },
+    { left: "97.20%", top: "660px" },
+    { left: "70.85%", top: "680px" },
+    { left: "52.61%", top: "700px" },
+    { left: "83.31%", top: "720px" },
+    { left: "66.30%", top: "740px" },
+    { left: "77.80%", top: "760px" },
+    { left: "66.26%", top: "780px" },
+    { left: "13.36%", top: "800px" },
+    { left: "98.21%", top: "820px" },
+    { left: "4.46%", top: "840px" },
+    { left: "15.29%", top: "860px" },
+    { left: "3.44%", top: "880px" },
+    { left: "53.02%", top: "900px" },
+    { left: "8.04%", top: "920px" },
+    { left: "43.72%", top: "940px" },
+    { left: "39.97%", top: "960px" },
+    { left: "65.59%", top: "980px" }
+  ];
+
+  // Fixed positions for floating dev icons
+  const floatingDevIcons = [
+    { left: "8.01%", top: "24.35%", duration: 8.2, delay: 0.3 },
+    { left: "85.12%", top: "96.30%", duration: 6.5, delay: 1.7 },
+    { left: "83.07%", top: "95.17%", duration: 7.8, delay: 0.8 },
+    { left: "99.70%", top: "90.35%", duration: 5.4, delay: 1.2 },
+    { left: "74.95%", top: "81.16%", duration: 6.9, delay: 0.5 },
+    { left: "57.53%", top: "98.09%", duration: 8.1, delay: 1.9 },
+    { left: "0.32%", top: "48.12%", duration: 5.7, delay: 0.7 },
+    { left: "97.63%", top: "92.26%", duration: 7.3, delay: 1.4 },
+    { left: "53.83%", top: "9.94%", duration: 6.2, delay: 0.9 },
+    { left: "70.74%", top: "10.81%", duration: 8.5, delay: 1.1 },
+    { left: "33.19%", top: "24.69%", duration: 5.8, delay: 0.2 },
+    { left: "0.35%", top: "58.79%", duration: 7.1, delay: 1.6 }
+  ];
 
   const phases = [
     {
       phase: "V1 - MVP",
       status: "current",
-      title: "Core Dashboard & AI Chat",
-      description: "Sign up, create child profile, get instant insights and 24/7 AI chatbot access",
+      title: "ძირითადი დაფა და AI ჩატი",
+      description: "დარეგისტრირდით, შექმენით ბავშვის პროფილი, მიიღეთ მყისიერი ანალიტიკა და 24/7 AI ჩატბოტის წვდომა",
       features: [
-        "Parent-AI Chat with child psychology training",
-        "Basic development insights",
-        "Child profile creation",
-        "Simple milestone tracking"
+        "მშობელი-AI ჩატი ბავშვის ფსიქოლოგიის ტრენინგით",
+        "განვითარების ძირითადი ანალიტიკა",
+        "ბავშვის პროფილის შექმნა",
+        "მარტივი მიღწევების თვალთვალი"
       ],
       icon: Rocket,
       color: "from-emerald-400 to-green-500",
       delay: 0
     },
     {
-      phase: "Phase 2",
+      phase: "ეტაპი 2",
       status: "next",
-      title: "Advanced Tracking & Automation",
-      description: "Full tracking capabilities, timeline visualization, and intelligent tip engine",
+      title: "მოწინავე თვალთვალი და ავტომატიზაცია",
+      description: "სრული თვალთვალის შესაძლებლობები, დროის ღერძის ვიზუალიზაცია და ინტელექტუალური რჩევების სისტემა",
       features: [
-        "Comprehensive development tracking",
-        "Visual timeline and progress reports",
-        "Smart daily tip engine",
-        "Milestone celebration system"
+        "განვითარების ყოვლისმომცველი თვალთვალი",
+        "ვიზუალური დროის ღერძი და პროგრესის ანგარიშები",
+        "ჭკვიანი ყოველდღიური რჩევების სისტემა",
+        "მიღწევების აღნიშვნის სისტემა"
       ],
       icon: Code,
       color: "from-sky-400 to-blue-500",
       delay: 0.2
     },
     {
-      phase: "Phase 3",
+      phase: "ეტაპი 3",
       status: "future",
-      title: "Community & Professional Integration",
-      description: "Anonymous community features, mobile app, and API for healthcare professionals",
+      title: "საზოგადოება და AI-ის გაუმჯობესება",
+      description: "მშობელთა საზოგადოების ფუნქციები, მოწინავე AI ანალიტიკა და ყოვლისმომცველი ანალიზი",
       features: [
-        "Anonymous parent community",
-        "Mobile application",
-        "Pediatrician/teacher API integration",
-        "Advanced analytics and reports"
+        "მშობელთა საზოგადოება და მხარდაჭერის ჯგუფები",
+        "მოწინავე AI ანალიტიკა და პროგნოზები",
+        "ყოვლისმომცველი ანალიტიკის დაფა",
+        "ინტეგრაცია ჯანდაცვის მომწოდებლებთან"
       ],
       icon: Users,
-      color: "from-indigo-400 to-purple-500",
+      color: "from-purple-400 to-pink-500",
       delay: 0.4
     }
   ];
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "current":
-        return <CheckCircle className="w-6 h-6 text-emerald-500" />;
-      case "next":
-        return <Clock className="w-6 h-6 text-sky-500" />;
-      case "future":
-        return <Circle className="w-6 h-6 text-slate-400" />;
+      case 'current':
+        return <CheckCircle className="w-5 h-5 text-emerald-500" />;
+      case 'next':
+        return <Clock className="w-5 h-5 text-sky-500" />;
+      case 'future':
+        return <Circle className="w-5 h-5 text-slate-400" />;
       default:
-        return <Circle className="w-6 h-6 text-slate-400" />;
+        return <Circle className="w-5 h-5 text-slate-400" />;
     }
   };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "current":
-        return <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200">Live Now</Badge>;
-      case "next":
-        return <Badge className="bg-sky-100 text-sky-700 border-sky-200">Coming Soon</Badge>;
-      case "future":
-        return <Badge className="bg-slate-100 text-slate-700 border-slate-200">Planned</Badge>;
+      case 'current':
+        return <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200">მიმდინარე</Badge>;
+      case 'next':
+        return <Badge className="bg-sky-100 text-sky-800 border-sky-200">შემდეგი</Badge>;
+      case 'future':
+        return <Badge className="bg-slate-100 text-slate-800 border-slate-200">მომავალი</Badge>;
       default:
-        return null;
+        return <Badge className="bg-slate-100 text-slate-800 border-slate-200">მომავალი</Badge>;
     }
   };
 
   return (
-    <section id="roadmap" className="py-20 bg-gradient-to-br from-sky-50 to-blue-50 relative overflow-hidden" ref={containerRef}>
-      {/* Animated Background Elements */}
+    <section id="roadmap" className="py-20 bg-gradient-to-br from-slate-50 to-blue-50 relative overflow-hidden" ref={containerRef}>
+      {/* Enhanced Background with Fixed Elements */}
       <div className="absolute inset-0">
-        {/* Code-like Background Pattern */}
+        {/* Animated Background Elements */}
         <motion.div
           style={{ y: backgroundY }}
-          className="absolute inset-0 opacity-5"
+          className="absolute inset-0 opacity-30"
         >
-          <div className="absolute inset-0 text-xs text-slate-400 font-mono leading-6 overflow-hidden whitespace-pre">
-            {Array.from({ length: 50 }, (_, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: [0, 1, 0], x: [0, 100] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                  ease: "linear"
-                }}
-                className="absolute"
-                style={{ 
-                  top: `${i * 20}px`,
-                  left: `${Math.random() * 100}%`
-                }}
-              >
-                {'<parent>child.develop()</parent>'}
-              </motion.div>
-            ))}
-          </div>
+          {/* Floating Code Elements with Fixed Positions */}
+          {isClient && floatingCodeElements.map((element, i) => (
+            <motion.div
+              key={i}
+              animate={{
+                opacity: [0, 1, 0],
+                x: [-20, 0, -20]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                delay: i * 0.2,
+                ease: "linear"
+              }}
+              className="absolute"
+              style={{ 
+                top: element.top,
+                left: element.left
+              }}
+            >
+              {'<parent>child.develop()</parent>'}
+            </motion.div>
+          ))}
         </motion.div>
 
-        {/* Floating Dev Icons */}
-        {[...Array(12)].map((_, i) => (
+        {/* Floating Dev Icons with Fixed Positions */}
+        {isClient && floatingDevIcons.map((icon, i) => (
           <motion.div
             key={i}
             className="absolute w-8 h-8 text-sky-300/30"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: icon.left,
+              top: icon.top,
             }}
             animate={{
               y: [0, -30, 0],
@@ -138,9 +215,9 @@ export function Roadmap() {
               opacity: [0.1, 0.3, 0.1]
             }}
             transition={{
-              duration: 6 + Math.random() * 4,
+              duration: icon.duration,
               repeat: Infinity,
-              delay: Math.random() * 3,
+              delay: icon.delay,
               ease: "easeInOut"
             }}
           >
@@ -187,10 +264,10 @@ export function Roadmap() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl lg:text-4xl text-slate-800 mb-4">
-            Our development roadmap
+            ჩვენი განვითარების გეგმა
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            We're building Parentlytics in phases, focusing on the most impactful features first
+            ჩვენ ვქმნით Parentlytics-ს ეტაპობრივად, ყველაზე ეფექტურ ფუნქციებზე ფოკუსირებით
           </p>
         </motion.div>
 
@@ -411,9 +488,9 @@ export function Roadmap() {
               <Rocket className="w-16 h-16 mx-auto mb-6 text-sky-500" />
             </motion.div>
 
-            <h3 className="text-3xl text-slate-800 mb-4 relative z-10">Join us on this journey</h3>
+            <h3 className="text-3xl text-slate-800 mb-4 relative z-10">შემოგვიერთდით ამ მოგზაურობაში</h3>
             <p className="text-slate-600 mb-8 text-lg relative z-10">
-              Start with our MVP today and help shape the future of AI-powered parenting support
+              დაიწყეთ ჩვენი MVP-ით დღესვე და დაგვეხმარეთ AI-ით გაძლიერებული მშობელობის მხარდაჭერის მომავლის ჩამოყალიბებაში
             </p>
             
             <motion.button
@@ -426,7 +503,7 @@ export function Roadmap() {
                 initial={false}
               />
               <span className="flex items-center relative z-10">
-                Get Early Access
+                ადრეული წვდომის მიღება
                 <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
               </span>
             </motion.button>

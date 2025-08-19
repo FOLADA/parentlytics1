@@ -44,7 +44,7 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {["Features", "Roadmap", "Pricing"].map((item, index) => (
+            {["ფუნქციები", "გზამკვლევი", "ფასი"].map((item, index) => (
               <motion.a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -72,7 +72,7 @@ export function Header() {
                 className="hidden md:inline-flex bg-gradient-to-r from-sky-400 to-blue-500 text-white border-0 hover:from-sky-500 hover:to-blue-600 transition-all duration-300 shadow-lg shadow-sky-500/25"
                 size="sm"
               >
-                Get Started
+                დაიწყე
               </Button>
             </motion.div>
 
@@ -96,7 +96,7 @@ export function Header() {
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
           <div className="py-4 space-y-4">
-            {["Features", "Roadmap", "Pricing"].map((item, index) => (
+            {["ფუნქციები", "გზამკვლევი", "ფასი"].map((item, index) => (
               <motion.a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -115,7 +115,7 @@ export function Header() {
               transition={{ delay: 0.3 }}
             >
               <Button className="w-full bg-gradient-to-r from-sky-400 to-blue-500 text-white">
-                Get Started
+                დაიწყე
               </Button>
             </motion.div>
           </div>

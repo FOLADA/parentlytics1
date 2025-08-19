@@ -100,4 +100,6 @@ export interface AuthContextType {
   logout: () => Promise<void>;
   updateChildProfile: (data: ChildProfileFormData) => Promise<void>;
   refreshChildProfile: () => Promise<void>;
+  exportChildProfile: () => void;
+  importChildProfile: (file: File) => Promise<boolean>;
 } 

@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="col-span-1 md:col-span-2">
           <h2 className="text-2xl font-extrabold text-indigo-600 mb-2">Parentlytics</h2>
           <p className="text-sm leading-relaxed">
-            Empowering parents with AI to nurture confident, healthy children. Designed with love and data.
+            მშობლების გაძლიერება AI-ის საშუალებით, რათა აღზარდონ თავდაჯერებული და ჯანმრთელი ბავშვები. შექმნილია სიყვარულით.
           </p>
         </div>
 
@@ -21,7 +21,7 @@ export default function Footer() {
           <ul className="space-y-1 text-sm">
             <li><Link href="/" className="hover:text-indigo-600 transition">მთავარი</Link></li>
             <li><Link href="/ai" className="hover:text-indigo-600 transition">ასისტენტი</Link></li>
-            <li><Link href="/dashboard" className="hover:text-indigo-600 transition">დაშბოარდი</Link></li>
+            <li><Link href="/diet" className="hover:text-indigo-600 transition">კვება</Link></li>
             <li><Link href="/community" className="hover:text-indigo-600 transition">ქომუნითი</Link></li>
           </ul>
         </div>

@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, RefreshCw, ShoppingCart, Heart, AlertCircle, User } from 'lucide-react';
+import { Calendar, RefreshCw, ShoppingCart, Heart, AlertCircle, User, Utensils, Apple, Carrot, Coffee, Milk, Wheat, Banana, Grape, Fish, Egg, Circle, Square, Triangle } from 'lucide-react';
 import MealCard from '../../components/MealCard';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import ChildForm from '../../components/ChildForm';
+import BLWExpandedCards from '../../components/BLWExpandedCards';
+import NutritionChart from '../../components/NutritionChart';
 import { useAuth } from '@/context/ChildContext';
 import { DailyMeal, MealPlan, ChildProfileFormData } from '../../lib/types';
 
@@ -21,7 +23,11 @@ export default function DietPage() {
   const [error, setError] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
   const [showProfileSetup, setShowProfileSetup] = useState(false);
+  const [blwExpanded, setBlwExpanded] = useState(false);
   const { user, childProfile, updateChildProfile } = useAuth();
+  const profileFormRef = useRef<HTMLDivElement>(null);
+
+
 
   // Use child name from context
   const childName = childProfile?.name || '';
@@ -29,6 +35,8 @@ export default function DietPage() {
   useEffect(() => {
     fetchTodayMeal();
   }, []);
+
+
 
   const fetchTodayMeal = async () => {
     try {
@@ -98,9 +106,14 @@ export default function DietPage() {
         Math.floor((new Date().getTime() - new Date(childProfile.birthdate).getTime()) / (1000 * 60 * 60 * 24 * 365.25)) : 
         0;
       
+      // Calculate age in months for more precise meal planning
+      const childAgeInMonths = childProfile ? 
+        Math.floor((new Date().getTime() - new Date(childProfile.birthdate).getTime()) / (1000 * 60 * 60 * 24 * 30.44)) : 
+        0;
+      
       let mockMealPlan: MealPlan;
       
-      if (childAge < 6) {
+      if (childAgeInMonths < 6) {
         // For babies under 6 months - breast milk/formula only
         mockMealPlan = {
           breakfast: {
@@ -136,7 +149,7 @@ export default function DietPage() {
           total_calories: 540,
           nutrition_notes: "IMPORTANT: Babies under 6 months should ONLY consume breast milk or infant formula. Do not introduce solid foods without consulting your pediatrician."
         };
-      } else if (childAge < 12) {
+      } else if (childAgeInMonths < 12) {
         // For babies 6-12 months - some solids introduced
         mockMealPlan = {
           breakfast: {
@@ -257,7 +270,7 @@ export default function DietPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
         <div className="container mx-auto px-4 py-8">
           <LoadingIndicator />
         </div>
@@ -269,45 +282,48 @@ export default function DietPage() {
   const childAge = childProfile ? 
     Math.floor((new Date().getTime() - new Date(childProfile.birthdate).getTime()) / (1000 * 60 * 60 * 24 * 365.25)) : 
     0;
+  
+  // Calculate age in months for more precise BLW calculations
+  const childAgeInMonths = childProfile ? 
+    Math.floor((new Date().getTime() - new Date(childProfile.birthdate).getTime()) / (1000 * 60 * 60 * 24 * 30.44)) : 
+    0;
+  
+  // Debug logging
+  console.log('Child age in years:', childAge);
+  console.log('Child age in months:', childAgeInMonths);
+  console.log('Child profile:', childProfile);
 
   if (error && !todayMeal) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50">
-        <div className="container mx-auto px-4 py-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-2xl mx-auto text-center space-y-6"
-          >
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+              <div className="flex items-center justify-center min-h-screen px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-2xl text-center space-y-6 -mt-24"
+        >
             <div className="flex justify-center">
-              <AlertCircle className="w-16 h-16 text-orange-500" />
+              <AlertCircle className="w-16 h-16 text-blue-500" />
             </div>
             <h2 className="text-2xl font-bold text-gray-800">Oops! No meal plan found</h2>
             <p className="text-gray-600">{error}</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <button
                 onClick={generateMealPlanNow}
                 disabled={generating}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-full font-semibold hover:bg-orange-600 transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-600 transition-colors disabled:opacity-50"
               >
                 {generating ? (
                   <>
-                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <RefreshCw className="w-5 h-5 animate-spin" />
                     Generating...
                   </>
                 ) : (
                   <>
-                    <RefreshCw className="w-4 h-4" />
+                    <RefreshCw className="w-5 h-5" />
                     Generate Today's Meal Plan
                   </>
                 )}
-              </button>
-              <button
-                onClick={() => setShowProfileSetup(true)}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-600 transition-colors"
-              >
-                <User className="w-4 h-4" />
-                Set Up Child Profile
               </button>
             </div>
           </motion.div>
@@ -317,10 +333,177 @@ export default function DietPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white relative overflow-hidden">
+      {/* Floating Food Icons Background */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Top Section Icons (0-20%) */}
+        <div className="absolute top-16 left-8 text-purple-800">
+          <Apple className="w-10 h-10 animate-float-food-1" />
+        </div>
+        <div className="absolute top-24 left-20 text-purple-800">
+          <Carrot className="w-8 h-8 animate-float-food-2" />
+        </div>
+        <div className="absolute top-32 left-32 text-purple-800">
+          <Coffee className="w-9 h-9 animate-float-food-3" />
+        </div>
+        <div className="absolute top-20 right-16 text-purple-800">
+          <Wheat className="w-8 h-8 animate-float-food-4" />
+        </div>
+        <div className="absolute top-28 right-28 text-purple-800">
+          <Grape className="w-6 h-6 animate-float-food-5" />
+        </div>
+        <div className="absolute top-36 left-1/2 text-purple-800">
+          <Banana className="w-7 h-7 animate-float-food-1" />
+        </div>
+        <div className="absolute top-44 left-1/4 text-purple-800">
+          <Fish className="w-6 h-6 animate-float-food-2" />
+        </div>
+        <div className="absolute top-52 right-1/3 text-purple-800">
+          <Egg className="w-5 h-5 animate-float-food-3" />
+        </div>
+        
+        {/* Upper Middle Section Icons (20-40%) */}
+        <div className="absolute top-1/5 left-12 text-purple-800">
+          <Milk className="w-8 h-8 animate-float-food-4" />
+        </div>
+        <div className="absolute top-1/5 right-12 text-purple-800">
+          <Circle className="w-6 h-6 animate-float-food-5" />
+        </div>
+        <div className="absolute top-1/5 left-2/3 text-purple-800">
+          <Square className="w-7 h-7 animate-float-food-1" />
+        </div>
+        <div className="absolute top-1/5 right-2/3 text-purple-800">
+          <Triangle className="w-5 h-5 animate-float-food-2" />
+        </div>
+        <div className="absolute top-1/5 left-1/3 text-purple-800">
+          <Apple className="w-6 h-6 animate-float-food-3" />
+        </div>
+        <div className="absolute top-1/5 right-1/3 text-purple-800">
+          <Carrot className="w-5 h-5 animate-float-food-4" />
+        </div>
+        
+        {/* Middle Section Icons (40-60%) */}
+        <div className="absolute top-2/5 left-16 text-purple-800">
+          <Coffee className="w-9 h-9 animate-float-food-5" />
+        </div>
+        <div className="absolute top-2/5 right-16 text-purple-800">
+          <Wheat className="w-8 h-8 animate-float-food-1" />
+        </div>
+        <div className="absolute top-2/5 left-1/2 text-purple-800">
+          <Banana className="w-7 h-7 animate-float-food-2" />
+        </div>
+        <div className="absolute top-2/5 right-1/2 text-purple-800">
+          <Fish className="w-6 h-6 animate-float-food-3" />
+        </div>
+        <div className="absolute top-2/5 left-1/4 text-purple-800">
+          <Egg className="w-5 h-5 animate-float-food-4" />
+        </div>
+        <div className="absolute top-2/5 right-1/4 text-purple-800">
+          <Milk className="w-6 h-6 animate-float-food-5" />
+        </div>
+        <div className="absolute top-2/5 left-3/4 text-purple-800">
+          <Grape className="w-5 h-5 animate-float-food-1" />
+        </div>
+        <div className="absolute top-2/5 right-3/4 text-purple-800">
+          <Circle className="w-4 h-4 animate-float-food-2" />
+        </div>
+        
+        {/* Lower Middle Section Icons (60-80%) */}
+        <div className="absolute top-3/5 left-20 text-purple-800">
+          <Apple className="w-8 h-8 animate-float-food-3" />
+        </div>
+        <div className="absolute top-3/5 right-20 text-purple-800">
+          <Carrot className="w-7 h-7 animate-float-food-4" />
+        </div>
+        <div className="absolute top-3/5 left-1/3 text-purple-800">
+          <Coffee className="w-6 h-6 animate-float-food-5" />
+        </div>
+        <div className="absolute top-3/5 right-1/3 text-purple-800">
+          <Wheat className="w-5 h-5 animate-float-food-1" />
+        </div>
+        <div className="absolute top-3/5 left-1/2 text-purple-800">
+          <Banana className="w-6 h-6 animate-float-food-2" />
+        </div>
+        <div className="absolute top-3/5 right-1/2 text-purple-800">
+          <Fish className="w-5 h-5 animate-float-food-3" />
+        </div>
+        <div className="absolute top-3/5 left-2/3 text-purple-800">
+          <Egg className="w-4 h-4 animate-float-food-4" />
+        </div>
+        <div className="absolute top-3/5 right-2/3 text-purple-800">
+          <Milk className="w-5 h-5 animate-float-food-5" />
+        </div>
+        
+        {/* Bottom Section Icons (80-100%) */}
+        <div className="absolute top-4/5 left-12 text-purple-800">
+          <Grape className="w-7 h-7 animate-float-food-1" />
+        </div>
+        <div className="absolute top-4/5 right-12 text-purple-800">
+          <Circle className="w-6 h-6 animate-float-food-2" />
+        </div>
+        <div className="absolute top-4/5 left-1/4 text-purple-800">
+          <Square className="w-5 h-5 animate-float-food-3" />
+        </div>
+        <div className="absolute top-4/5 right-1/4 text-purple-800">
+          <Triangle className="w-4 h-4 animate-float-food-4" />
+        </div>
+        <div className="absolute top-4/5 left-1/2 text-purple-800">
+          <Apple className="w-6 h-6 animate-float-food-5" />
+        </div>
+        <div className="absolute top-4/5 right-1/2 text-purple-800">
+          <Carrot className="w-5 h-5 animate-float-food-1" />
+        </div>
+        <div className="absolute top-4/5 left-3/4 text-purple-800">
+          <Coffee className="w-4 h-4 animate-float-food-2" />
+        </div>
+        <div className="absolute top-4/5 right-3/4 text-purple-800">
+          <Wheat className="w-5 h-5 animate-float-food-3" />
+        </div>
+        
+        {/* Very Bottom Section Icons (90-100%) */}
+        <div className="absolute top-11/12 left-16 text-purple-800">
+          <Banana className="w-5 h-5 animate-float-food-4" />
+        </div>
+        <div className="absolute top-11/12 right-16 text-purple-800">
+          <Fish className="w-4 h-4 animate-float-food-5" />
+        </div>
+        <div className="absolute top-11/12 left-1/3 text-purple-800">
+          <Egg className="w-3 h-3 animate-float-food-1" />
+        </div>
+        <div className="absolute top-11/12 right-1/3 text-purple-800">
+          <Milk className="w-4 h-4 animate-float-food-2" />
+        </div>
+        <div className="absolute top-11/12 left-2/3 text-purple-800">
+          <Grape className="w-3 h-3 animate-float-food-3" />
+        </div>
+        <div className="absolute top-11/12 right-2/3 text-purple-800">
+          <Circle className="w-4 h-4 animate-float-food-4" />
+        </div>
+        
+        {/* Scattered Additional Icons */}
+        <div className="absolute top-1/6 left-1/6 text-purple-800">
+          <Square className="w-4 h-4 animate-float-food-5" />
+        </div>
+        <div className="absolute top-1/6 right-1/6 text-purple-800">
+          <Triangle className="w-3 h-3 animate-float-food-1" />
+        </div>
+        <div className="absolute top-5/6 left-1/6 text-purple-800">
+          <Apple className="w-4 h-4 animate-float-food-2" />
+        </div>
+        <div className="absolute top-5/6 right-1/6 text-purple-800">
+          <Carrot className="w-3 h-3 animate-float-food-3" />
+        </div>
+        <div className="absolute top-1/3 left-1/6 text-purple-800">
+          <Coffee className="w-5 h-5 animate-float-food-4" />
+        </div>
+        <div className="absolute top-2/3 right-1/6 text-purple-800">
+          <Wheat className="w-4 h-4 animate-float-food-5" />
+        </div>
+      </div>
+      
+      <div className="container mx-auto px-4 py-8 relative z-20">
         {/* Safety Warning for Young Babies */}
-        {childAge < 0.5 && (
+        {childAgeInMonths < 6 && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -342,7 +525,7 @@ export default function DietPage() {
         )}
 
         {/* Safety Warning for 6-12 Month Olds */}
-        {childAge >= 0.5 && childAge < 1 && (
+        {childAgeInMonths >= 6 && childAgeInMonths < 12 && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -370,7 +553,7 @@ export default function DietPage() {
           className="text-center mb-8"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Calendar className="w-8 h-8 text-orange-500" />
+            <Calendar className="w-8 h-8 text-blue-500" />
             <h1 className="text-3xl font-bold text-gray-800">
               {childName ? `მოდი კარგად გამოვკვებოთ ${childName}?` : 'მოდი კარგად გამოვკვებოთ ბავშვს?'} 🍽️
             </h1>
@@ -382,6 +565,9 @@ export default function DietPage() {
               month: 'long', 
               day: 'numeric' 
             })}
+          </p>
+          <p className="text-gray-500 text-sm mt-2">
+            Включает рекомендации по BLW (Baby-Led Weaning) для детей 6+ месяцев
           </p>
         </motion.div>
 
@@ -395,7 +581,7 @@ export default function DietPage() {
           <button
             onClick={generateMealPlanNow}
             disabled={generating}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-full font-medium hover:bg-orange-600 transition-colors disabled:opacity-50"
+            className="purple-gradient-btn inline-flex items-center gap-2 disabled:opacity-50"
           >
             {generating ? (
               <>
@@ -412,20 +598,35 @@ export default function DietPage() {
           
           <button
             onClick={generateGroceryList}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-full font-medium hover:bg-green-600 transition-colors"
+            className="purple-gradient-btn inline-flex items-center gap-2"
           >
-            <ShoppingCart className="w-4 h-4" />
+            <ShoppingCart className="w-5 h-5" />
             Grocery List
           </button>
 
           <button
-            onClick={() => setShowProfileSetup(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-colors"
+            onClick={() => {
+              setShowProfileSetup(true);
+              
+              // Scroll to form after a short delay to ensure it's rendered
+              setTimeout(() => {
+                if (profileFormRef.current) {
+                  profileFormRef.current.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                    inline: 'nearest'
+                  });
+                }
+              }, 100);
+            }}
+            className="purple-gradient-btn inline-flex items-center gap-2"
           >
-            <User className="w-4 h-4" />
+            <User className="w-5 h-5" />
             Edit Profile
           </button>
         </motion.div>
+
+
 
         {/* Meal Cards Grid */}
         {todayMeal && (
@@ -465,6 +666,7 @@ export default function DietPage() {
               mealType="dinner"
               index={4}
             />
+
           </motion.div>
         )}
 
@@ -473,59 +675,93 @@ export default function DietPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="mt-8 max-w-2xl mx-auto"
+            transition={{ delay: 0.4 }}
+            className="mt-8 max-w-7xl mx-auto"
           >
-            <div className="bg-white rounded-2xl p-6 shadow-lg border border-orange-200">
-              <div className="flex items-center gap-3 mb-4">
-                <Heart className="w-6 h-6 text-orange-500" />
-                <h3 className="text-xl font-semibold text-gray-800">Today's Nutrition Summary</h3>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-orange-500">
-                    {todayMeal.meal_plan.total_calories}
-                  </div>
-                  <div className="text-sm text-gray-600">Total Calories</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-500">5</div>
-                  <div className="text-sm text-gray-600">Meals & Snacks</div>
-                </div>
-              </div>
-              {todayMeal.meal_plan.nutrition_notes && (
-                <div className="mt-4 p-4 bg-orange-50 rounded-lg">
-                  <p className="text-sm text-gray-700">{todayMeal.meal_plan.nutrition_notes}</p>
-                </div>
-              )}
-            </div>
+            <NutritionChart
+              totalCalories={todayMeal.meal_plan.total_calories}
+              targetCalories={childAgeInMonths < 6 ? 540 : childAgeInMonths < 12 ? 610 : 1270}
+              nutritionData={{
+                protein: Math.round(todayMeal.meal_plan.total_calories * 0.15 / 4), // 15% of calories from protein
+                carbs: Math.round(todayMeal.meal_plan.total_calories * 0.55 / 4), // 55% of calories from carbs
+                fat: Math.round(todayMeal.meal_plan.total_calories * 0.30 / 9), // 30% of calories from fat
+                fiber: Math.round(todayMeal.meal_plan.total_calories * 0.014), // 14g per 1000 calories
+                sugar: Math.round(todayMeal.meal_plan.total_calories * 0.1 / 4), // 10% of calories from sugar
+                sodium: 800 // Default sodium value
+              }}
+              childAgeInMonths={childAgeInMonths}
+            />
           </motion.div>
         )}
 
-        {/* Child Profile Setup Modal */}
-        {showProfileSetup && (
-          <ChildForm
-            onSubmit={async (data: ChildProfileFormData) => {
-              try {
-                await updateChildProfile(data);
-                setShowProfileSetup(false);
-              } catch (error) {
-                console.error('Error updating child profile:', error);
-              }
-            }}
-            onCancel={() => setShowProfileSetup(false)}
-            isEditing={!!childProfile}
-            initialData={childProfile ? {
-              name: childProfile.name,
-              birthdate: childProfile.birthdate,
-              gender: childProfile.gender,
-              weight: childProfile.weight,
-              height: childProfile.height,
-              activity_level: childProfile.activity_level,
-              allergies: childProfile.allergies,
-              health_notes: childProfile.health_notes,
-            } : undefined}
+        {/* BLW Brief Mention */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mt-8 max-w-7xl mx-auto"
+        >
+          <div className="bg-white border border-blue-200 rounded-2xl p-6 shadow-lg">
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <Utensils className="w-6 h-6 text-purple-500" />
+              <h3 className="text-lg font-semibold text-gray-800">Want to try the BLW method?</h3>
+            </div>
+            <p className="text-gray-600 mb-3">
+              Baby Led Weaning (BLW) is a method of introducing complementary foods, in which the child independently eats solid food. 
+              Great for children from 6 months!
+            </p>
+            <p className="text-sm text-gray-500">
+              📍 Scroll down to see detailed recommendations, recipes and a step-by-step implementation plan.
+            </p>
+          </div>
+        </motion.div>
+
+        {/* BLW Expanded Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="mt-12 max-w-7xl mx-auto"
+        >
+          <BLWExpandedCards
+            childAgeInMonths={childAgeInMonths}
+            isExpanded={blwExpanded}
+            onToggle={() => setBlwExpanded(!blwExpanded)}
           />
+        </motion.div>
+
+                {/* Child Profile Setup Modal */}
+        {showProfileSetup && (
+          <motion.div 
+            ref={profileFormRef}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="mt-8"
+          >
+            <ChildForm
+              onSubmit={async (data: ChildProfileFormData) => {
+                try {
+                  await updateChildProfile(data);
+                  setShowProfileSetup(false);
+                } catch (error) {
+                  console.error('Error updating child profile:', error);
+                }
+              }}
+              onCancel={() => setShowProfileSetup(false)}
+              isEditing={!!childProfile}
+              initialData={childProfile ? {
+                name: childProfile.name,
+                birthdate: childProfile.birthdate,
+                gender: childProfile.gender,
+                weight: childProfile.weight,
+                height: childProfile.height,
+                activity_level: childProfile.activity_level,
+                allergies: childProfile.allergies,
+                other_health_concerns: childProfile.other_health_concerns,
+              } : undefined}
+            />
+          </motion.div>
         )}
       </div>
     </div>

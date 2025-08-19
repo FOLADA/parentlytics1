@@ -1,10 +1,68 @@
 'use client';
 
 import { Button } from "./ui/button";
-import { ArrowRight, Sparkles, Brain, Heart, TrendingUp, MessageCircle, Target, Activity, Zap, Eye, Cpu, Network } from "lucide-react";
+import { ArrowRight, Sparkles, Brain, Heart, TrendingUp, Target, Activity, Zap, Network } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 
 export function Hero() {
+  const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const handleStartNow = () => {
+    router.push('/setup-child');
+  };
+
+  // Fixed positions for neural nodes to avoid hydration mismatch
+  const neuralNodes = [
+    { cx: 276, cy: 207 },
+    { cx: 337, cy: 361 },
+    { cx: 428, cy: 400 },
+    { cx: 410, cy: 453 },
+    { cx: 604, cy: 63 },
+    { cx: 565, cy: 144 },
+    { cx: 720, cy: 305 },
+    { cx: 812, cy: 463 },
+    { cx: 779, cy: 520 },
+    { cx: 823, cy: 359 },
+    { cx: 1069, cy: 170 },
+    { cx: 1147, cy: 198 }
+  ];
+
+  // Fixed positions for particles
+  const particles = [
+    { left: "59.27%", top: "43.27%", opacity: 0.22, animation: "particle 7.82s ease-in-out infinite 0.002s" },
+    { left: "8.82%", top: "16.27%", opacity: 0.50, animation: "particle 5.00s ease-in-out infinite 2.70s" },
+    { left: "42.66%", top: "42.13%", opacity: 0.88, animation: "particle 10.17s ease-in-out infinite 1.74s" },
+    { left: "83.65%", top: "30.59%", opacity: 0.69, animation: "particle 9.75s ease-in-out infinite 1.82s" },
+    { left: "32.41%", top: "27.68%", opacity: 0.47, animation: "particle 6.28s ease-in-out infinite 1.16s" },
+    { left: "94.77%", top: "54.08%", opacity: 0.38, animation: "particle 10.11s ease-in-out infinite 2.12s" },
+    { left: "27.81%", top: "2.81%", opacity: 0.72, animation: "particle 11.49s ease-in-out infinite 0.90s" },
+    { left: "47.48%", top: "42.66%", opacity: 0.24, animation: "particle 11.23s ease-in-out infinite 2.02s" },
+    { left: "20.71%", top: "62.94%", opacity: 0.77, animation: "particle 11.84s ease-in-out infinite 1.03s" },
+    { left: "12.41%", top: "80.56%", opacity: 0.24, animation: "particle 9.97s ease-in-out infinite 2.45s" },
+    { left: "28.46%", top: "51.11%", opacity: 0.22, animation: "particle 10.05s ease-in-out infinite 2.46s" },
+    { left: "84.97%", top: "79.29%", opacity: 0.77, animation: "particle 8.74s ease-in-out infinite 1.74s" },
+    { left: "59.01%", top: "45.44%", opacity: 0.80, animation: "particle 11.71s ease-in-out infinite 3.29s" },
+    { left: "34.42%", top: "11.98%", opacity: 0.97, animation: "particle 4.71s ease-in-out infinite 2.64s" },
+    { left: "81.80%", top: "22.21%", opacity: 0.47, animation: "particle 9.27s ease-in-out infinite 0.20s" },
+    { left: "3.55%", top: "26.88%", opacity: 0.99, animation: "particle 5.26s ease-in-out infinite 3.32s" },
+    { left: "75.38%", top: "93.38%", opacity: 0.73, animation: "particle 9.16s ease-in-out infinite 1.95s" },
+    { left: "69.67%", top: "7.29%", opacity: 0.25, animation: "particle 11.98s ease-in-out infinite 1.32s" },
+    { left: "59.32%", top: "6.13%", opacity: 0.34, animation: "particle 11.06s ease-in-out infinite 3.49s" },
+    { left: "75.86%", top: "37.51%", opacity: 0.37, animation: "particle 8.62s ease-in-out infinite 0.07s" },
+    { left: "8.58%", top: "11.98%", opacity: 0.77, animation: "particle 8.23s ease-in-out infinite 3.23s" },
+    { left: "3.02%", top: "90.08%", opacity: 0.71, animation: "particle 4.20s ease-in-out infinite 2.11s" },
+    { left: "69.62%", top: "38.65%", opacity: 0.40, animation: "particle 10.24s ease-in-out infinite 0.04s" },
+    { left: "49.97%", top: "28.24%", opacity: 0.82, animation: "particle 8.63s ease-in-out infinite 1.15s" },
+    { left: "80.82%", top: "24.36%", opacity: 0.84, animation: "particle 11.91s ease-in-out infinite 2.62s" }
+  ];
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 min-h-screen flex items-center">
       {/* Advanced 3D Scene Container */}
@@ -66,12 +124,12 @@ export function Hero() {
             transition={{ duration: 3, delay: 2, ease: "easeInOut" }}
           />
 
-          {/* Neural Nodes */}
-          {[...Array(12)].map((_, i) => (
+          {/* Neural Nodes with fixed positions */}
+          {neuralNodes.map((node, i) => (
             <motion.circle
               key={i}
-              cx={100 + i * 80 + Math.random() * 200}
-              cy={150 + Math.sin(i) * 200 + Math.random() * 300}
+              cx={node.cx}
+              cy={node.cy}
               r="4"
               fill="url(#connectionGradient)"
               filter="url(#glow)"
@@ -176,133 +234,16 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Holographic UI Panels */}
-        
-        {/* Advanced AI Dashboard */}
-        <motion.div
-          initial={{ opacity: 0, y: 30, rotateX: -15 }}
-          animate={{ opacity: 1, y: 0, rotateX: 0 }}
-          transition={{ duration: 2, delay: 1.2 }}
-          className="absolute top-20 right-12 bg-white/10 backdrop-blur-xl rounded-3xl p-6 shadow-2xl shadow-sky-500/20 border border-white/20"
-          style={{ 
-            animation: 'float 7s ease-in-out infinite delay-1s',
-            transform: 'perspective(1000px) rotateX(5deg) rotateY(-10deg)'
-          }}
-        >
-          <div className="flex items-center space-x-3 mb-4">
-            <div className="w-8 h-8 bg-gradient-to-r from-sky-400 to-blue-500 rounded-lg flex items-center justify-center">
-              <Cpu className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <div className="text-white/90 text-sm font-medium">Neural Analysis</div>
-              <div className="text-white/60 text-xs">Processing development patterns</div>
-            </div>
-            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
-          </div>
-          
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-white/70 text-xs">Cognitive Growth</span>
-              <span className="text-emerald-300 text-xs font-medium">+12.4%</span>
-            </div>
-            <div className="w-48 h-2 bg-white/20 rounded-full overflow-hidden">
-              <motion.div 
-                className="h-full bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: '87%' }}
-                transition={{ duration: 2, delay: 2 }}
-              />
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <span className="text-white/70 text-xs">Social Skills</span>
-              <span className="text-sky-300 text-xs font-medium">+8.7%</span>
-            </div>
-            <div className="w-48 h-2 bg-white/20 rounded-full overflow-hidden">
-              <motion.div 
-                className="h-full bg-gradient-to-r from-sky-400 to-indigo-400 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: '73%' }}
-                transition={{ duration: 2, delay: 2.2 }}
-              />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Milestone Achievement Hologram */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, z: -100 }}
-          animate={{ opacity: 1, scale: 1, z: 0 }}
-          transition={{ duration: 1.8, delay: 1.8 }}
-          className="absolute bottom-32 left-16 bg-white/15 backdrop-blur-xl rounded-2xl p-5 shadow-2xl shadow-indigo-500/25 border border-white/25"
-          style={{ 
-            animation: 'hologramFloat 8s ease-in-out infinite delay-2s',
-            transform: 'perspective(1000px) rotateX(-5deg) rotateY(10deg)'
-          }}
-        >
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-xl flex items-center justify-center relative">
-              <Target className="w-5 h-5 text-white" />
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-xl animate-ping opacity-25"></div>
-            </div>
-            <div>
-              <div className="text-white/95 text-sm font-medium">New Milestone!</div>
-              <div className="text-white/70 text-xs">Language Development</div>
-            </div>
-          </div>
-          
-          <div className="bg-white/10 rounded-lg p-3 mb-3">
-            <div className="text-white/90 text-sm mb-1">"First Complete Sentence"</div>
-            <div className="text-indigo-200 text-xs">Age: 2y 3m • Expected: 2y 6m</div>
-          </div>
-          
-          <div className="flex items-center justify-between">
-            <div className="text-emerald-300 text-xs font-medium">3 months early! 🎉</div>
-            <div className="text-purple-200 text-xs">+150 XP</div>
-          </div>
-        </motion.div>
-
-        {/* AI Insight Stream */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 2, delay: 2.2 }}
-          className="absolute top-1/2 left-8 bg-white/12 backdrop-blur-xl rounded-2xl p-4 shadow-2xl shadow-blue-500/20 border border-white/20"
-          style={{ 
-            animation: 'streamFloat 6s ease-in-out infinite delay-3s',
-            transform: 'perspective(1000px) rotateY(5deg)'
-          }}
-        >
-          <div className="flex items-center space-x-2 mb-3">
-            <Eye className="w-4 h-4 text-sky-300" />
-            <span className="text-white/90 text-xs font-medium">AI Insights</span>
-            <div className="flex space-x-1">
-              <div className="w-1 h-1 bg-sky-400 rounded-full animate-pulse"></div>
-              <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse delay-100"></div>
-              <div className="w-1 h-1 bg-indigo-400 rounded-full animate-pulse delay-200"></div>
-            </div>
-          </div>
-          
-          <div className="space-y-2 text-xs">
-            <div className="text-white/80 bg-white/10 rounded-lg p-2">
-              Reading time increased 40% this week
-            </div>
-            <div className="text-white/80 bg-white/10 rounded-lg p-2">
-              Motor skills developing ahead of curve
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Particle System */}
-        {[...Array(25)].map((_, i) => (
+        {/* Particle System with fixed positions */}
+        {isClient && particles.map((particle, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.8 + 0.2,
-              animation: `particle ${4 + Math.random() * 8}s ease-in-out infinite ${Math.random() * 4}s`,
+              left: particle.left,
+              top: particle.top,
+              opacity: particle.opacity,
+              animation: particle.animation,
               boxShadow: '0 0 4px rgba(56, 189, 248, 0.5)'
             }}
           />
@@ -339,7 +280,7 @@ export function Hero() {
             <div className="w-8 h-8 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-white" />
             </div>
-            <span className="text-slate-700 font-medium">AI-Powered Parental Development Platform</span>
+            <span className="text-slate-700 font-medium">AI-ზე დაფუძნებული მშობლობის განვითარების პლატფორმა</span>
             <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
           </motion.div>
 
@@ -354,10 +295,10 @@ export function Hero() {
               fontVariationSettings: '"wght" 600'
             }}
           >
-            Your child's{" "}
+            თქვენი ბავშვის{" "}
             <span className="relative inline-block">
               <span className="bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                neural growth
+                ნერვული განვითარება
               </span>
               <motion.div
                 className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full"
@@ -366,7 +307,7 @@ export function Hero() {
                 transition={{ duration: 1.5, delay: 1.5 }}
               />
             </span>
-            {" "}decoded
+            {" "}გაშიფრული
           </motion.h1>
 
           {/* Enhanced Subtitle */}
@@ -377,21 +318,21 @@ export function Hero() {
             className="mb-16"
           >
             <p className="text-2xl lg:text-3xl text-slate-600 leading-relaxed max-w-4xl mx-auto mb-6">
-              Advanced AI analyzes emotional, cognitive, and physical development patterns 
-              in real-time, transforming invisible growth into actionable parental insights.
+              მოწინავე AI რეალურ დროში აანალიზებს ემოციურ, კოგნიტიურ და ფიზიკურ განვითარების ტენდენციებს, 
+              უხილავ ზრდას გარდაქმნის მშობლებისთვის მოქმედებით შეხედულებებად.
             </p>
             <div className="flex items-center justify-center space-x-6 text-slate-500">
               <div className="flex items-center space-x-2">
                 <Activity className="w-5 h-5 text-emerald-500" />
-                <span>Real-time Analysis</span>
+                <span>რეალურ დროში ანალიზი</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Zap className="w-5 h-5 text-yellow-500" />
-                <span>Instant Insights</span>
+                <span>მყისიერი შეხედულებები</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Brain className="w-5 h-5 text-purple-500" />
-                <span>Neural Learning</span>
+                <span>ნერვული სწავლება</span>
               </div>
             </div>
           </motion.div>
@@ -401,27 +342,17 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.9 }}
-            className="flex flex-col lg:flex-row items-center justify-center space-y-6 lg:space-y-0 lg:space-x-8 mb-20"
+            className="flex items-center justify-center mb-20"
           >
             <Button 
               size="lg"
-              className="bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500 text-white border-0 hover:from-sky-500 hover:via-blue-600 hover:to-indigo-600 px-12 py-5 text-xl rounded-2xl shadow-2xl shadow-sky-500/30 group transform hover:scale-105 transition-all duration-500 relative overflow-hidden"
+              onClick={handleStartNow}
+              className="bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500 text-white border-0 hover:from-sky-500 hover:via-blue-600 hover:to-indigo-600 px-24 py-6 text-2xl rounded-2xl shadow-2xl shadow-sky-500/30 group transform hover:scale-105 transition-all duration-500 relative overflow-hidden cursor-pointer"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <span className="relative z-10 flex items-center">
-                Initialize Neural Scan
-                <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
-              </span>
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-2 border-sky-200/50 text-slate-700 hover:bg-white/50 px-12 py-5 text-xl rounded-2xl backdrop-blur-xl bg-white/20 hover:bg-white/40 transition-all duration-500 hover:border-sky-300 hover:shadow-xl hover:shadow-sky-500/10"
-            >
-              <span className="flex items-center">
-                <Eye className="mr-3 w-5 h-5" />
-                View Demo Simulation
+                დაიწყეთ ახლავე
+                <ArrowRight className="ml-3 w-7 h-7 group-hover:translate-x-2 transition-transform duration-300" />
               </span>
             </Button>
           </motion.div>
@@ -434,10 +365,10 @@ export function Hero() {
             className="flex flex-wrap items-center justify-center gap-6"
           >
             {[
-              { icon: Brain, label: "Neural AI Engine", color: "from-sky-400 to-blue-500" },
-              { icon: Heart, label: "Empathetic Analysis", color: "from-blue-400 to-indigo-500" },
-              { icon: Sparkles, label: "Predictive Insights", color: "from-indigo-400 to-purple-500" },
-              { icon: Target, label: "Precision Tracking", color: "from-purple-400 to-pink-500" }
+              { icon: Brain, label: "ნერვული AI ძრავა", color: "from-sky-400 to-blue-500" },
+              { icon: Heart, label: "ემპათიური ანალიზი", color: "from-blue-400 to-indigo-500" },
+              { icon: Sparkles, label: "პროგნოზირებადი შეხედულებები", color: "from-indigo-400 to-purple-500" },
+              { icon: Target, label: "ზუსტი თვალყურის დევნება", color: "from-purple-400 to-pink-500" }
             ].map((feature, index) => (
               <motion.div
                 key={feature.label}
@@ -454,7 +385,6 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Advanced Custom Styles */}
       <style jsx>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }

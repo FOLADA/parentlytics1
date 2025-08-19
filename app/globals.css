@@ -78,6 +78,134 @@ html {
   animation: float linear infinite;
 }
 
+/* Animated floating food icons for diet page */
+@keyframes float-food-1 {
+  0% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-30px) translateX(15px) rotate(90deg);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-60px) translateX(30px) rotate(180deg);
+    opacity: 0.3;
+  }
+  75% {
+    transform: translateY(-30px) translateX(45px) rotate(270deg);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(0px) translateX(60px) rotate(360deg);
+    opacity: 0.3;
+  }
+}
+
+@keyframes float-food-2 {
+  0% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+    opacity: 0.25;
+  }
+  33% {
+    transform: translateY(-40px) translateX(20px) rotate(120deg);
+    opacity: 0.35;
+  }
+  66% {
+    transform: translateY(-20px) translateX(40px) rotate(240deg);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(0px) translateX(60px) rotate(360deg);
+    opacity: 0.25;
+  }
+}
+
+@keyframes float-food-3 {
+  0% {
+    transform: translateY(0px) translateX(0px) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-50px) translateX(25px) scale(1.2);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translateY(0px) translateX(50px) scale(1);
+    opacity: 0.3;
+  }
+}
+
+@keyframes float-food-4 {
+  0% {
+    transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
+    opacity: 0.35;
+  }
+  25% {
+    transform: translateY(-25px) translateX(10px) rotate(90deg) scale(1.1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translateY(-50px) translateX(20px) rotate(180deg) scale(0.9);
+    opacity: 0.35;
+  }
+  75% {
+    transform: translateY(-25px) translateX(30px) rotate(270deg) scale(1.1);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translateY(0px) translateX(40px) rotate(360deg) scale(1);
+    opacity: 0.35;
+  }
+}
+
+@keyframes float-food-5 {
+  0% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  20% {
+    transform: translateY(-20px) translateX(8px) rotate(72deg);
+    opacity: 0.4;
+  }
+  40% {
+    transform: translateY(-40px) translateX(16px) rotate(144deg);
+    opacity: 0.3;
+  }
+  60% {
+    transform: translateY(-30px) translateX(24px) rotate(216deg);
+    opacity: 0.4;
+  }
+  80% {
+    transform: translateY(-10px) translateX(32px) rotate(288deg);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(0px) translateX(40px) rotate(360deg);
+    opacity: 0.3;
+  }
+}
+
+.animate-float-food-1 {
+  animation: float-food-1 8s linear infinite;
+}
+
+.animate-float-food-2 {
+  animation: float-food-2 12s linear infinite;
+}
+
+.animate-float-food-3 {
+  animation: float-food-3 10s linear infinite;
+}
+
+.animate-float-food-4 {
+  animation: float-food-4 9s linear infinite;
+}
+
+.animate-float-food-5 {
+  animation: float-food-5 11s linear infinite;
+}
+
 /* Design System Styles */
 @custom-variant dark (&:is(.dark *));
 
@@ -602,4 +730,26 @@ html {
   right: -80px;
   width: 220px;
   opacity: 0.5;
+}
+
+/* Custom Purple Gradient Button */
+.purple-gradient-btn {
+  background: linear-gradient(to right, #a855f7, #7c3aed);
+  color: white;
+  border-radius: 9999px;
+  padding: 0.75rem 1.25rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.purple-gradient-btn:hover {
+  background: linear-gradient(to right, #9333ea, #6d28d9);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+.purple-gradient-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

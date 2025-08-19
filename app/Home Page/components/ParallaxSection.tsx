@@ -16,7 +16,7 @@ export function ParallaxSection() {
 
   return (
     <section ref={ref} className="relative min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 overflow-hidden">
-      {/* Floating 3D Elements */}
+      {/* მცურავი 3D ელემენტები */}
       <motion.div 
         style={{ y, opacity }}
         className="absolute inset-0 flex items-center justify-center"
@@ -69,7 +69,7 @@ export function ParallaxSection() {
         </div>
       </motion.div>
 
-      {/* Content */}
+      {/* კონტენტი */}
       <div className="relative z-10 flex items-center justify-center min-h-screen">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -79,13 +79,13 @@ export function ParallaxSection() {
           className="text-center text-white"
         >
           <h2 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-            AI-Powered Parenting
+            AI-ზე დაფუძნებული მშობლობა
           </h2>
           <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
-            Experience the future of child development with cutting-edge AI technology
+            გამოცადეთ ბავშვის განვითარების მომავალი მოწინავე AI ტექნოლოგიით
           </p>
         </motion.div>
       </div>
     </section>
   );
-} 
+}

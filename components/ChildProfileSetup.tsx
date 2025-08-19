@@ -27,25 +27,25 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
     const newErrors: Record<string, string> = {};
     
     if (!formData.name.trim()) {
-      newErrors.name = 'Child\'s name is required';
+      newErrors.name = 'ბავშვის სახელის შეყვანა სავალდებულოა';
     }
     
     if (!formData.birthdate) {
-      newErrors.birthdate = 'Birthdate is required';
+      newErrors.birthdate = 'დაბადების თარიღის შეყვანა სავალდებულოა';
     } else {
       const birthDate = new Date(formData.birthdate);
       const today = new Date();
       if (birthDate > today) {
-        newErrors.birthdate = 'Birthdate cannot be in the future';
+        newErrors.birthdate = 'დაბადების თარიღი არ შეიძლება იყოს მომავალში';
       }
     }
     
     if (!formData.weight || parseFloat(formData.weight) <= 0) {
-      newErrors.weight = 'Valid weight is required';
+      newErrors.weight = 'მიუთითეთ სწორი წონა';
     }
     
     if (!formData.height || parseFloat(formData.height) <= 0) {
-      newErrors.height = 'Valid height is required';
+      newErrors.height = 'მიუთითეთ სწორი სიმაღლე';
     }
 
     setErrors(newErrors);
@@ -96,7 +96,7 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
       >
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">Set Up Your Child's Profile</h2>
+            <h2 className="text-2xl font-bold text-gray-800">შეიყვანეთ თქვენი ბავშვის პროფილი</h2>
             <button
               onClick={onCancel}
               className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -110,7 +110,7 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                 <User className="w-4 h-4" />
-                Child's Name
+                ბავშვის სახელი
               </label>
               <input
                 type="text"
@@ -119,7 +119,7 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${
                   errors.name ? 'border-red-500' : 'border-gray-300'
                 }`}
-                placeholder="Enter your child's name"
+                placeholder="შეიყვანეთ ბავშვის სახელი"
               />
               {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
             </div>
@@ -129,7 +129,7 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
               <div>
                 <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                   <Calendar className="w-4 h-4" />
-                  Birthdate
+                  დაბადების თარიღი
                 </label>
                 <input
                   type="date"
@@ -144,16 +144,16 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
 
               <div>
                 <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                  Gender
+                  სქესი
                 </label>
                 <select
                   value={formData.gender}
                   onChange={(e) => setFormData(prev => ({ ...prev, gender: e.target.value as any }))}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 >
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
+                  <option value="male">მამრობითი</option>
+                  <option value="female">მდედრობითი</option>
+                  <option value="other">სხვა</option>
                 </select>
               </div>
             </div>
@@ -163,7 +163,7 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
               <div>
                 <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                   <Weight className="w-4 h-4" />
-                  Weight (kg)
+                  წონა (კგ)
                 </label>
                 <input
                   type="number"
@@ -173,7 +173,7 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${
                     errors.weight ? 'border-red-500' : 'border-gray-300'
                   }`}
-                  placeholder="e.g., 15.5"
+                  placeholder="მაგ., 15.5"
                 />
                 {errors.weight && <p className="text-red-500 text-sm mt-1">{errors.weight}</p>}
               </div>
@@ -181,7 +181,7 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
               <div>
                 <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                   <Ruler className="w-4 h-4" />
-                  Height (cm)
+                  სიმაღლე (სმ)
                 </label>
                 <input
                   type="number"
@@ -191,7 +191,7 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
                   className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 ${
                     errors.height ? 'border-red-500' : 'border-gray-300'
                   }`}
-                  placeholder="e.g., 95.2"
+                  placeholder="მაგ., 95.2"
                 />
                 {errors.height && <p className="text-red-500 text-sm mt-1">{errors.height}</p>}
               </div>
@@ -201,16 +201,16 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                 <Activity className="w-4 h-4" />
-                Activity Level
+                აქტივობის დონე
               </label>
               <select
                 value={formData.activity_level}
                 onChange={(e) => setFormData(prev => ({ ...prev, activity_level: e.target.value as any }))}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               >
-                <option value="low">Low - Mostly sedentary</option>
-                <option value="moderate">Moderate - Regular play and activities</option>
-                <option value="high">High - Very active and energetic</option>
+                <option value="low">დაბალი - უმეტესად უმოძრაო</option>
+                <option value="moderate">ზომიერი - რეგულარული თამაშები და აქტივობები</option>
+                <option value="high">მაღალი - ძალიან აქტიური და ენერგიული</option>
               </select>
             </div>
 
@@ -218,7 +218,7 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                 <AlertTriangle className="w-4 h-4" />
-                Allergies (optional)
+                ალერგიები (არასავალდებულო)
               </label>
               <div className="flex gap-2 mb-2">
                 <input
@@ -227,7 +227,7 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
                   onChange={(e) => setNewAllergy(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addAllergy())}
                   className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Add an allergy (e.g., peanuts, dairy)"
+                  placeholder="დაამატეთ ალერგია (მაგ., არაქისი, რძის პროდუქტები)"
                 />
                 <button
                   type="button"
@@ -261,14 +261,14 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
             {/* Health Notes */}
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-                Health Notes (optional)
+                ჯანმრთელობის შენიშვნები (არასავალდებულო)
               </label>
               <textarea
                 value={formData.health_notes}
                 onChange={(e) => setFormData(prev => ({ ...prev, health_notes: e.target.value }))}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 rows={3}
-                placeholder="Any special dietary needs, preferences, or health considerations..."
+                placeholder="სპეციალური დიეტური საჭიროებები, პრეფერენციები ან ჯანმრთელობის მდგომარეობა..."
               />
             </div>
 
@@ -279,13 +279,13 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
                 onClick={onCancel}
                 className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
-                Cancel
+                გაუქმება
               </button>
               <button
                 type="submit"
                 className="flex-1 px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-semibold"
               >
-                Save Profile
+                პროფილის შენახვა
               </button>
             </div>
           </form>
@@ -293,4 +293,4 @@ export default function ChildProfileSetup({ onComplete, onCancel }: ChildProfile
       </motion.div>
     </motion.div>
   );
-} 
+}

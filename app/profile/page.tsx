@@ -81,7 +81,7 @@ export default function ProfilePage() {
   };
 
   const handleBack = () => {
-    router.push('/dashboard');
+            router.push('/diet');
   };
 
   if (isLoading) {
