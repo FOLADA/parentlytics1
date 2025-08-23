@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Azure AI Configuration
-const token = process.env.AZURE_AI_TOKEN || "";
-const endpoint = process.env.AZURE_AI_ENDPOINT || "https://models.github.ai/inference";
-const model = process.env.AZURE_AI_MODEL || "openai/gpt-4.1-mini";
+// AI Configuration - Support both Azure and OpenAI
+const azureToken = process.env.AZURE_AI_TOKEN;
+const azureEndpoint = process.env.AZURE_AI_ENDPOINT;
+const azureModel = process.env.AZURE_AI_MODEL;
+const openaiKey = process.env.OPENAI_API_KEY;
+
+// Check which service is available
+const useAzure = azureToken && azureEndpoint && azureModel;
+const useOpenAI = openaiKey;
+
+if (!useAzure && !useOpenAI) {
+  console.warn('No AI service configured. Please set up Azure AI or OpenAI environment variables.');
+}
 
 // System prompt for parenting context
 const systemPrompt = `You are a Georgian parenting expert and child development specialist. You communicate exclusively in Georgian language and provide supportive, practical parenting advice.
@@ -47,24 +56,46 @@ export async function POST(request: NextRequest) {
       { role: "user", content: message }
     ];
 
-    // Make request to Azure AI
-    const response = await fetch(`${endpoint}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: model,
-        messages: messages,
-        temperature: 0.7,
-        max_tokens: 500,
-        top_p: 0.9,
-      }),
-    });
+    let response;
+    
+    if (useAzure) {
+      // Make request to Azure AI
+      response = await fetch(`${azureEndpoint}/openai/deployments/${azureModel}/chat/completions?api-version=2024-02-15-preview`, {
+        method: 'POST',
+        headers: {
+          'api-key': azureToken,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: messages,
+          temperature: 0.7,
+          max_tokens: 500,
+          top_p: 0.9,
+        }),
+      });
+    } else if (useOpenAI) {
+      // Make request to OpenAI
+      response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${openaiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4',
+          messages: messages,
+          temperature: 0.7,
+          max_tokens: 500,
+          top_p: 0.9,
+        }),
+      });
+    } else {
+      throw new Error('No AI service configured');
+    }
 
     if (!response.ok) {
-      throw new Error(`Azure AI API error: ${response.status}`);
+      const errorText = await response.text();
+      throw new Error(`AI API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
@@ -84,9 +115,9 @@ export async function POST(request: NextRequest) {
     
     // Fallback responses in Georgian
     const fallbackResponses = [
-      "უკაცრავად, ვერ მივიღე პასუხი AI სერვისიდან. სცადეთ თავიდან ან დაუკავშირდით მხარდაჭერას.",
-      "ტექნიკური პრობლემის გამო ვერ შემიძლია პასუხის გაცემა. გთხოვთ სცადოთ მოგვიანებით.",
-      "დროებით ვერ ვუკავშირდები AI სერვისს. გთხოვთ სცადოთ რამდენიმე წუთის შემდეგ."
+      "უკაცრავად, ვერ მივიღე პასუხი AI სერვისიდან. გთხოვთ შეამოწმოთ კონფიგურაცია.",
+      "ტექნიკური პრობლემის გამო ვერ შემიძლია პასუხის გაცემა. გთხოვთ შეამოწმოთ .env.local ფაილი.",
+      "დროებით ვერ ვუკავშირდები AI სერვისს. გთხოვთ დაამატოთ API გასაღები."
     ];
     
     const fallbackResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];

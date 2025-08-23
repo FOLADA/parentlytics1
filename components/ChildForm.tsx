@@ -338,7 +338,7 @@ export default function ChildForm({ onSubmit, onCancel, initialData, isEditing =
             delay: 8
           }}
           className="absolute top-3/5 right-1/4 text-purple-500 opacity-60"
-        >
+    >
           <Sun className="w-7 h-7" />
         </motion.div>
 

@@ -730,7 +730,7 @@ export default function DietPage() {
           />
         </motion.div>
 
-                {/* Child Profile Setup Modal */}
+        {/* Child Profile Setup Modal */}
         {showProfileSetup && (
           <motion.div 
             ref={profileFormRef}
@@ -739,28 +739,28 @@ export default function DietPage() {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="mt-8"
           >
-            <ChildForm
-              onSubmit={async (data: ChildProfileFormData) => {
-                try {
-                  await updateChildProfile(data);
-                  setShowProfileSetup(false);
-                } catch (error) {
-                  console.error('Error updating child profile:', error);
-                }
-              }}
-              onCancel={() => setShowProfileSetup(false)}
-              isEditing={!!childProfile}
-              initialData={childProfile ? {
-                name: childProfile.name,
-                birthdate: childProfile.birthdate,
-                gender: childProfile.gender,
-                weight: childProfile.weight,
-                height: childProfile.height,
-                activity_level: childProfile.activity_level,
-                allergies: childProfile.allergies,
-                other_health_concerns: childProfile.other_health_concerns,
-              } : undefined}
-            />
+          <ChildForm
+            onSubmit={async (data: ChildProfileFormData) => {
+              try {
+                await updateChildProfile(data);
+                setShowProfileSetup(false);
+              } catch (error) {
+                console.error('Error updating child profile:', error);
+              }
+            }}
+            onCancel={() => setShowProfileSetup(false)}
+            isEditing={!!childProfile}
+            initialData={childProfile ? {
+              name: childProfile.name,
+              birthdate: childProfile.birthdate,
+              gender: childProfile.gender,
+              weight: childProfile.weight,
+              height: childProfile.height,
+              activity_level: childProfile.activity_level,
+              allergies: childProfile.allergies,
+              other_health_concerns: childProfile.other_health_concerns,
+            } : undefined}
+          />
           </motion.div>
         )}
       </div>

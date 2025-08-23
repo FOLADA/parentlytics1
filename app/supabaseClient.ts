@@ -14,9 +14,9 @@ export const supabase = createClient(
   supabaseAnonKey || 'mock-key',
   {
     auth: {
-      autoRefreshToken: false, // Disable automatic token refresh to prevent errors
-      persistSession: false,   // Don't persist sessions in mock mode
-      detectSessionInUrl: false, // Don't detect sessions in URL
+      autoRefreshToken: true, // Enable automatic token refresh
+      persistSession: true,   // Persist sessions
+      detectSessionInUrl: true, // Detect sessions in URL
     },
     global: {
       headers: {

@@ -8,10 +8,6 @@ const publicRoutes = ['/home', '/pricing', '/signup', '/login'];
 const protectedRoutes = ['/diet', '/chat', '/setup-child', '/profile', '/ai'];
 
 export function middleware(request: NextRequest) {
-  // Temporarily disable all middleware logic for debugging
-  return NextResponse.next();
-  
-  /*
   const { pathname } = request.nextUrl;
   
   // Check if the current path is a public route
@@ -24,32 +20,32 @@ export function middleware(request: NextRequest) {
     pathname === route || pathname.startsWith(route + '/')
   );
   
-  // For now, we'll use a simple approach - in production you'd check for auth tokens
-// This is a placeholder for actual authentication logic
-// Since we're using mock authentication, we'll allow access to protected routes
-// In a real app, you'd check for valid auth tokens here
-const isAuthenticated = true; // Temporarily allow all access for development
+  // Check authentication from cookies or headers
+  const authToken = request.cookies.get('sb-access-token')?.value || 
+                   request.headers.get('authorization')?.replace('Bearer ', '');
+  
+  // For development, allow access if we have environment variables set
+  const hasSupabaseConfig = process.env.NEXT_PUBLIC_SUPABASE_URL && 
+                           process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   
   // If it's a protected route and user is not authenticated, redirect to signup
-if (isProtectedRoute && !isAuthenticated) {
-  const signupUrl = new URL('/signup', request.url);
-  signupUrl.searchParams.set('redirect', pathname);
-  return NextResponse.redirect(signupUrl);
-}
-
-// If user is authenticated and trying to access signup/login, redirect to setup-child
-// The setup-child page will handle checking if profile exists and redirect accordingly
-if (isAuthenticated && (pathname === '/signup' || pathname === '/login')) {
-  return NextResponse.redirect(new URL('/setup-child', request.url));
-}
-
-// Allow access to setup-child for authenticated users
-if (isAuthenticated && pathname === '/setup-child') {
-  return NextResponse.next();
-}
+  if (isProtectedRoute && !authToken && hasSupabaseConfig) {
+    const signupUrl = new URL('/signup', request.url);
+    signupUrl.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(signupUrl);
+  }
+  
+  // If user is authenticated and trying to access signup/login, redirect to setup-child
+  if (authToken && (pathname === '/signup' || pathname === '/login')) {
+    return NextResponse.redirect(new URL('/setup-child', request.url));
+  }
+  
+  // Allow access to setup-child for authenticated users
+  if (authToken && pathname === '/setup-child') {
+    return NextResponse.next();
+  }
   
   return NextResponse.next();
-  */
 }
 
 export const config = {
