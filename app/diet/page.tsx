@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, RefreshCw, ShoppingCart, Heart, AlertCircle, User, Utensils, Apple, Carrot, Coffee, Milk, Wheat, Banana, Grape, Fish, Egg, Circle, Square, Triangle } from 'lucide-react';
 import MealCard from '../../components/MealCard';
-import LoadingIndicator from '../../components/LoadingIndicator';
+import LoadingStates, { SkeletonLoader, InlineLoader } from '../../components/LoadingStates';
 import ChildForm from '../../components/ChildForm';
 import BLWExpandedCards from '../../components/BLWExpandedCards';
 import NutritionChart from '../../components/NutritionChart';
@@ -22,6 +22,7 @@ export default function DietPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
+  const [updatingProfile, setUpdatingProfile] = useState(false);
   const [showProfileSetup, setShowProfileSetup] = useState(false);
   const [blwExpanded, setBlwExpanded] = useState(false);
   const { user, childProfile, updateChildProfile } = useAuth();
@@ -272,7 +273,7 @@ export default function DietPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
         <div className="container mx-auto px-4 py-8">
-          <LoadingIndicator />
+          <LoadingStates type="meal-plan" size="large" />
         </div>
       </div>
     );
@@ -314,10 +315,7 @@ export default function DietPage() {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-600 transition-colors disabled:opacity-50"
               >
                 {generating ? (
-                  <>
-                    <RefreshCw className="w-5 h-5 animate-spin" />
-                    Generating...
-                  </>
+                  <InlineLoader size="medium" message="Generating..." />
                 ) : (
                   <>
                     <RefreshCw className="w-5 h-5" />
@@ -629,11 +627,7 @@ export default function DietPage() {
             className="purple-gradient-btn inline-flex items-center justify-center gap-2 disabled:opacity-50 w-full sm:w-auto px-4 py-3 md:px-6 md:py-3 text-sm md:text-base"
           >
             {generating ? (
-              <>
-                <RefreshCw className="w-4 h-4 animate-spin" />
-                <span className="hidden sm:inline">Generating...</span>
-                <span className="sm:hidden">Generating</span>
-              </>
+              <InlineLoader size="small" message="Generating..." />
             ) : (
               <>
                 <RefreshCw className="w-4 h-4" />
@@ -667,11 +661,18 @@ export default function DietPage() {
                 }
               }, 100);
             }}
-            className="purple-gradient-btn inline-flex items-center gap-2 w-full sm:w-auto px-4 py-3 md:px-6 md:py-3 text-sm md:text-base"
+            disabled={updatingProfile}
+            className="purple-gradient-btn inline-flex items-center gap-2 w-full sm:w-auto px-4 py-3 md:px-6 md:py-3 text-sm md:text-base disabled:opacity-50"
           >
-            <User className="w-4 h-4" />
-            <span className="hidden sm:inline">Edit Profile</span>
-            <span className="sm:hidden">Profile</span>
+            {updatingProfile ? (
+              <InlineLoader size="small" message="Updating..." />
+            ) : (
+              <>
+                <User className="w-4 h-4" />
+                <span className="hidden sm:inline">Edit Profile</span>
+                <span className="sm:hidden">Profile</span>
+              </>
+            )}
           </button>
         </motion.div>
 
