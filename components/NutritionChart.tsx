@@ -13,7 +13,12 @@ import {
   Wheat 
 } from 'lucide-react';
 
-// ... (interface remains unchanged)
+interface NutritionChartProps {
+  totalCalories: number;
+  targetCalories: number;
+  nutritionData: any;
+  childAgeInMonths: number;
+}
 
 export default function NutritionChart({ 
   totalCalories, 
@@ -21,7 +26,8 @@ export default function NutritionChart({
   nutritionData, 
   childAgeInMonths 
 }: NutritionChartProps) {
-  // ... (calculation logic remains unchanged)
+  // Calculate calorie percentage
+  const caloriePercentage = targetCalories > 0 ? (totalCalories / targetCalories) * 100 : 0;
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-lg border border-blue-200">
@@ -89,7 +95,12 @@ export default function NutritionChart({
             <span className="text-sm font-medium text-gray-700">რძე</span>
             <span className="text-sm text-gray-500">{Math.round(totalCalories * 0.8)}/750ml</span>
           </div>
-          {/* ... progress bar remains unchanged */}
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+              style={{ width: `${Math.min((totalCalories * 0.8 / 750) * 100, 100)}%` }}
+            ></div>
+          </div>
         </div>
 
         {/* Solid Food Progress */}
@@ -98,7 +109,12 @@ export default function NutritionChart({
             <span className="text-sm font-medium text-gray-700">მყარი საკვები</span>
             <span className="text-sm text-gray-500">{Math.round(totalCalories * 0.15)}/250გ</span>
           </div>
-          {/* ... progress bar remains unchanged */}
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+              style={{ width: `${Math.min((totalCalories * 0.15 / 250) * 100, 100)}%` }}
+            ></div>
+          </div>
         </div>
 
         {/* Water Progress */}
@@ -107,7 +123,12 @@ export default function NutritionChart({
             <span className="text-sm font-medium text-gray-700">წყალი</span>
             <span className="text-sm text-gray-500">50/100მლ</span>
           </div>
-          {/* ... progress bar remains unchanged */}
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+              style={{ width: `${Math.min((50 / 100) * 100, 100)}%` }}
+            ></div>
+          </div>
         </div>
       </div>
 

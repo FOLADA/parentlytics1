@@ -10,11 +10,11 @@ I've implemented a fallback mechanism in the diet page that will work even if th
 
 ### 1. Test Basic API Routes
 Visit these URLs to test if API routes work at all:
-- `http://localhost:3000/api/test` (should return a success message)
-- `http://localhost:3000/api/test-db` (should return database status)
+- `http://localhost:3001/api/test` (should return a success message)
+- `http://localhost:3001/api/test-db` (should return database status)
 
 ### 2. Test the Specific Route
-Try visiting: `http://localhost:3000/api/generateMealPlanNow`
+Try visiting: `http://localhost:3001/api/generateMealPlanNow`
 - If it returns a 404, the route isn't being recognized
 - If it returns an error, the route exists but has an issue
 

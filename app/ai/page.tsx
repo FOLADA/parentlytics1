@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Send, Plus, MessageCircle, Bot, User, Sparkles, Loader2, Brain } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useProtectedRoute } from '../hooks/useProtectedRoute';
+// import { useProtectedRoute } from '../hooks/useProtectedRoute';
 
 const COLORS = {
   primary: "#6366f1",
@@ -27,7 +27,7 @@ const initialHistory = [
 ];
 
 export default function AIPage() {
-  useProtectedRoute();
+  // useProtectedRoute();
   const [history, setHistory] = useState(initialHistory);
   const [activeChatId, setActiveChatId] = useState(history[0].id);
   const [input, setInput] = useState("");

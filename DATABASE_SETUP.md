@@ -174,7 +174,7 @@ npm run check-db
 npm run dev
 
 # Test API endpoints
-curl -X GET http://localhost:3000/api/child-profile
+curl -X GET http://localhost:3001/api/child-profile
 ```
 
 ## Future Enhancements

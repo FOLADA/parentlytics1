@@ -5,9 +5,13 @@ import type { NextRequest } from 'next/server';
 const publicRoutes = ['/home', '/pricing', '/signup', '/login'];
 
 // Define protected routes that require authentication
-const protectedRoutes = ['/diet', '/chat', '/setup-child', '/profile'];
+const protectedRoutes = ['/diet', '/chat', '/setup-child', '/profile', '/ai'];
 
 export function middleware(request: NextRequest) {
+  // Temporarily disable all middleware logic for debugging
+  return NextResponse.next();
+  
+  /*
   const { pathname } = request.nextUrl;
   
   // Check if the current path is a public route
@@ -24,9 +28,7 @@ export function middleware(request: NextRequest) {
 // This is a placeholder for actual authentication logic
 // Since we're using mock authentication, we'll allow access to protected routes
 // In a real app, you'd check for valid auth tokens here
-const isAuthenticated = request.cookies.has('auth-token') || 
-                       request.headers.get('authorization')?.startsWith('Bearer ') ||
-                       true; // Temporarily allow all access for development
+const isAuthenticated = true; // Temporarily allow all access for development
   
   // If it's a protected route and user is not authenticated, redirect to signup
 if (isProtectedRoute && !isAuthenticated) {
@@ -47,6 +49,7 @@ if (isAuthenticated && pathname === '/setup-child') {
 }
   
   return NextResponse.next();
+  */
 }
 
 export const config = {
