@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateMealPlan } from '@/lib/openai';
 import { getChildProfile, createDailyMeal } from '@/lib/supabase';
+import { generateFallbackMealPlan, generateMockMealPlan } from '@/lib/mealPlanFallback';
 import { ApiResponse, GenerateMealPlanResponse } from '@/lib/types';
 
 export async function POST(request: NextRequest) {
@@ -25,32 +26,40 @@ export async function POST(request: NextRequest) {
 
     console.log('Child profile found:', childProfile.name);
 
-    // Generate meal plan using OpenAI
-    console.log('Generating meal plan with OpenAI...');
-    const mealPlan = await generateMealPlan(childProfile);
-    
-    console.log('Meal plan generated successfully');
-    
-    // Save to database
-    const today = new Date().toISOString().split('T')[0];
-    console.log('Saving meal plan to database for date:', today);
-    
-    const dailyMeal = await createDailyMeal({
-      user_id: userId,
-      child_id: childProfile.id,
-      date: today,
-      meal_plan: mealPlan
-    });
-
-    if (!dailyMeal) {
-      console.log('Failed to save meal plan to database');
-      return NextResponse.json<ApiResponse<null>>({
-        success: false,
-        error: 'Failed to save meal plan to database'
-      }, { status: 500 });
+    // Try to generate meal plan using OpenAI first
+    let mealPlan;
+    try {
+      console.log('Attempting to generate meal plan with OpenAI...');
+      mealPlan = await generateMealPlan(childProfile);
+      console.log('Meal plan generated successfully with OpenAI');
+    } catch (openaiError) {
+      console.log('OpenAI failed, using fallback meal plan:', openaiError);
+      // Use fallback meal plan based on child's age
+      mealPlan = generateFallbackMealPlan(childProfile);
+      console.log('Fallback meal plan generated successfully');
     }
+    
+    // Try to save to database, but don't fail if it doesn't work
+    let dailyMeal = null;
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      console.log('Attempting to save meal plan to database for date:', today);
+      
+      dailyMeal = await createDailyMeal({
+        user_id: userId,
+        child_id: childProfile.id,
+        date: today,
+        meal_plan: mealPlan
+      });
 
-    console.log('Meal plan saved successfully');
+      if (dailyMeal) {
+        console.log('Meal plan saved successfully to database');
+      } else {
+        console.log('Failed to save meal plan to database, but continuing');
+      }
+    } catch (dbError) {
+      console.log('Database save failed, but continuing:', dbError);
+    }
 
     return NextResponse.json<ApiResponse<GenerateMealPlanResponse>>({
       success: true,

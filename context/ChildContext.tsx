@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ChildProfile, ChildProfileFormData, AuthContextType, User } from '@/lib/types';
-import { getChildProfile, createChildProfile, updateChildProfile as updateChildProfileSupabase } from '@/lib/supabase';
+import { ProfileManager } from '@/lib/profileManager';
 import { localStorageUtils } from '@/lib/utils';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -11,6 +11,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [childProfile, setChildProfile] = useState<ChildProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const profileManager = ProfileManager.getInstance();
 
   // Load data from localStorage on mount
   useEffect(() => {
@@ -39,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (parsedUser) {
             try {
               console.log('Attempting to sync child profile with database...');
-              const dbProfile = await getChildProfile(parsedUser.id);
+              const dbProfile = await profileManager.getProfile(parsedUser.id);
               if (dbProfile) {
                 console.log('Found profile in database, updating local state');
                 setChildProfile(dbProfile);
@@ -179,10 +180,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (childProfile) {
         // Update existing profile
         console.log('Updating existing profile with ID:', childProfile.id);
-        const updated = await updateChildProfileSupabase(childProfile.id, {
-          ...data,
-          updated_at: new Date().toISOString(),
-        });
+        const updated = await profileManager.updateProfile(childProfile.id, data);
         console.log('Update result:', updated);
         if (updated) {
           setChildProfile(updated);
@@ -199,10 +197,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else {
         // Create new profile
         console.log('Creating new profile for user:', user.id);
-        const newProfile = await createChildProfile({
-          user_id: user.id,
-          ...data,
-        });
+        const newProfile = await profileManager.createProfile(user.id, data);
         
         if (newProfile) {
           setChildProfile(newProfile);
@@ -252,7 +247,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     try {
       console.log('Refreshing child profile for user:', user.id);
-      const profile = await getChildProfile(user.id);
+      const profile = await profileManager.getProfile(user.id);
       console.log('Child profile refresh result:', profile);
       setChildProfile(profile);
     } catch (error) {
