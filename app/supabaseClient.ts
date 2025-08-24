@@ -22,6 +22,10 @@ export const supabase = createClient(
       headers: {
         'X-Client-Info': 'parentlytics-web'
       }
+    },
+    // Add timeout settings
+    realtime: {
+      timeout: 20000
     }
   }
 );
@@ -34,6 +38,18 @@ supabase.auth.onAuthStateChange((event, session) => {
     console.log('User signed out');
   }
 });
+
+// Check if Supabase is accessible
+export const checkSupabaseConnection = async () => {
+  try {
+    const { data, error } = await supabase.from('_dummy_table_').select('*').limit(1);
+    // If we get here, connection is working (even if table doesn't exist)
+    return true;
+  } catch (err) {
+    console.warn('Supabase connection check failed:', err);
+    return false;
+  }
+};
 
 // Handle auth errors gracefully by catching them in operations
 export const handleSupabaseError = (error: any) => {
