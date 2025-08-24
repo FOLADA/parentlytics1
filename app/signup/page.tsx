@@ -36,6 +36,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Eye, EyeOff } from 'lucide-react';
 import {FaGoogle} from 'react-icons/fa';
 import { supabase, checkSupabaseConnection, handleSupabaseError } from '../supabaseClient';
+import { useAuth } from '@/context/ChildContext';
 
 // Reusing the same brand colors and theme from SignIn
 const brandColors = {
@@ -164,6 +165,7 @@ const theme = createTheme({
 });
 
 export default function SignUpPage() {
+  const { signup } = useAuth();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [fullName, setFullName] = React.useState('');
@@ -203,9 +205,9 @@ export default function SignUpPage() {
       
       if (!isConnected) {
         console.warn('Supabase not accessible, using mock authentication');
-        // Simulate successful signup for demo purposes
-        setTimeout(() => {
-          setLoading(false);
+        // Use context signup for mock authentication
+        try {
+          await signup(email, password, fullName);
           setSuccess('რეგისტრაცია წარმატებულია! (Mock Mode) გადავდივართ ბავშვის პროფილის შექმნაზე...');
           setFullName('');
           setEmail('');
@@ -216,7 +218,9 @@ export default function SignUpPage() {
           setTimeout(() => {
             window.location.href = '/setup-child';
           }, 1500);
-        }, 1000);
+        } catch (error) {
+          setError('Mock authentication failed. Please try again.');
+        }
         return;
       }
       
@@ -232,28 +236,40 @@ export default function SignUpPage() {
         if (handledError) {
           setError(handledError.message || 'Registration failed. Please try again.');
         } else {
-          // Error was handled gracefully, continue with mock auth
-          setSuccess('რეგისტრაცია წარმატებულია! (Fallback Mode) გადავდივართ ბავშვის პროფილის შექმნაზე...');
+          // Error was handled gracefully, use context signup as fallback
+          try {
+            await signup(email, password, fullName);
+            setSuccess('რეგისტრაცია წარმატებულია! (Fallback Mode) გადავდივართ ბავშვის პროფილის შექმნაზე...');
+            setFullName('');
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+            
+            setTimeout(() => {
+              window.location.href = '/setup-child';
+            }, 1500);
+          } catch (fallbackError) {
+            setError('Fallback authentication failed. Please try again.');
+          }
+        }
+      } else {
+        // Real Supabase signup successful, also use context signup
+        try {
+          await signup(email, password, fullName);
+          setSuccess('რეგისტრაცია წარმატებულია! გადავდივართ ბავშვის პროფილის შექმნაზე...');
           setFullName('');
           setEmail('');
           setPassword('');
           setConfirmPassword('');
           
+          // Redirect to setup-child immediately after successful signup
           setTimeout(() => {
             window.location.href = '/setup-child';
           }, 1500);
+        } catch (contextError) {
+          console.error('Context signup failed:', contextError);
+          setError('Registration successful but context setup failed. Please try logging in.');
         }
-      } else {
-        setSuccess('რეგისტრაცია წარმატებულია! გადავდივართ ბავშვის პროფილის შექმნაზე...');
-        setFullName('');
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
-        
-        // Redirect to setup-child immediately after successful signup
-        setTimeout(() => {
-          window.location.href = '/setup-child';
-        }, 1500);
       }
     } catch (err) {
       console.error('Unexpected error during signup:', err);

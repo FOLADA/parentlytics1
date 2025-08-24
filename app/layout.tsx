@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { AuthProvider } from "@/context/ChildContext";
-import { checkChildProfileExists } from "@/lib/auth-utils";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,14 +20,11 @@ export const metadata: Metadata = {
   description: "Track your child's emotional, mental, and physical development with AI-powered insights and personalized guidance.",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Check authentication and profile status on the server
-  const profileStatus = await checkChildProfileExists();
-
   return (
     <html lang="ka">
       <body

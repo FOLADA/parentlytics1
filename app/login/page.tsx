@@ -38,6 +38,7 @@ import {FaGoogle} from 'react-icons/fa';
 import Link from 'next/link';
 import { supabase, checkSupabaseConnection, handleSupabaseError } from '../supabaseClient';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/ChildContext';
 
 
 // Custom color definitions with family-friendly palette
@@ -182,6 +183,7 @@ export default function SignInPage() {
   const [showError, setShowError] = React.useState(true);
   const theme = useTheme();
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -203,14 +205,16 @@ export default function SignInPage() {
       
       if (!isConnected) {
         console.warn('Supabase not accessible, using mock authentication');
-        // Simulate successful login for demo purposes
-        setTimeout(() => {
-          setLoading(false);
+        // Use context login for mock authentication
+        try {
+          await login(email, password);
           setEmail('');
           setPassword('');
           console.log('Mock login successful, redirecting to setup-child');
           router.replace('/setup-child');
-        }, 1000);
+        } catch (error) {
+          setError('Mock authentication failed. Please try again.');
+        }
         return;
       }
       
@@ -225,20 +229,32 @@ export default function SignInPage() {
         if (handledError) {
           setError(handledError.message || 'Login failed. Please try again.');
         } else {
-          // Error was handled gracefully, continue with mock auth
-          setEmail('');
-          setPassword('');
-          console.log('Fallback login successful, redirecting to setup-child');
-          router.replace('/setup-child');
+          // Error was handled gracefully, use context login as fallback
+          try {
+            await login(email, password);
+            setEmail('');
+            setPassword('');
+            console.log('Fallback login successful, redirecting to setup-child');
+            router.replace('/setup-child');
+          } catch (fallbackError) {
+            setError('Fallback authentication failed. Please try again.');
+          }
         }
       } else {
-        setEmail('');
-        setPassword('');
-        
-        // For now, always redirect to setup-child after login
-        // This ensures new users go through the proper flow
-        console.log('Login successful, redirecting to setup-child');
-        router.replace('/setup-child');
+        // Real Supabase login successful, also use context login
+        try {
+          await login(email, password);
+          setEmail('');
+          setPassword('');
+          
+          // For now, always redirect to setup-child after login
+          // This ensures new users go through the proper flow
+          console.log('Login successful, redirecting to setup-child');
+          router.replace('/setup-child');
+        } catch (contextError) {
+          console.error('Context login failed:', contextError);
+          setError('Login successful but context setup failed. Please try again.');
+        }
       }
     } catch (err) {
       console.error('Unexpected error during login:', err);
