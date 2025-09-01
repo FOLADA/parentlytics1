@@ -88,7 +88,7 @@ export default function BLWExpandedCards({
   const blwFAQ = [
     {
       question: "ჩემი ბავშვი არ ჭამს, მხოლოდ თამაშობს საკვებით. ეს ნორმალურია?",
-      answer: "დიახ, ეს აბსოლუტურად ნორმალურია! BLW-ს დასაწყისში ბავშვები საკვებს უფრო სწავლობენ, ვიდრე ჭამენ. ეს სასწავლო პროცესის მნიშვნელოვანი ნაწილია."
+      answer: "დიახ, ეს აბსოლუტურად ნორმალურია! BLW-ს დასაწყისში ბავშები საკვებს უფრო სწავლობენ, ვიდრე ჭამენ. ეს სასწავლო პროცესის მნიშვნელოვანი ნაწილია."
     },
     {
       question: "რამდენი საკვები უნდა მიირთვას ჩემმა ბავშვმა?",
@@ -126,7 +126,7 @@ export default function BLWExpandedCards({
 
   return (
     <div className="space-y-6">
-      {/* Header with Toggle Button */}
+    
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Utensils className="w-6 h-6 text-purple-500" />
@@ -243,4 +243,4 @@ export default function BLWExpandedCards({
       </AnimatePresence>
     </div>
   );
-}
+};

@@ -24,7 +24,7 @@ export default function ChildForm({ onSubmit, onCancel, initialData, isEditing =
     other_health_concerns: initialData?.other_health_concerns || '',
   });
 
-  // State for input display values (to handle zero removal)
+  
   const [weightDisplay, setWeightDisplay] = useState(
     initialData?.weight && initialData.weight > 0 ? initialData.weight.toString() : ''
   );
