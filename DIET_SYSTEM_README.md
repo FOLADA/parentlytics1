@@ -1,31 +1,31 @@
-# AI-Powered Daily Diet Recommendation System
+# AI-ზე დაფუძნებული ყოველდღიური დიეტის რეკომენდაციის სისტემა
 
-## 🎯 Overview
+## 🎯 გადახედვა
 
-This is a complete AI-powered daily diet recommendation system for Parentlytics, a parenting platform. The system automatically generates personalized daily meal plans for children based on their age, weight, activity level, and allergies.
+ეს არის სრული AI-ზე დაფუძნებული ყოველდღიური დიეტის რეკომენდაციის სისტემა Parentlytics-სთვის, მშობლების პლატფორმა. სისტემა ავტომატურად ამზადებს პერსონალიზებულ ყოველდღიურ საკვების გეგმებს ბავშვებისთვის მათი ასაკის, წონის, აქტივობის დონის და ალერგიების მიხედვით.
 
-## ✨ Features
+## ✨ ფუნქციები
 
-### Core Functionality
-- **Personalized Meal Plans**: AI-generated daily meal plans using GPT-4
-- **Child Profile Management**: Store and manage child profiles with detailed health information
-- **Automatic Daily Generation**: Cron job runs every night at 12:00 AM to generate new meal plans
-- **Real-time Generation**: On-demand meal plan generation if daily plan is missing
-- **Grocery List Generation**: Automatic grocery list creation from meal ingredients
-- **Beautiful UI**: Responsive, animated interface with Framer Motion
+### ძირითადი ფუნქციონალურობა
+- **პერსონალიზებული საკვების გეგმები**: AI-ზე დაფუძნებული ყოველდღიური საკვების გეგმები GPT-4-ის გამოყენებით
+- **ბავშვის პროფილის მართვა**: შეინახეთ და მართეთ ბავშვის პროფილები დეტალური ჯანმრთელობის ინფორმაციით
+- **ავტომატური ყოველდღიური გენერაცია**: ქრონ დავალება ყოველ ღამეს 12:00-ზე გაუშვებს ახალი საკვების გეგმების გენერაციას
+- **რეალურ დროში გენერაცია**: საკვების გეგმის გენერაცია მოთხოვნის მიხედვით, თუ ყოველდღიური გეგმა არ არსებობს
+- **საყიდლის სიის გენერაცია**: ავტომატური საყიდლის სიის შექმნა საკვების ინგრედიენტებიდან
+- **ლამაზი UI**: რესპონსიული, ანიმირებული ინტერფეისი Framer Motion-ით
 
-### Technical Features
-- **TypeScript**: Full type safety throughout the application
-- **Supabase Integration**: Database for storing child profiles and meal plans
-- **OpenAI GPT-4**: AI-powered meal plan generation
-- **Vercel Cron Jobs**: Automated daily meal generation
-- **Responsive Design**: Mobile-first design with Tailwind CSS
+### ტექნიკური ფუნქციები
+- **TypeScript**: სრული ტიპის უსაფრთხოება მთელი აპლიკაციის განმავლობაში
+- **Supabase ინტეგრაცია**: მონაცემთა ბაზა ბავშვის პროფილებისა და საკვების გეგმების შესანახად
+- **OpenAI GPT-4**: AI-ზე დაფუძნებული საკვების გეგმის გენერაცია
+- **Vercel ქრონ დავალებები**: ავტომატიზებული ყოველდღიური საკვების გენერაცია
+- **რესპონსიული დიზაინი**: მობილურზე ორიენტირებული დიზაინი Tailwind CSS-ით
 
-## 🏗️ Architecture
+## 🏗️ არქიტექტურა
 
-### Database Schema
+### მონაცემთა ბაზის სქემა
 
-#### Child Profiles Table
+#### ბავშვის პროფილების ცხრილი
 ```sql
 CREATE TABLE child_profiles (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -43,7 +43,7 @@ CREATE TABLE child_profiles (
 );
 ```
 
-#### Daily Meals Table
+#### ყოველდღიური საკვების ცხრილი
 ```sql
 CREATE TABLE daily_meals (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -56,54 +56,54 @@ CREATE TABLE daily_meals (
 );
 ```
 
-### File Structure
+### ფაილების სტრუქტურა
 ```
 ├── app/
 │   ├── diet/
-│   │   └── page.tsx                 # Main diet page
+│   │   └── page.tsx                 # ძირითადი დიეტის გვერდი
 │   ├── api/
 │   │   ├── diet/
 │   │   │   └── today/
-│   │   │       └── route.ts         # Get today's meal
+│   │   │       └── route.ts         # დღევანდელი საკვების მიღება
 │   │   ├── generateMealPlanNow/
-│   │   │   └── route.ts             # On-demand meal generation
+│   │   │   └── route.ts             # საკვების გეგმის გენერაცია მოთხოვნის მიხედვით
 │   │   └── cron/
 │   │       └── daily-meal-generator/
-│   │           └── route.ts         # Daily cron job
-│   └── supabaseClient.ts            # Supabase client
+│   │           └── route.ts         # ყოველდღიური ქრონ დავალება
+│   └── supabaseClient.ts            # Supabase კლიენტი
 ├── components/
-│   ├── MealCard.tsx                 # Individual meal display
-│   ├── LoadingIndicator.tsx         # Loading animations
-│   └── ChildProfileSetup.tsx        # Child profile form
+│   ├── MealCard.tsx                 # ინდივიდუალური საკვების ჩვენება
+│   ├── LoadingIndicator.tsx         # ჩატვირთვის ანიმაციები
+│   └── ChildProfileSetup.tsx        # ბავშვის პროფილის ფორმა
 ├── lib/
-│   ├── types.ts                     # TypeScript interfaces
-│   ├── openai.ts                    # OpenAI integration
-│   └── supabase.ts                  # Database utilities
-└── vercel.json                      # Cron job configuration
+│   ├── types.ts                     # TypeScript ინტერფეისები
+│   ├── openai.ts                    # OpenAI ინტეგრაცია
+│   └── supabase.ts                  # მონაცემთა ბაზის უტილიტები
+└── vercel.json                      # ქრონ დავალების კონფიგურაცია
 ```
 
-## 🚀 Setup Instructions
+## 🚀 დაყენების ინსტრუქციები
 
-### 1. Environment Variables
-Create a `.env.local` file with the following variables:
+### 1. გარემოს ცვლადები
+შექმენით `.env.local` ფაილი შემდეგი ცვლადებით:
 
 ```bash
-# Supabase Configuration
+# Supabase კონფიგურაცია
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-# OpenAI Configuration
+# OpenAI კონფიგურაცია
 OPENAI_API_KEY=your_openai_api_key
 
-# Cron Job Security
+# ქრონ დავალების უსაფრთხოება
 CRON_SECRET_TOKEN=your_secure_cron_token
 ```
 
-### 2. Database Setup
-Run the following SQL in your Supabase SQL editor:
+### 2. მონაცემთა ბაზის დაყენება
+გაუშვით შემდეგი SQL თქვენს Supabase SQL რედაქტორში:
 
 ```sql
--- Create child_profiles table
+-- ბავშვის პროფილების ცხრილის შექმნა
 CREATE TABLE child_profiles (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID NOT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE child_profiles (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Create daily_meals table
+-- ყოველდღიური საკვების ცხრილის შექმნა
 CREATE TABLE daily_meals (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID NOT NULL,
@@ -130,46 +130,46 @@ CREATE TABLE daily_meals (
   UNIQUE(user_id, date)
 );
 
--- Create indexes for better performance
+-- ინდექსების შექმნა უკეთესი წარმადობისთვის
 CREATE INDEX idx_child_profiles_user_id ON child_profiles(user_id);
 CREATE INDEX idx_daily_meals_user_date ON daily_meals(user_id, date);
 ```
 
-### 3. Install Dependencies
+### 3. დამოკიდებულებების დაყენება
 ```bash
 npm install
 ```
 
-### 4. Run Development Server
+### 4. განვითარების სერვერის გაშვება
 ```bash
 npm run dev
 ```
 
-## 🎨 UI Components
+## 🎨 UI კომპონენტები
 
-### MealCard Component
-- Displays individual meals with beautiful gradients
-- Shows calories, ingredients, and descriptions
-- Animated with Framer Motion
-- Color-coded by meal type (breakfast, lunch, dinner, snacks)
+### MealCard კომპონენტი
+- აჩვენებს ინდივიდუალურ საკვებს ლამაზი გრადიენტებით
+- აჩვენებს კალორიებს, ინგრედიენტებს და აღწერებს
+- ანიმირებული Framer Motion-ით
+- ფერადი კოდირებული საკვების ტიპის მიხედვით (საუზმე, სადილი, ვაშლი, სადილის შემდეგი სადილი)
 
-### LoadingIndicator Component
-- Animated loading state with floating food icons
-- Smooth transitions and micro-interactions
-- Professional loading experience
+### LoadingIndicator კომპონენტი
+- ანიმირებული ჩატვირთვის მდგომარეობა მოლივლივე საკვების ხატულებით
+- მორბენი გადასვლები და მიკრო-ინტერაქციები
+- პროფესიონალური ჩატვირთვის გამოცდილება
 
-### ChildProfileSetup Component
-- Comprehensive form for child profile creation
-- Form validation and error handling
-- Allergy management with tags
-- Responsive design for all devices
+### ChildProfileSetup კომპონენტი
+- სრული ფორმა ბავშვის პროფილის შესაქმნელად
+- ფორმის ვალიდაცია და შეცდომების დამუშავება
+- ალერგიების მართვა ტეგებით
+- რესპონსიული დიზაინი ყველა მოწყობილობისთვის
 
-## 🔄 API Endpoints
+## 🔄 API ბოლოები
 
 ### GET `/api/diet/today`
-Fetches today's meal plan for the logged-in user.
+მიიღებს დღევანდელი საკვების გეგმას შესული მომხმარებლისთვის.
 
-**Response:**
+**პასუხი:**
 ```json
 {
   "success": true,
@@ -193,143 +193,143 @@ Fetches today's meal plan for the logged-in user.
 ```
 
 ### POST `/api/generateMealPlanNow`
-Generates a new meal plan on-demand using GPT-4.
+ამზადებს ახალ საკვების გეგმას მოთხოვნის მიხედვით GPT-4-ის გამოყენებით.
 
-**Request:**
+**მოთხოვნა:**
 ```json
 {
   "childProfile": {
-    "name": "Nika",
+    "name": "ნიკუშა",
     "birthdate": "2020-05-15",
     "weight": 15.5,
     "height": 95.2,
     "activity_level": "moderate",
-    "allergies": ["peanuts"],
-    "health_notes": "Loves fruits"
+    "allergies": ["ფუნდუქი"],
+    "health_notes": "უყვარს ხილი"
   }
 }
 ```
 
 ### POST `/api/cron/daily-meal-generator`
-Cron job endpoint for daily meal generation (requires authorization).
+ქრონ დავალების ბოლო ყოველდღიური საკვების გენერაციისთვის (საჭიროებს ავტორიზაციას).
 
-## 🤖 AI Integration
+## 🤖 AI ინტეგრაცია
 
-### GPT-4 Prompt Structure
-The system uses a carefully crafted prompt that includes:
-- Child's age (calculated from birthdate)
-- Weight and height for portion sizing
-- Activity level for calorie needs
-- Allergies for ingredient avoidance
-- Health notes for personalization
+### GPT-4 პრომპტის სტრუქტურა
+სისტემა იყენებს ყურადღებით შემუშავებულ პრომპტს, რომელიც შეიცავს:
+- ბავშვის ასაკს (გამოთვლილი დაბადების თარიღიდან)
+- წონას და სიმაღლეს პორციის ზომისთვის
+- აქტივობის დონეს კალორიების საჭიროებისთვის
+- ალერგიებს ინგრედიენტების თავიდან აცილებისთვის
+- ჯანმრთელობის შენიშვნებს პერსონალიზაციისთვის
 
-### Meal Plan Structure
-Each meal plan includes:
-- 5 meals (breakfast, 2 snacks, lunch, dinner)
-- Detailed descriptions and ingredients
-- Calorie counts per meal and total
-- Nutrition notes for parents
+### საკვების გეგმის სტრუქტურა
+თითოეული საკვების გეგმა შეიცავს:
+- 5 საკვებს (საუზმე, 2 სადილის შემდგომი სადილი, სადილი, ვაშლი)
+- დეტალურ აღწერებს და ინგრედიენტებს
+- კალორიების დათვლას თითოეული საკვებისთვის და სულ
+- ნუტრიციის შენიშვნებს მშობლებისთვის
 
-## 🔒 Security Considerations
+## 🔒 უსაფრთხოების მოსაზრებები
 
-### Authentication
-- Replace mock user IDs with actual authentication
-- Implement proper user session management
-- Add role-based access control
+### ავთენტიფიკაცია
+- შეცვალეთ სადემონსტრაციო მომხმარებლის ID-ები ნამდვილი ავთენტიფიკაციით
+- განახორციელეთ სწორი მომხმარებლის სესიის მართვა
+- დაამატეთ როლების მიხედვით წვდომის კონტროლი
 
-### API Security
-- Validate all input data
-- Implement rate limiting
-- Use environment variables for sensitive data
-- Secure cron job with authorization tokens
+### API უსაფრთხოება
+- შეამოწმეთ ყველა შეყვანილი მონაცემი
+- განახორციელეთ სიჩქარის შეზღუდვა
+- გამოიყენეთ გარემოს ცვლადები მნიშვნელოვანი მონაცემებისთვის
+- დაიცავით ქრონ დავალება ავტორიზაციის ტოკენებით
 
-## 📱 Responsive Design
+## 📱 რესპონსიული დიზაინი
 
-The system is built with mobile-first design principles:
-- Responsive grid layouts
-- Touch-friendly buttons and interactions
-- Optimized for all screen sizes
-- Smooth animations and transitions
+სისტემა აგებულია მობილურზე ორიენტირებული დიზაინის პრინციპებით:
+- რესპონსიული ბადის განლაგებები
+- შეხებისთვის მორგებული ღილაკები და ინტერაქციები
+- ოპტიმიზებული ყველა ეკრანის ზომისთვის
+- მორბენი ანიმაციები და გადასვლები
 
-## 🚀 Deployment
+## 🚀 განთავსება
 
-### Vercel Deployment
-1. Connect your GitHub repository to Vercel
-2. Set environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
+### Vercel განთავსება
+1. დაუკავშირდით თქვენი GitHub რეპოზიტორია Vercel-ს
+2. დააყენეთ გარემოს ცვლადები Vercel დაფაში
+3. განათავსეთ ავტომატურად ძირითად ბრენჩში გადმოწერისას
 
-### Cron Job Setup
-The `vercel.json` file configures automatic daily meal generation:
-- Runs every day at 12:00 AM
-- Calls `/api/cron/daily-meal-generator`
-- Requires proper authorization
+### ქრონ დავალების დაყენება
+`vercel.json` ფაილი კონფიგურირებს ავტომატურ ყოველდღიურ საკვების გენერაციას:
+- გაუშვებს ყოველ დღეს 12:00-ზე
+- უწოდებს `/api/cron/daily-meal-generator`
+- საჭიროებს სწორ ავტორიზაციას
 
-## 🔧 Customization
+## 🔧 მორგება
 
-### Adding New Meal Types
-1. Update the `MealPlan` interface in `lib/types.ts`
-2. Add meal type configuration in `MealCard.tsx`
-3. Update the diet page to display new meals
+### ახალი საკვების ტიპების დამატება
+1. განაახლეთ `MealPlan` ინტერფეისი `lib/types.ts`-ში
+2. დაამატეთ საკვების ტიპის კონფიგურაცია `MealCard.tsx`-ში
+3. განაახლეთ დიეტის გვერდი ახალი საკვების ჩვენებისთვის
 
-### Modifying AI Prompts
-Edit the prompt in `lib/openai.ts` to:
-- Change nutrition guidelines
-- Add new dietary restrictions
-- Modify meal structure
-- Update calorie calculations
+### AI პრომპტების შეცვლა
+ჩაასწორეთ პრომპტი `lib/openai.ts`-ში:
+- შეცვალეთ ნუტრიციის განახლებები
+- დაამატეთ ახალი დიეტური შეზღუდვები
+- შეცვალეთ საკვების სტრუქტურა
+- განაახლეთ კალორიების გამოთვლები
 
-### Styling Customization
-- Modify Tailwind classes for color schemes
-- Update Framer Motion animations
-- Customize component layouts
+### სტილის მორგება
+- შეცვალეთ Tailwind კლასები ფერების სქემისთვის
+- განაახლეთ Framer Motion ანიმაციები
+- მორგეთ კომპონენტების განლაგებები
 
-## 🐛 Troubleshooting
+## 🐛 პრობლემების გადაჭრა
 
-### Common Issues
+### საერთო პრობლემები
 
-1. **No meal plan found**
-   - Check if child profile exists
-   - Verify cron job is running
-   - Check OpenAI API key
+1. **საკვების გეგმა ვერ მოიძებნა**
+   - შეამოწმეთ არსებობს თუ არა ბავშვის პროფილი
+   - შეამოწმეთ ქრონ დავალება გაშვებულია
+   - შეამოწმეთ OpenAI API გასაღები
 
-2. **Database connection errors**
-   - Verify Supabase credentials
-   - Check database schema
-   - Ensure proper permissions
+2. **მონაცემთა ბაზის დაკავშირების შეცდომები**
+   - შეამოწმეთ Supabase მომხმარებლის რეკვიზიტები
+   - შეამოწმეთ მონაცემთა ბაზის სქემა
+   - დარწმუნდით სწორ ნებართვებში
 
-3. **AI generation failures**
-   - Check OpenAI API quota
-   - Verify prompt structure
-   - Review error logs
+3. **AI გენერაციის შეცდომები**
+   - შეამოწმეთ OpenAI API კვოტა
+   - შეამოწმეთ პრომპტის სტრუქტურა
+   - გადახედეთ შეცდომების ჟურნალს
 
-## 📈 Future Enhancements
+## 📈 მომავალი გაუმჯობესებები
 
-### Planned Features
-- Weekly meal planning
-- Favorite meal saving
-- Recipe sharing
-- Nutritional analytics
-- Meal photo uploads
-- Family meal planning
+### დაგეგმილი ფუნქციები
+- კვირეული საკვების დაგეგმვა
+- საყვარელი საკვების შენახვა
+- რეცეპტების გაზიარება
+- ნუტრიციის ანალიტიკა
+- საკვების ფოტოს ატვირთვა
+- ოჯახის საკვების დაგეგმვა
 
-### Scalability Improvements
-- Caching for better performance
-- Database optimization
-- CDN for static assets
-- Microservices architecture
+### მასშტაბირებადობის გაუმჯობესებები
+- ქეშირება უკეთესი წარმადობისთვის
+- მონაცემთა ბაზის ოპტიმიზაცია
+- CDN სტატიკური აქტივებისთვის
+- მიკროსერვისების არქიტექტურა
 
-## 🤝 Contributing
+## 🤝 წვლილის შეტანა
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+1. გადაიტანეთ რეპოზიტორია
+2. შექმენით ფუნქციის ბრენჩი
+3. შეიტანეთ თქვენი ცვლილებები
+4. დაამატეთ ტესტები შესაბამისად
+5. წარმოადგინეთ pull request
 
-## 📄 License
+## 📄 ლიცენზია
 
-This project is part of the Parentlytics platform and is proprietary software.
+ეს პროექტი ნაწილია Parentlytics პლატფორმის და არის საკუთრების პროგრამული უზრუნველყოფა.
 
 ---
 
-**Built with ❤️ for parents and their children's health** 
+**აგებულია ❤️ მშობლებისთვის და მათი ბავშვების ჯანმრთელობისთვის**

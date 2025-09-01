@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Sparkles, Shield, Brain } from 'lucide-react';
 
@@ -16,60 +16,27 @@ export function ParallaxSection() {
 
   return (
     <section ref={ref} className="relative min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 overflow-hidden">
-      {/* მცურავი 3D ელემენტები */}
+      {/* Static 3D elements */}
       <motion.div 
         style={{ y, opacity }}
         className="absolute inset-0 flex items-center justify-center"
       >
         <div className="grid grid-cols-3 gap-20">
-          <motion.div
-            animate={{ 
-              rotateY: [0, 360],
-              scale: [1, 1.1, 1]
-            }}
-            transition={{ 
-              duration: 20, 
-              repeat: Infinity, 
-              ease: "linear" 
-            }}
-            className="w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center shadow-2xl"
-          >
+          <div className="w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center shadow-2xl">
             <Sparkles className="w-16 h-16 text-white" />
-          </motion.div>
+          </div>
           
-          <motion.div
-            animate={{ 
-              rotateX: [0, 360],
-              scale: [1, 1.2, 1]
-            }}
-            transition={{ 
-              duration: 25, 
-              repeat: Infinity, 
-              ease: "linear" 
-            }}
-            className="w-32 h-32 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center shadow-2xl"
-          >
+          <div className="w-32 h-32 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center shadow-2xl">
             <Shield className="w-16 h-16 text-white" />
-          </motion.div>
+          </div>
           
-          <motion.div
-            animate={{ 
-              rotateZ: [0, 360],
-              scale: [1, 1.15, 1]
-            }}
-            transition={{ 
-              duration: 30, 
-              repeat: Infinity, 
-              ease: "linear" 
-            }}
-            className="w-32 h-32 bg-gradient-to-br from-pink-400 to-red-500 rounded-full flex items-center justify-center shadow-2xl"
-          >
+          <div className="w-32 h-32 bg-gradient-to-br from-pink-400 to-red-500 rounded-full flex items-center justify-center shadow-2xl">
             <Brain className="w-16 h-16 text-white" />
-          </motion.div>
+          </div>
         </div>
       </motion.div>
 
-      {/* კონტენტი */}
+      {/* Content */}
       <div className="relative z-10 flex items-center justify-center min-h-screen">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

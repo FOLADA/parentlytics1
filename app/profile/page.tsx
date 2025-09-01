@@ -52,7 +52,7 @@ export default function ProfilePage() {
         height: childProfile.height,
         activity_level: childProfile.activity_level,
         allergies: childProfile.allergies,
-        other_health_concerns: childProfile.other_health_concerns || '',
+        health_notes: childProfile.health_notes || '',
       });
       setIsEditing(true);
     }
@@ -251,14 +251,14 @@ export default function ProfilePage() {
                       </div>
                     )}
                     
-                    {childProfile.other_health_concerns && (
+                    {childProfile.health_notes && (
                       <div>
                         <div className="flex items-center gap-2 mb-2">
                           <Heart className="w-4 h-4 text-red-500" />
                           <span className="text-sm font-medium text-gray-700">ჯანმრთელობის შენიშვნები:</span>
                         </div>
                         <p className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
-                          {childProfile.other_health_concerns}
+                          {childProfile.health_notes}
                         </p>
                       </div>
                     )}
@@ -362,7 +362,7 @@ export default function ProfilePage() {
                       ჯანმრთელობის შენიშვნები
                     </label>
                     <textarea
-                      value={editData.other_health_concerns}
+                      value={editData.health_notes}
                       onChange={(e) => setEditData(prev => prev ? { ...prev, other_health_concerns: e.target.value } : null)}
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"

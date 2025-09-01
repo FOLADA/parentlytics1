@@ -65,14 +65,14 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 min-h-screen flex items-center">
-      {/* Advanced 3D Scene Container */}
-      <div className="absolute inset-0" style={{ perspective: '2000px', transformStyle: 'preserve-3d' }}>
+      {/* Simplified Background */}
+      <div className="absolute inset-0">
         
         {/* Volumetric Background Layers */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-sky-200/20 via-transparent to-transparent animate-pulse-slow"></div>
-          <div className="absolute top-1/3 right-0 w-2/3 h-2/3 bg-gradient-conic from-blue-200/30 via-indigo-200/20 to-sky-200/30 rounded-full blur-3xl animate-spin-slow"></div>
-          <div className="absolute bottom-0 left-1/4 w-1/2 h-1/2 bg-gradient-radial from-indigo-300/20 via-blue-200/15 to-transparent rounded-full blur-2xl animate-pulse-slow delay-1000"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-sky-200/20 via-transparent to-transparent"></div>
+          <div className="absolute top-1/3 right-0 w-2/3 h-2/3 bg-gradient-conic from-blue-200/30 via-indigo-200/20 to-sky-200/30 rounded-full"></div>
+          <div className="absolute bottom-0 left-1/4 w-1/2 h-1/2 bg-gradient-radial from-indigo-300/20 via-blue-200/15 to-transparent rounded-full"></div>
         </div>
 
         {/* Neural Network Connections */}
@@ -148,84 +148,51 @@ export function Hero() {
 
         {/* Advanced 3D Holographic Elements */}
         
-        {/* Central Brain-like Structure */}
+        {/* Simplified Brain-like Structure */}
         <div 
           className="absolute top-1/4 right-1/6 w-48 h-48"
-          style={{ 
-            transformStyle: 'preserve-3d',
-            animation: 'brainPulse 4s ease-in-out infinite, rotate3d 25s linear infinite'
-          }}
         >
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-sky-400/30 to-blue-500/30 backdrop-blur-md border border-sky-300/50 shadow-2xl shadow-sky-500/20"
-               style={{ transform: 'rotateX(0deg) rotateY(0deg) translateZ(24px)' }}>
-            <div className="absolute inset-4 rounded-full bg-gradient-to-br from-blue-400/40 to-indigo-500/40 backdrop-blur-sm">
-              <div className="absolute inset-2 rounded-full bg-gradient-to-br from-indigo-400/50 to-purple-500/50 backdrop-blur-sm flex items-center justify-center">
-                <Brain className="w-16 h-16 text-white/80 animate-pulse" />
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-sky-400/30 to-blue-500/30 border border-sky-300/50 shadow-2xl shadow-sky-500/20">
+            <div className="absolute inset-4 rounded-full bg-gradient-to-br from-blue-400/40 to-indigo-500/40">
+              <div className="absolute inset-2 rounded-full bg-gradient-to-br from-indigo-400/50 to-purple-500/50 flex items-center justify-center">
+                <Brain className="w-16 h-16 text-white/80" />
               </div>
             </div>
           </div>
-          
-          {/* Orbiting Data Points */}
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-4 h-4 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full shadow-lg shadow-sky-500/30"
-              style={{
-                top: '50%',
-                left: '50%',
-                transformOrigin: '50% -100px',
-                animation: `orbit ${8 + i * 2}s linear infinite ${i * 0.5}s`,
-                transform: `translate(-50%, -50%) rotate(${i * 45}deg)`
-              }}
-            />
-          ))}
         </div>
 
-        {/* Holographic Data Cubes */}
+        {/* Simplified Data Cubes */}
         <div 
           className="absolute top-16 left-1/4 w-32 h-32"
-          style={{ 
-            transformStyle: 'preserve-3d',
-            animation: 'float 6s ease-in-out infinite, rotate3d 20s linear infinite'
-          }}
         >
           {/* Multi-layered cube with internal glow */}
-          <div className="absolute inset-0 bg-gradient-to-br from-sky-300/40 to-blue-400/40 backdrop-blur-md border border-sky-300/60 shadow-2xl shadow-sky-500/25"
-               style={{ transform: 'rotateY(0deg) translateZ(64px)' }}>
-            <div className="absolute inset-2 bg-gradient-to-br from-blue-400/30 to-indigo-500/30 backdrop-blur-sm border border-blue-400/40">
+          <div className="absolute inset-0 bg-gradient-to-br from-sky-300/40 to-blue-400/40 border border-sky-300/60 shadow-2xl shadow-sky-500/25">
+            <div className="absolute inset-2 bg-gradient-to-br from-blue-400/30 to-indigo-500/30 border border-blue-400/40">
               <div className="w-full h-full flex items-center justify-center">
                 <TrendingUp className="w-8 h-8 text-white/70" />
               </div>
             </div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-300/40 to-indigo-400/40 backdrop-blur-md border border-blue-300/60"
-               style={{ transform: 'rotateY(90deg) translateZ(64px)' }}>
-            <div className="absolute inset-2 bg-gradient-to-br from-indigo-400/30 to-purple-500/30 backdrop-blur-sm border border-indigo-400/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-300/40 to-indigo-400/40 border border-blue-300/60">
+            <div className="absolute inset-2 bg-gradient-to-br from-indigo-400/30 to-purple-500/30 border border-indigo-400/40"></div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-300/40 to-purple-400/40 backdrop-blur-md border border-indigo-300/60"
-               style={{ transform: 'rotateY(180deg) translateZ(64px)' }}>
-            <div className="absolute inset-2 bg-gradient-to-br from-purple-400/30 to-pink-500/30 backdrop-blur-sm border border-purple-400/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-300/40 to-purple-400/40 border border-indigo-300/60">
+            <div className="absolute inset-2 bg-gradient-to-br from-purple-400/30 to-pink-500/30 border border-purple-400/40"></div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-300/40 to-sky-400/40 backdrop-blur-md border border-purple-300/60"
-               style={{ transform: 'rotateY(-90deg) translateZ(64px)' }}>
-            <div className="absolute inset-2 bg-gradient-to-br from-sky-400/30 to-blue-500/30 backdrop-blur-sm border border-sky-400/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-300/40 to-sky-400/40 border border-purple-300/60">
+            <div className="absolute inset-2 bg-gradient-to-br from-sky-400/30 to-blue-500/30 border border-sky-400/40"></div>
           </div>
         </div>
 
-        {/* Morphing Geometric Shape */}
+        {/* Simplified Geometric Shape */}
         <div 
           className="absolute bottom-1/4 right-1/4 w-40 h-40"
-          style={{ 
-            transformStyle: 'preserve-3d',
-            animation: 'morphFloat 8s ease-in-out infinite, rotate3d 15s linear infinite reverse'
-          }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-sky-400/50 to-blue-500/50 backdrop-blur-md border border-sky-400/60 shadow-2xl shadow-blue-500/30"
+          <div className="absolute inset-0 bg-gradient-to-br from-sky-400/50 to-blue-500/50 border border-sky-400/60 shadow-2xl shadow-blue-500/30"
                style={{ 
-                 clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-                 animation: 'morphShape 6s ease-in-out infinite'
+                 clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
                }}>
-            <div className="absolute inset-4 bg-gradient-to-br from-blue-500/40 to-indigo-600/40 backdrop-blur-sm"
+            <div className="absolute inset-4 bg-gradient-to-br from-blue-500/40 to-indigo-600/40"
                  style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}>
               <div className="w-full h-full flex items-center justify-center pt-8">
                 <Network className="w-12 h-12 text-white/80" />
@@ -234,8 +201,8 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Particle System with fixed positions */}
-        {isClient && particles.map((particle, i) => (
+        {/* Simplified Particle System */}
+        {isClient && particles.slice(0, 10).map((particle, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full"
@@ -243,7 +210,6 @@ export function Hero() {
               left: particle.left,
               top: particle.top,
               opacity: particle.opacity,
-              animation: particle.animation,
               boxShadow: '0 0 4px rgba(56, 189, 248, 0.5)'
             }}
           />

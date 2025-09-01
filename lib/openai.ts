@@ -24,7 +24,7 @@ Child Profile:
 - Gender: ${childProfile.gender}
 - Activity Level: ${childProfile.activity_level}
 - Allergies: ${childProfile.allergies.length > 0 ? childProfile.allergies.join(', ') : 'None'}
-- Health Notes: ${childProfile.health_notes || 'None'}
+- Health Notes: ${childProfile.other_health_concerns || 'None'}
 
 CRITICAL AGE-APPROPRIATE REQUIREMENTS:
 ${age < 0.5 ? `

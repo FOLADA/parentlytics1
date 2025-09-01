@@ -49,7 +49,7 @@ export class ProfileManager {
       height: profileData.height,
       activity_level: profileData.activity_level,
       allergies: profileData.allergies,
-      other_health_concerns: profileData.other_health_concerns,
+      health_notes: profileData.health_notes,
     };
 
     // Try to save to Supabase first

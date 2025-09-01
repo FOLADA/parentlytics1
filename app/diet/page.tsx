@@ -808,7 +808,7 @@ export default function DietPage() {
               height: childProfile.height,
               activity_level: childProfile.activity_level,
               allergies: childProfile.allergies,
-              other_health_concerns: childProfile.other_health_concerns,
+              health_notes: childProfile.health_notes,
             } : undefined}
           />
           </motion.div>

@@ -234,8 +234,8 @@ export const validateChildProfileForm = (data: any): {
   }
 
   // Health concerns validation
-  if (data.other_health_concerns && !validateHealthConcerns(data.other_health_concerns)) {
-    errors.other_health_concerns = 'Health concerns must be less than 500 characters';
+  if (data.health_notes && !validateHealthConcerns(data.health_notes)) {
+    errors.health_notes = 'Health concerns must be less than 500 characters';
   }
 
   return {

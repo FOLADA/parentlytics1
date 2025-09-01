@@ -23,7 +23,7 @@ export default function ChildForm({ onSubmit, onCancel, initialData, isEditing =
     height: initialData?.height || 0,
     activity_level: initialData?.activity_level || 'moderate',
     allergies: initialData?.allergies || [],
-    other_health_concerns: initialData?.other_health_concerns || '',
+    health_notes: initialData?.health_notes || '',
   });
 
   
@@ -71,7 +71,7 @@ export default function ChildForm({ onSubmit, onCancel, initialData, isEditing =
       const sanitizedData = {
         ...formData,
         name: sanitizeFormInput(formData.name, 'text'),
-        other_health_concerns: sanitizeFormInput(formData.other_health_concerns, 'text'),
+        health_notes: sanitizeFormInput(formData.health_notes, 'text'),
         allergies: formData.allergies.map(allergy => sanitizeFormInput(allergy, 'text'))
       };
       
@@ -105,7 +105,7 @@ export default function ChildForm({ onSubmit, onCancel, initialData, isEditing =
     // Sanitize input based on field type
     let sanitizedValue = value;
     
-    if (field === 'name' || field === 'other_health_concerns') {
+    if (field === 'name' || field === 'health_notes') {
       sanitizedValue = sanitizeFormInput(value, 'text');
     } else if (field === 'weight' || field === 'height') {
       sanitizedValue = sanitizeFormInput(parseFloat(value) || 0, 'number');
@@ -325,15 +325,15 @@ export default function ChildForm({ onSubmit, onCancel, initialData, isEditing =
             Health Concerns
           </label>
           <textarea
-            value={formData.other_health_concerns}
-            onChange={(e) => handleInputChange('other_health_concerns', e.target.value)}
+            value={formData.health_notes}
+            onChange={(e) => handleInputChange('health_notes', e.target.value)}
             rows={3}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             placeholder="Any health concerns or special dietary needs..."
             maxLength={500}
           />
-          {errors.other_health_concerns && (
-            <p className="text-red-500 text-sm mt-1">{errors.other_health_concerns}</p>
+          {errors.health_notes && (
+            <p className="text-red-500 text-sm mt-1">{errors.health_notes}</p>
           )}
         </div>
 

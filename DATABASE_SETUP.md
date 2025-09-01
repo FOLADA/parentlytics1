@@ -1,12 +1,12 @@
-# Database Setup for Parentlytics
+# მონაცემთა ბაზის დაყენება Parentlytics-სთვის
 
-This document describes the database setup for the child profile system in Parentlytics.
+ეს დოკუმენტი აღწერს ბავშვის პროფილის სისტემის მონაცემთა ბაზის დაყენებას Parentlytics-ში.
 
-## Database Schema
+## მონაცემთა ბაზის სქემა
 
-### Child Profiles Table
+### ბავშვის პროფილების ცხრილი
 
-The `child_profiles` table stores information about each user's child:
+`child_profiles` ცხრილი ინახავს ინფორმაციას თითოეული მომხმარებლის ბავშვის შესახებ:
 
 ```sql
 CREATE TABLE child_profiles (
@@ -25,18 +25,18 @@ CREATE TABLE child_profiles (
 );
 ```
 
-### Key Features
+### ძირითადი ფუნქციები
 
-- **One profile per user**: Unique index on `user_id` ensures each user can only have one child profile
-- **Row Level Security (RLS)**: Users can only access their own child profile
-- **Automatic timestamps**: `created_at` and `updated_at` are automatically managed
-- **Data validation**: Check constraints ensure valid gender and activity level values
+- **ერთი პროფილი თითო მომხმარებლისთვის**: უნიკალური ინდექსი `user_id`-ზე უზრუნველყოფს, რომ თითოეულ მომხმარებელს შეიძლება ჰქონდეს მხოლოდ ერთი ბავშვის პროფილი
+- **სტრიქონების დონის უსაფრთხოება (RLS)**: მომხმარებლებს შეუძლიათ მხოლოდ საკუთარი ბავშვის პროფილის ხილვა
+- **ავტომატური დროის შტამპები**: `created_at` და `updated_at` ავტომატურად მართვის ქვეშაა
+- **მონაცემთა ვალიდაცია**: შემოწმების შეზღუდვები უზრუნველყოფს სქესისა და აქტივობის დონის სწორ მნიშვნელობებს
 
-## Setup Instructions
+## დაყენების ინსტრუქციები
 
-### 1. Environment Variables
+### 1. გარემოს ცვლადები
 
-Ensure you have the following environment variables set:
+დარწმუნდით, რომ გაქვთ შემდეგი გარემოს ცვლადები დაყენებული:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
@@ -44,143 +44,143 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 ```
 
-### 2. Database Setup
+### 2. მონაცემთა ბაზის დაყენება
 
-Run the database setup script:
+გაუშვით მონაცემთა ბაზის დაყენების სკრიპტი:
 
 ```bash
 npm run setup-db
 ```
 
-### 3. Verify Setup
+### 3. დაყენების შემოწმება
 
-Check that all tables exist:
+შეამოწმეთ, რომ ყველა ცხრილი არსებობს:
 
 ```bash
 npm run check-db
 ```
 
-## Authentication Flow
+## ავთენტიფიკაციის ნაკადი
 
-### 1. User Registration/Login
-- Users sign up or log in through the authentication system
-- Session is established with Supabase Auth
+### 1. მომხმარებლის რეგისტრაცია/შესვლა
+- მომხმარებლები რეგისტრირდებიან ან შედიან ავთენტიფიკაციის სისტემის მეშვეობით
+- სესია დამყარდება Supabase Auth-ით
 
-### 2. Profile Check
-- Middleware checks if user has a child profile
-- If no profile exists, redirects to `/setup-child`
-- If profile exists, allows access to protected routes
+### 2. პროფილის შემოწმება
+- შუალედური პროგრამა შემოწმებს, აქვს თუ არა მომხმარებელს ბავშვის პროფილი
+- თუ პროფილი არ არსებობს, გადამისამართდება `/setup-child`-ზე
+- თუ პროფილი არსებობს, უზრუნველყოფს დაცული მარშრუტებზე წვდომას
 
-### 3. Profile Setup
-- New users are redirected to `/setup-child`
-- Form collects child information
-- Data is stored in `child_profiles` table
-- User is redirected to `/profile` after setup
+### 3. პროფილის დაყენება
+- ახალი მომხმარებლები გადამისამართდებიან `/setup-child`-ზე
+- ფორმა აგროვებს ბავშვის ინფორმაციას
+- მონაცემები ინახება `child_profiles` ცხრილში
+- მომხმარებელი გადამისამართდება `/profile`-ზე დაყენების შემდეგ
 
-### 4. Profile Management
-- Users can view their child profile at `/profile`
-- Profile can be edited inline
-- Changes are saved to the database
+### 4. პროფილის მართვა
+- მომხმარებლებს შეუძლიათ ნახონ საკუთარი ბავშვის პროფილი `/profile`-ზე
+- პროფილი შეიძლება იყოს რედაქტირებული ინლაინად
+- ცვლილებები ინახება მონაცემთა ბაზაში
 
-## API Endpoints
+## API ბოლოები
 
-### Child Profile Management
+### ბავშვის პროფილის მართვა
 
-- `GET /api/child-profile` - Get current user's child profile
-- `POST /api/child-profile` - Create new child profile
-- `PUT /api/child-profile` - Update existing child profile
+- `GET /api/child-profile` - მიმდინარე მომხმარებლის ბავშვის პროფილის მიღება
+- `POST /api/child-profile` - ახალი ბავშვის პროფილის შექმნა
+- `PUT /api/child-profile` - არსებული ბავშვის პროფილის განახლება
 
-### Authentication
+### ავთენტიფიკაცია
 
-- `POST /api/auth/signup` - User registration
-- `POST /api/auth/login` - User login
-- `POST /api/auth/logout` - User logout
+- `POST /api/auth/signup` - მომხმარებლის რეგისტრაცია
+- `POST /api/auth/login` - მომხმარებლის შესვლა
+- `POST /api/auth/logout` - მომხმარებლის გასვლა
 
-## Security Features
+## უსაფრთხოების ფუნქციები
 
-### Row Level Security (RLS)
+### სტრიქონების დონის უსაფრთხოება (RLS)
 
-The following policies are applied to the `child_profiles` table:
+შემდეგი პოლიტიკები გადატარდება `child_profiles` ცხრილზე:
 
 ```sql
--- Users can view their own child profile
+-- მომხმარებლებს შეუძლიათ ნახონ საკუთარი ბავშვის პროფილი
 CREATE POLICY "Users can view own child profile" ON child_profiles
   FOR SELECT USING (auth.uid() = user_id);
 
--- Users can insert their own child profile
+-- მომხმარებლებს შეუძლიათ ჩასვან საკუთარი ბავშვის პროფილი
 CREATE POLICY "Users can insert own child profile" ON child_profiles
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- Users can update their own child profile
+-- მომხმარებლებს შეუძლიათ განაახლონ საკუთარი ბავშვის პროფილი
 CREATE POLICY "Users can update own child profile" ON child_profiles
   FOR UPDATE USING (auth.uid() = user_id);
 
--- Users can delete their own child profile
+-- მომხმარებლებს შეუძლიათ წაშალონ საკუთარი ბავშვის პროფილი
 CREATE POLICY "Users can delete own child profile" ON child_profiles
   FOR DELETE USING (auth.uid() = user_id);
 ```
 
-### Data Validation
+### მონაცემთა ვალიდაცია
 
-- **Gender**: Must be 'male', 'female', or 'other'
-- **Activity Level**: Must be 'low', 'moderate', or 'high'
-- **Weight/Height**: Numeric values with appropriate precision
-- **Birthdate**: Must be a valid date and not in the future
+- **სქესი**: უნდა იყოს 'male', 'female', ან 'other'
+- **აქტივობის დონე**: უნდა იყოს 'low', 'moderate', ან 'high'
+- **წონა/სიმაღლე**: რიცხვითი მნიშვნელობები შესაბამისი სიზუსტით
+- **დაბადების თარიღი**: უნდა იყოს სწორი თარიღი და არ უნდა იყოს მომავალში
 
-## Error Handling
+## შეცდომების დამუშავება
 
-The system includes comprehensive error handling:
+სისტემა შეიცავს სრულყოფილ შეცდომების დამუშავებას:
 
-- **Database errors**: Logged and user-friendly messages displayed
-- **Validation errors**: Form validation with specific error messages
-- **Authentication errors**: Proper redirects and error states
-- **Network errors**: Retry mechanisms and fallback states
+- **მონაცემთა ბაზის შეცდომები**: ჟურნალში ჩაწერა და მომხმარებლისთვის მეგობრული შეტყობინებების ჩვენება
+- **ვალიდაციის შეცდომები**: ფორმის ვალიდაცია კონკრეტული შეცდომის შეტყობინებებით
+- **ავთენტიფიკაციის შეცდომები**: სწორი გადამისამართება და შეცდომის მდგომარეობები
+- **ქსელის შეცდომები**: გამეორების მექანიზმები და დარეზერვებული მდგომარეობები
 
-## Testing
+## ტესტირება
 
-To test the system:
+სისტემის ტესტირება:
 
-1. **Fresh user flow**:
-   - Sign up → Redirected to `/setup-child` → Create profile → Redirected to `/profile`
+1. **ახალი მომხმარებლის ნაკადი**:
+   - რეგისტრაცია → გადამისამართება `/setup-child`-ზე → პროფილის შექმნა → გადამისამართება `/profile`-ზე
 
-2. **Existing user flow**:
-   - Login → Check for profile → If exists, go to `/profile`; if not, go to `/setup-child`
+2. **არსებული მომხმარებლის ნაკადი**:
+   - შესვლა → პროფილის შემოწმება → თუ არსებობს, გადადის `/profile`-ზე; თუ არა, გადადის `/setup-child`-ზე
 
-3. **Profile editing**:
-   - Visit `/profile` → Click edit → Modify fields → Save changes
+3. **პროფილის რედაქტირება**:
+   - ეწვიეთ `/profile`-ს → დააჭირეთ რედაქტირებას → შეცვალეთ ველები → შეინახეთ ცვლილებები
 
-## Troubleshooting
+## პრობლემების გადაჭრა
 
-### Common Issues
+### საერთო პრობლემები
 
-1. **"Table does not exist" error**:
-   - Run `npm run setup-db` to create tables
+1. **"ცხრილი არ არსებობს" შეცდომა**:
+   - გაუშვით `npm run setup-db` ცხრილების შესაქმნელად
 
-2. **Authentication errors**:
-   - Check environment variables
-   - Verify Supabase project settings
+2. **ავთენტიფიკაციის შეცდომები**:
+   - შეამოწმეთ გარემოს ცვლადები
+   - შეამოწმეთ Supabase პროექტის პარამეტრები
 
-3. **RLS policy errors**:
-   - Ensure user is authenticated
-   - Check that policies are properly applied
+3. **RLS პოლიტიკის შეცდომები**:
+   - დარწმუნდით, რომ მომხმარებელი ავთენტიფიცირებულია
+   - შეამოწმეთ, რომ პოლიტიკები სწორადაა გადატარებული
 
-### Debug Commands
+### გამართვის ბრძანებები
 
 ```bash
-# Check database status
+# მონაცემთა ბაზის სტატუსის შემოწმება
 npm run check-db
 
-# View logs
+# ჟურნალის ნახვა
 npm run dev
 
-# Test API endpoints
+# API ბოლოების ტესტირება
 curl -X GET http://localhost:3001/api/child-profile
 ```
 
-## Future Enhancements
+## მომავალი გაუმჯობესებები
 
-- Multiple children per user
-- Profile sharing between parents
-- Advanced health tracking
-- Integration with external health APIs
-- Export/import functionality 
+- მრავალი ბავშვი თითო მომხმარებლისთვის
+- პროფილის გაზიარება მშობლებს შორის
+- განვითარებული ჯანმრთელობის თვალყურის დევნება
+- ინტეგრაცია გარე ჯანდაცვის API-ებთან
+- ექსპორტი/იმპორტის ფუნქციონალი

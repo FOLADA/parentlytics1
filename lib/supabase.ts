@@ -58,7 +58,7 @@ export async function createChildProfile(profile: Omit<ChildProfile, 'id' | 'cre
       height: profile.height,
       activity_level: profile.activity_level,
       allergies: profile.allergies,
-      other_health_concerns: profile.other_health_concerns,
+      health_notes: profile.health_notes,
     };
     
     const { data, error } = await supabase

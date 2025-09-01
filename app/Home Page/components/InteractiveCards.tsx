@@ -63,29 +63,13 @@ export function InteractiveCards() {
               onHoverEnd={() => setHoveredIndex(null)}
               className="group relative"
             >
-              <motion.div
-                whileHover={{ 
-                  scale: 1.05,
-                  rotateY: 5,
-                  rotateX: 5,
-                  z: 50
-                }}
-                transition={{ 
-                  type: "spring", 
-                  stiffness: 300, 
-                  damping: 20 
-                }}
+              <div
                 className={`relative bg-gradient-to-br ${card.bgColor} rounded-2xl p-8 h-80 border border-gray-200 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden`}
               >
-                {/* 3D Background Effect */}
-                <motion.div
-                  animate={{
-                    rotate: hoveredIndex === index ? 360 : 0,
-                    scale: hoveredIndex === index ? 1.2 : 1
-                  }}
-                  transition={{ duration: 2, ease: "linear" }}
-                  className="absolute -top-10 -right-10 w-20 h-20 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-xl"
-                />
+                {/* Simplified Background Effect */}
+                <div
+                  className="absolute -top-10 -right-10 w-20 h-20 bg-gradient-to-br from-white/20 to-transparent rounded-full"
+                ></div>
 
                 {/* Content */}
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">
@@ -96,24 +80,15 @@ export function InteractiveCards() {
                 </p>
 
                 {/* Floating Elements */}
-                <motion.div
-                  animate={{
-                    y: hoveredIndex === index ? [-10, 10, -10] : 0,
-                    opacity: hoveredIndex === index ? [0.5, 1, 0.5] : 0.3
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="absolute bottom-4 right-4 w-6 h-6 bg-white/20 rounded-full blur-lg"
-                />
+                <div
+                  className="absolute bottom-4 right-4 w-6 h-6 bg-white/20 rounded-full"
+                ></div>
 
                 {/* Glow Effect */}
-                <motion.div
-                  animate={{
-                    opacity: hoveredIndex === index ? [0, 1, 0] : 0
-                  }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-10 rounded-2xl blur-xl`}
-                />
-              </motion.div>
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-10 rounded-2xl`}
+                ></div>
+              </div>
             </motion.div>
           ))}
         </div>

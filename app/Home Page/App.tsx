@@ -1,8 +1,8 @@
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
-import { Features } from "./components/Features";
+import { InteractiveCards } from "./components/InteractiveCards";
 import { Roadmap } from "./components/Roadmap";
-import { Pricing } from "./components/Pricing";
+import Pricing from "./components/Pricing";
 import { Footer } from "./components/Footer";
 
 export default function App() {
@@ -11,7 +11,7 @@ export default function App() {
       <Header />
       <main>
         <Hero />
-        <Features />
+        <InteractiveCards />
         <Roadmap />
         <Pricing />
       </main>

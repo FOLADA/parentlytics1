@@ -95,11 +95,11 @@ export default function SafeForm({
   // Handle input changes with sanitization
   const handleInputChange = (field: string, value: any, type: 'text' | 'email' | 'number' | 'date' = 'text') => {
     const sanitizedValue = sanitizeFormInput(value, type);
-    setFormData(prev => ({ ...prev, [field]: sanitizedValue }));
+    setFormData((prev: any) => ({ ...prev, [field]: sanitizedValue }));
     
     // Clear field-specific error when user starts typing
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: '' }));
+      setErrors((prev: Record<string, string>) => ({ ...prev, [field]: '' }));
     }
   };
 

@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Parentlytics - მშობლებისთვის განკუთვნილი AI პლატფორმა
 
-## Getting Started
+ეს არის [Next.js](https://nextjs.org) პროექტი, რომელიც შექმნილია [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) ის გამოყენებით.
 
-First, run the development server:
+## დაწყება
+
+პირველ რიგში, გაუშვით განვითარების სერვერი:
 
 ```bash
 npm run dev
-# or
+# ან
 yarn dev
-# or
+# ან
 pnpm dev
-# or
+# ან
 bun dev
 ```
 
-Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
+გახსენით [http://localhost:3001](http://localhost:3001) თქვენი ბრაუზერით, რომ ნახოთ შედეგი.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+თქვენ შეგიძლიათ დაიწყოთ გვერდის რედაქტირება `app/page.tsx` ფაილის შეცვლით. გვერდი ავტომატურად განახლდება ფაილის რედაქტირებისას.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+ეს პროექტი იყენებს [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) რომ ავტომატურად გააოპტიმიზიროს და ჩატვირთოს [Geist](https://vercel.com/font), ახალი ფონტის სახელების სიმრავლე Vercel-ისთვის.
 
-## Learn More
+## მეტის გაგება
 
-To learn more about Next.js, take a look at the following resources:
+რომ მეტი გაიგოთ Next.js-ის შესახებ, ნახეთ შემდეგი რესურსები:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js დოკუმენტაცია](https://nextjs.org/docs) - გაიგეთ მეტი Next.js ფუნქციებისა და API-ის შესახებ.
+- [შეისწავლეთ Next.js](https://nextjs.org/learn) - ინტერაქტიული Next.js სახელმძღვანელო.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+თქვენ შეგიძლიათ ნახოთ [Next.js GitHub რეპოზიტორია](https://github.com/vercel/next.js) - თქვენი გამოხმაურება და წვლილი მისაღებია!
 
-## Deploy on Vercel
+## განთავსება Vercel-ზე
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Next.js აპლიკაციის განთავსების უმარტივესი გზა არის [Vercel პლატფორმის](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) გამოყენება Next.js-ის შემქმნელებისგან.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ნახეთ ჩვენი [Next.js განთავსების დოკუმენტაცია](https://nextjs.org/docs/app/building-your-application/deploying) მეტი დეტალებისთვის.

@@ -9,6 +9,7 @@ export interface ChildProfile {
   activity_level: 'low' | 'moderate' | 'high';
   allergies: string[];
   other_health_concerns?: string;
+  health_notes?: string;
   created_at: string;
   updated_at: string;
 }
@@ -88,7 +89,7 @@ export interface ChildProfileFormData {
   height: number;
   activity_level: 'low' | 'moderate' | 'high';
   allergies: string[];
-  other_health_concerns?: string;
+  health_notes?: string;
 }
 
 export interface AuthContextType {
