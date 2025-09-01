@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/context/ChildContext';
 import { ChildProfileFormData } from '@/lib/types';
+import LoadingStates, { InlineLoader } from '@/components/LoadingStates';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -87,14 +88,7 @@ export default function ProfilePage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center"
-        >
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">იტვირთება...</p>
-        </motion.div>
+        <LoadingStates type="profile" size="large" />
       </div>
     );
   }
@@ -389,10 +383,7 @@ export default function ProfilePage() {
                       className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 flex items-center gap-2"
                     >
                       {isSubmitting ? (
-                        <>
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                          ინახება...
-                        </>
+                        <InlineLoader size="small" message="ინახება..." />
                       ) : (
                         <>
                           <Save className="w-4 h-4" />

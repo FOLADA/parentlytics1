@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
+import LoadingStates from '@/components/LoadingStates';
 import { useAuth } from '@/context/ChildContext';
 import ChildForm from '@/components/ChildForm';
 import { ChildProfileFormData } from '@/lib/types';
@@ -46,10 +47,7 @@ export default function SetupChildPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#EDEAF7] to-[#D3C5F7] flex items-center justify-center">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#6A0DAD] mx-auto mb-4"></div>
-          <p className="text-[#0D0D0D] text-lg font-medium">იტვირთება...</p>
-        </motion.div>
+        <LoadingStates type="profile" size="large" />
       </div>
     );
   }

@@ -21,7 +21,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-3xl font-extrabold text-indigo-600 tracking-tight"
+          className="text-xl sm:text-2xl md:text-3xl font-extrabold text-indigo-600 tracking-tight"
         >
           Parentlytics
         </Link>
@@ -67,7 +67,7 @@ export default function Navbar() {
             initial={{ height: 0 }}
             animate={{ height: 'auto' }}
             exit={{ height: 0 }}
-            className="md:hidden overflow-hidden bg-white/90 px-6 pb-6 backdrop-blur-md shadow-md"
+            className="md:hidden overflow-hidden bg-white/95 backdrop-blur-md shadow-lg border-t border-gray-200"
           >
             <div className="flex flex-col space-y-4 mt-4">
               {navLinks.map((link) => (

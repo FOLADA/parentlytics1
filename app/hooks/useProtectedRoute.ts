@@ -1,20 +1,19 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "../supabaseClient";
+import { useAuth } from "@/context/ChildContext";
 
 export function useProtectedRoute() {
   const router = useRouter();
+  const { user, isLoading } = useAuth();
 
   useEffect(() => {
-    let isMounted = true;
-    async function checkAuth() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (isMounted && !user) {
-        router.replace("/login");
-      }
+    // Don't redirect while loading
+    if (isLoading) return;
+    
+    // If no user after loading, redirect to signup
+    if (!user) {
+      router.replace("/signup");
     }
-    checkAuth();
-    return () => { isMounted = false; };
-  }, [router]);
+  }, [user, isLoading, router]);
 } 

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, RefreshCw, ShoppingCart, Heart, AlertCircle, User, Utensils, Apple, Carrot, Coffee, Milk, Wheat, Banana, Grape, Fish, Egg, Circle, Square, Triangle } from 'lucide-react';
 import MealCard from '../../components/MealCard';
-import LoadingIndicator from '../../components/LoadingIndicator';
+import LoadingStates, { SkeletonLoader, InlineLoader } from '../../components/LoadingStates';
 import ChildForm from '../../components/ChildForm';
 import BLWExpandedCards from '../../components/BLWExpandedCards';
 import NutritionChart from '../../components/NutritionChart';
@@ -22,6 +22,7 @@ export default function DietPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
+  const [updatingProfile, setUpdatingProfile] = useState(false);
   const [showProfileSetup, setShowProfileSetup] = useState(false);
   const [blwExpanded, setBlwExpanded] = useState(false);
   const { user, childProfile, updateChildProfile } = useAuth();
@@ -272,7 +273,7 @@ export default function DietPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
         <div className="container mx-auto px-4 py-8">
-          <LoadingIndicator />
+          <LoadingStates type="meal-plan" size="large" />
         </div>
       </div>
     );
@@ -314,10 +315,7 @@ export default function DietPage() {
                 className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-600 transition-colors disabled:opacity-50"
               >
                 {generating ? (
-                  <>
-                    <RefreshCw className="w-5 h-5 animate-spin" />
-                    Generating...
-                  </>
+                  <InlineLoader size="medium" message="Generating..." />
                 ) : (
                   <>
                     <RefreshCw className="w-5 h-5" />
@@ -334,170 +332,215 @@ export default function DietPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white relative overflow-hidden">
-      {/* Floating Food Icons Background */}
+      {/* Floating Food Icons Background - Responsive */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Top Section Icons (0-20%) */}
-        <div className="absolute top-16 left-8 text-purple-800">
-          <Apple className="w-10 h-10 animate-float-food-1" />
-        </div>
-        <div className="absolute top-24 left-20 text-purple-800">
-          <Carrot className="w-8 h-8 animate-float-food-2" />
-        </div>
-        <div className="absolute top-32 left-32 text-purple-800">
-          <Coffee className="w-9 h-9 animate-float-food-3" />
-        </div>
-        <div className="absolute top-20 right-16 text-purple-800">
-          <Wheat className="w-8 h-8 animate-float-food-4" />
-        </div>
-        <div className="absolute top-28 right-28 text-purple-800">
-          <Grape className="w-6 h-6 animate-float-food-5" />
-        </div>
-        <div className="absolute top-36 left-1/2 text-purple-800">
-          <Banana className="w-7 h-7 animate-float-food-1" />
-        </div>
-        <div className="absolute top-44 left-1/4 text-purple-800">
-          <Fish className="w-6 h-6 animate-float-food-2" />
-        </div>
-        <div className="absolute top-52 right-1/3 text-purple-800">
-          <Egg className="w-5 h-5 animate-float-food-3" />
-        </div>
-        
-        {/* Upper Middle Section Icons (20-40%) */}
-        <div className="absolute top-1/5 left-12 text-purple-800">
-          <Milk className="w-8 h-8 animate-float-food-4" />
-        </div>
-        <div className="absolute top-1/5 right-12 text-purple-800">
-          <Circle className="w-6 h-6 animate-float-food-5" />
-        </div>
-        <div className="absolute top-1/5 left-2/3 text-purple-800">
-          <Square className="w-7 h-7 animate-float-food-1" />
-        </div>
-        <div className="absolute top-1/5 right-2/3 text-purple-800">
-          <Triangle className="w-5 h-5 animate-float-food-2" />
-        </div>
-        <div className="absolute top-1/5 left-1/3 text-purple-800">
-          <Apple className="w-6 h-6 animate-float-food-3" />
-        </div>
-        <div className="absolute top-1/5 right-1/3 text-purple-800">
-          <Carrot className="w-5 h-5 animate-float-food-4" />
+        {/* Mobile: Fewer icons, smaller sizes */}
+        <div className="block md:hidden">
+          {/* Top Section Icons (0-20%) */}
+          <div className="absolute top-16 left-8 text-purple-800">
+            <Apple className="w-4 h-4 animate-float-food-1" />
+          </div>
+          <div className="absolute top-24 left-20 text-purple-800">
+            <Carrot className="w-3 h-3 animate-float-food-2" />
+          </div>
+          <div className="absolute top-32 left-32 text-purple-800">
+            <Coffee className="w-4 h-4 animate-float-food-3" />
+          </div>
+          <div className="absolute top-20 right-16 text-purple-800">
+            <Wheat className="w-3 h-3 animate-float-food-4" />
+          </div>
+          <div className="absolute top-28 right-28 text-purple-800">
+            <Grape className="w-3 h-3 animate-float-food-5" />
+          </div>
+          
+          {/* Middle Section Icons (40-60%) */}
+          <div className="absolute top-2/5 left-1/4 text-purple-800">
+            <Banana className="w-4 h-4 animate-float-food-1" />
+          </div>
+          <div className="absolute top-2/5 right-1/4 text-purple-800">
+            <Milk className="w-3 h-3 animate-float-food-2" />
+          </div>
+          <div className="absolute top-2/5 left-3/4 text-purple-800">
+            <Grape className="w-3 h-3 animate-float-food-3" />
+          </div>
+          <div className="absolute top-2/5 right-3/4 text-purple-800">
+            <Circle className="w-3 h-3 animate-float-food-4" />
+          </div>
+          
+          {/* Bottom Section Icons (80-100%) */}
+          <div className="absolute top-4/5 left-1/3 text-purple-800">
+            <Apple className="w-3 h-3 animate-float-food-5" />
+          </div>
+          <div className="absolute top-4/5 right-1/3 text-purple-800">
+            <Carrot className="w-3 h-3 animate-float-food-1" />
+          </div>
         </div>
         
-        {/* Middle Section Icons (40-60%) */}
-        <div className="absolute top-2/5 left-16 text-purple-800">
-          <Coffee className="w-9 h-9 animate-float-food-5" />
-        </div>
-        <div className="absolute top-2/5 right-16 text-purple-800">
-          <Wheat className="w-8 h-8 animate-float-food-1" />
-        </div>
-        <div className="absolute top-2/5 left-1/2 text-purple-800">
-          <Banana className="w-7 h-7 animate-float-food-2" />
-        </div>
-        <div className="absolute top-2/5 right-1/2 text-purple-800">
-          <Fish className="w-6 h-6 animate-float-food-3" />
-        </div>
-        <div className="absolute top-2/5 left-1/4 text-purple-800">
-          <Egg className="w-5 h-5 animate-float-food-4" />
-        </div>
-        <div className="absolute top-2/5 right-1/4 text-purple-800">
-          <Milk className="w-6 h-6 animate-float-food-5" />
-        </div>
-        <div className="absolute top-2/5 left-3/4 text-purple-800">
-          <Grape className="w-5 h-5 animate-float-food-1" />
-        </div>
-        <div className="absolute top-2/5 right-3/4 text-purple-800">
-          <Circle className="w-4 h-4 animate-float-food-2" />
-        </div>
-        
-        {/* Lower Middle Section Icons (60-80%) */}
-        <div className="absolute top-3/5 left-20 text-purple-800">
-          <Apple className="w-8 h-8 animate-float-food-3" />
-        </div>
-        <div className="absolute top-3/5 right-20 text-purple-800">
-          <Carrot className="w-7 h-7 animate-float-food-4" />
-        </div>
-        <div className="absolute top-3/5 left-1/3 text-purple-800">
-          <Coffee className="w-6 h-6 animate-float-food-5" />
-        </div>
-        <div className="absolute top-3/5 right-1/3 text-purple-800">
-          <Wheat className="w-5 h-5 animate-float-food-1" />
-        </div>
-        <div className="absolute top-3/5 left-1/2 text-purple-800">
-          <Banana className="w-6 h-6 animate-float-food-2" />
-        </div>
-        <div className="absolute top-3/5 right-1/2 text-purple-800">
-          <Fish className="w-5 h-5 animate-float-food-3" />
-        </div>
-        <div className="absolute top-3/5 left-2/3 text-purple-800">
-          <Egg className="w-4 h-4 animate-float-food-4" />
-        </div>
-        <div className="absolute top-3/5 right-2/3 text-purple-800">
-          <Milk className="w-5 h-5 animate-float-food-5" />
-        </div>
-        
-        {/* Bottom Section Icons (80-100%) */}
-        <div className="absolute top-4/5 left-12 text-purple-800">
-          <Grape className="w-7 h-7 animate-float-food-1" />
-        </div>
-        <div className="absolute top-4/5 right-12 text-purple-800">
-          <Circle className="w-6 h-6 animate-float-food-2" />
-        </div>
-        <div className="absolute top-4/5 left-1/4 text-purple-800">
-          <Square className="w-5 h-5 animate-float-food-3" />
-        </div>
-        <div className="absolute top-4/5 right-1/4 text-purple-800">
-          <Triangle className="w-4 h-4 animate-float-food-4" />
-        </div>
-        <div className="absolute top-4/5 left-1/2 text-purple-800">
-          <Apple className="w-6 h-6 animate-float-food-5" />
-        </div>
-        <div className="absolute top-4/5 right-1/2 text-purple-800">
-          <Carrot className="w-5 h-5 animate-float-food-1" />
-        </div>
-        <div className="absolute top-4/5 left-3/4 text-purple-800">
-          <Coffee className="w-4 h-4 animate-float-food-2" />
-        </div>
-        <div className="absolute top-4/5 right-3/4 text-purple-800">
-          <Wheat className="w-5 h-5 animate-float-food-3" />
-        </div>
-        
-        {/* Very Bottom Section Icons (90-100%) */}
-        <div className="absolute top-11/12 left-16 text-purple-800">
-          <Banana className="w-5 h-5 animate-float-food-4" />
-        </div>
-        <div className="absolute top-11/12 right-16 text-purple-800">
-          <Fish className="w-4 h-4 animate-float-food-5" />
-        </div>
-        <div className="absolute top-11/12 left-1/3 text-purple-800">
-          <Egg className="w-3 h-3 animate-float-food-1" />
-        </div>
-        <div className="absolute top-11/12 right-1/3 text-purple-800">
-          <Milk className="w-4 h-4 animate-float-food-2" />
-        </div>
-        <div className="absolute top-11/12 left-2/3 text-purple-800">
-          <Grape className="w-3 h-3 animate-float-food-3" />
-        </div>
-        <div className="absolute top-11/12 right-2/3 text-purple-800">
-          <Circle className="w-4 h-4 animate-float-food-4" />
-        </div>
-        
-        {/* Scattered Additional Icons */}
-        <div className="absolute top-1/6 left-1/6 text-purple-800">
-          <Square className="w-4 h-4 animate-float-food-5" />
-        </div>
-        <div className="absolute top-1/6 right-1/6 text-purple-800">
-          <Triangle className="w-3 h-3 animate-float-food-1" />
-        </div>
-        <div className="absolute top-5/6 left-1/6 text-purple-800">
-          <Apple className="w-4 h-4 animate-float-food-2" />
-        </div>
-        <div className="absolute top-5/6 right-1/6 text-purple-800">
-          <Carrot className="w-3 h-3 animate-float-food-3" />
-        </div>
-        <div className="absolute top-1/3 left-1/6 text-purple-800">
-          <Coffee className="w-5 h-5 animate-float-food-4" />
-        </div>
-        <div className="absolute top-2/3 right-1/6 text-purple-800">
-          <Wheat className="w-4 h-4 animate-float-food-5" />
+        {/* Desktop: Full icon set */}
+        <div className="hidden md:block">
+          {/* Top Section Icons (0-20%) */}
+          <div className="absolute top-16 left-8 text-purple-800">
+            <Apple className="w-10 h-10 animate-float-food-1" />
+          </div>
+          <div className="absolute top-24 left-20 text-purple-800">
+            <Carrot className="w-8 h-8 animate-float-food-2" />
+          </div>
+          <div className="absolute top-32 left-32 text-purple-800">
+            <Coffee className="w-9 h-9 animate-float-food-3" />
+          </div>
+          <div className="absolute top-20 right-16 text-purple-800">
+            <Wheat className="w-8 h-8 animate-float-food-4" />
+          </div>
+          <div className="absolute top-28 right-28 text-purple-800">
+            <Grape className="w-6 h-6 animate-float-food-5" />
+          </div>
+          <div className="absolute top-36 left-1/2 text-purple-800">
+            <Banana className="w-7 h-7 animate-float-food-1" />
+          </div>
+          <div className="absolute top-44 left-1/4 text-purple-800">
+            <Fish className="w-6 h-6 animate-float-food-2" />
+          </div>
+          <div className="absolute top-52 right-1/3 text-purple-800">
+            <Egg className="w-5 h-5 animate-float-food-3" />
+          </div>
+          
+          {/* Upper Middle Section Icons (20-40%) */}
+          <div className="absolute top-1/5 left-12 text-purple-800">
+            <Milk className="w-8 h-8 animate-float-food-4" />
+          </div>
+          <div className="absolute top-1/5 right-12 text-purple-800">
+            <Circle className="w-6 h-6 animate-float-food-5" />
+          </div>
+          <div className="absolute top-1/5 left-2/3 text-purple-800">
+            <Square className="w-7 h-7 animate-float-food-1" />
+          </div>
+          <div className="absolute top-1/5 right-2/3 text-purple-800">
+            <Triangle className="w-5 h-5 animate-float-food-2" />
+          </div>
+          <div className="absolute top-1/5 left-1/3 text-purple-800">
+            <Apple className="w-6 h-6 animate-float-food-3" />
+          </div>
+          <div className="absolute top-1/5 right-1/3 text-purple-800">
+            <Carrot className="w-5 h-5 animate-float-food-4" />
+          </div>
+          
+          {/* Middle Section Icons (40-60%) */}
+          <div className="absolute top-2/5 left-16 text-purple-800">
+            <Coffee className="w-9 h-9 animate-float-food-5" />
+          </div>
+          <div className="absolute top-2/5 right-16 text-purple-800">
+            <Wheat className="w-8 h-8 animate-float-food-1" />
+          </div>
+          <div className="absolute top-2/5 left-1/2 text-purple-800">
+            <Banana className="w-7 h-7 animate-float-food-2" />
+          </div>
+          <div className="absolute top-2/5 right-1/2 text-purple-800">
+            <Fish className="w-6 h-6 animate-float-food-3" />
+          </div>
+          <div className="absolute top-2/5 left-1/4 text-purple-800">
+            <Egg className="w-5 h-5 animate-float-food-4" />
+          </div>
+          <div className="absolute top-2/5 right-1/4 text-purple-800">
+            <Milk className="w-6 h-6 animate-float-food-5" />
+          </div>
+          <div className="absolute top-2/5 left-3/4 text-purple-800">
+            <Grape className="w-5 h-5 animate-float-food-1" />
+          </div>
+          <div className="absolute top-2/5 right-3/4 text-purple-800">
+            <Circle className="w-4 h-4 animate-float-food-2" />
+          </div>
+          
+          {/* Lower Middle Section Icons (60-80%) */}
+          <div className="absolute top-3/5 left-20 text-purple-800">
+            <Apple className="w-8 h-8 animate-float-food-3" />
+          </div>
+          <div className="absolute top-3/5 right-20 text-purple-800">
+            <Carrot className="w-7 h-7 animate-float-food-4" />
+          </div>
+          <div className="absolute top-3/5 left-1/3 text-purple-800">
+            <Coffee className="w-6 h-6 animate-float-food-5" />
+          </div>
+          <div className="absolute top-3/5 right-1/3 text-purple-800">
+            <Wheat className="w-5 h-5 animate-float-food-1" />
+          </div>
+          <div className="absolute top-3/5 left-1/2 text-purple-800">
+            <Banana className="w-6 h-6 animate-float-food-2" />
+          </div>
+          <div className="absolute top-3/5 right-1/2 text-purple-800">
+            <Fish className="w-5 h-5 animate-float-food-3" />
+          </div>
+          <div className="absolute top-3/5 left-2/3 text-purple-800">
+            <Egg className="w-4 h-4 animate-float-food-4" />
+          </div>
+          <div className="absolute top-3/5 right-2/3 text-purple-800">
+            <Milk className="w-5 h-5 animate-float-food-5" />
+          </div>
+          
+          {/* Bottom Section Icons (80-100%) */}
+          <div className="absolute top-4/5 left-12 text-purple-800">
+            <Grape className="w-7 h-7 animate-float-food-1" />
+          </div>
+          <div className="absolute top-4/5 right-12 text-purple-800">
+            <Circle className="w-6 h-6 animate-float-food-2" />
+          </div>
+          <div className="absolute top-4/5 left-1/4 text-purple-800">
+            <Square className="w-5 h-5 animate-float-food-3" />
+          </div>
+          <div className="absolute top-4/5 right-1/4 text-purple-800">
+            <Triangle className="w-4 h-4 animate-float-food-4" />
+          </div>
+          <div className="absolute top-4/5 left-1/2 text-purple-800">
+            <Apple className="w-6 h-6 animate-float-food-5" />
+          </div>
+          <div className="absolute top-4/5 right-1/2 text-purple-800">
+            <Carrot className="w-5 h-5 animate-float-food-1" />
+          </div>
+          <div className="absolute top-4/5 left-3/4 text-purple-800">
+            <Coffee className="w-4 h-4 animate-float-food-2" />
+          </div>
+          <div className="absolute top-4/5 right-3/4 text-purple-800">
+            <Wheat className="w-5 h-5 animate-float-food-3" />
+          </div>
+          
+          {/* Very Bottom Section Icons (90-100%) */}
+          <div className="absolute top-11/12 left-16 text-purple-800">
+            <Banana className="w-5 h-5 animate-float-food-4" />
+          </div>
+          <div className="absolute top-11/12 right-16 text-purple-800">
+            <Fish className="w-4 h-4 animate-float-food-5" />
+          </div>
+          <div className="absolute top-11/12 left-1/3 text-purple-800">
+            <Egg className="w-3 h-3 animate-float-food-1" />
+          </div>
+          <div className="absolute top-11/12 right-1/3 text-purple-800">
+            <Milk className="w-4 h-4 animate-float-food-2" />
+          </div>
+          <div className="absolute top-11/12 left-2/3 text-purple-800">
+            <Grape className="w-3 h-3 animate-float-food-3" />
+          </div>
+          <div className="absolute top-11/12 right-2/3 text-purple-800">
+            <Circle className="w-4 h-4 animate-float-food-4" />
+          </div>
+          
+          {/* Scattered Additional Icons */}
+          <div className="absolute top-1/6 left-1/6 text-purple-800">
+            <Square className="w-4 h-4 animate-float-food-5" />
+          </div>
+          <div className="absolute top-1/6 right-1/6 text-purple-800">
+            <Triangle className="w-3 h-3 animate-float-food-1" />
+          </div>
+          <div className="absolute top-5/6 left-1/6 text-purple-800">
+            <Apple className="w-4 h-4 animate-float-food-2" />
+          </div>
+          <div className="absolute top-5/6 right-1/6 text-purple-800">
+            <Carrot className="w-3 h-3 animate-float-food-3" />
+          </div>
+          <div className="absolute top-1/3 left-1/6 text-purple-800">
+            <Coffee className="w-5 h-5 animate-float-food-4" />
+          </div>
+          <div className="absolute top-2/3 right-1/6 text-purple-800">
+            <Wheat className="w-4 h-4 animate-float-food-5" />
+          </div>
         </div>
       </div>
       
@@ -550,15 +593,15 @@ export default function DietPage() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          className="text-center mb-8 px-4"
         >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Calendar className="w-8 h-8 text-blue-500" />
-            <h1 className="text-3xl font-bold text-gray-800">
+          <div className="flex items-center justify-center gap-2 md:gap-3 mb-4">
+            <Calendar className="w-6 h-6 md:w-8 md:h-8 text-blue-500" />
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 leading-tight">
               {childName ? `მოდი კარგად გამოვკვებოთ ${childName}?` : 'მოდი კარგად გამოვკვებოთ ბავშვს?'} 🍽️
             </h1>
           </div>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 text-base md:text-lg">
             {new Date().toLocaleDateString('en-US', { 
               weekday: 'long', 
               year: 'numeric', 
@@ -566,7 +609,7 @@ export default function DietPage() {
               day: 'numeric' 
             })}
           </p>
-          <p className="text-gray-500 text-sm mt-2">
+          <p className="text-gray-500 text-xs md:text-sm mt-2 px-4">
             Включает рекомендации по BLW (Baby-Led Weaning) для детей 6+ месяцев
           </p>
         </motion.div>
@@ -576,32 +619,31 @@ export default function DietPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-4 mb-8"
+          className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 md:gap-4 mb-8 px-4"
         >
           <button
             onClick={generateMealPlanNow}
             disabled={generating}
-            className="purple-gradient-btn inline-flex items-center gap-2 disabled:opacity-50"
+            className="purple-gradient-btn inline-flex items-center justify-center gap-2 disabled:opacity-50 w-full sm:w-auto px-4 py-3 md:px-6 md:py-3 text-sm md:text-base"
           >
             {generating ? (
-              <>
-                <RefreshCw className="w-4 h-4 animate-spin" />
-                Generating...
-              </>
+              <InlineLoader size="small" message="Generating..." />
             ) : (
               <>
                 <RefreshCw className="w-4 h-4" />
-                Refresh Plan
+                <span className="hidden sm:inline">Refresh Plan</span>
+                <span className="sm:hidden">Refresh</span>
               </>
             )}
           </button>
           
           <button
             onClick={generateGroceryList}
-            className="purple-gradient-btn inline-flex items-center gap-2"
+            className="purple-gradient-btn inline-flex items-center justify-center gap-2 w-full sm:w-auto px-4 py-3 md:px-6 md:py-3 text-sm md:text-base"
           >
-            <ShoppingCart className="w-5 h-5" />
-            Grocery List
+            <ShoppingCart className="w-4 h-4" />
+            <span className="hidden sm:inline">Grocery List</span>
+            <span className="sm:hidden">Grocery</span>
           </button>
 
           <button
@@ -619,10 +661,18 @@ export default function DietPage() {
                 }
               }, 100);
             }}
-            className="purple-gradient-btn inline-flex items-center gap-2"
+            disabled={updatingProfile}
+            className="purple-gradient-btn inline-flex items-center gap-2 w-full sm:w-auto px-4 py-3 md:px-6 md:py-3 text-sm md:text-base disabled:opacity-50"
           >
-            <User className="w-5 h-5" />
-            Edit Profile
+            {updatingProfile ? (
+              <InlineLoader size="small" message="Updating..." />
+            ) : (
+              <>
+                <User className="w-4 h-4" />
+                <span className="hidden sm:inline">Edit Profile</span>
+                <span className="sm:hidden">Profile</span>
+              </>
+            )}
           </button>
         </motion.div>
 
@@ -634,7 +684,7 @@ export default function DietPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-7xl mx-auto px-4"
           >
             <MealCard
               title="Breakfast"
@@ -730,7 +780,7 @@ export default function DietPage() {
           />
         </motion.div>
 
-                {/* Child Profile Setup Modal */}
+        {/* Child Profile Setup Modal */}
         {showProfileSetup && (
           <motion.div 
             ref={profileFormRef}
@@ -739,28 +789,28 @@ export default function DietPage() {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="mt-8"
           >
-            <ChildForm
-              onSubmit={async (data: ChildProfileFormData) => {
-                try {
-                  await updateChildProfile(data);
-                  setShowProfileSetup(false);
-                } catch (error) {
-                  console.error('Error updating child profile:', error);
-                }
-              }}
-              onCancel={() => setShowProfileSetup(false)}
-              isEditing={!!childProfile}
-              initialData={childProfile ? {
-                name: childProfile.name,
-                birthdate: childProfile.birthdate,
-                gender: childProfile.gender,
-                weight: childProfile.weight,
-                height: childProfile.height,
-                activity_level: childProfile.activity_level,
-                allergies: childProfile.allergies,
-                other_health_concerns: childProfile.other_health_concerns,
-              } : undefined}
-            />
+          <ChildForm
+            onSubmit={async (data: ChildProfileFormData) => {
+              try {
+                await updateChildProfile(data);
+                setShowProfileSetup(false);
+              } catch (error) {
+                console.error('Error updating child profile:', error);
+              }
+            }}
+            onCancel={() => setShowProfileSetup(false)}
+            isEditing={!!childProfile}
+            initialData={childProfile ? {
+              name: childProfile.name,
+              birthdate: childProfile.birthdate,
+              gender: childProfile.gender,
+              weight: childProfile.weight,
+              height: childProfile.height,
+              activity_level: childProfile.activity_level,
+              allergies: childProfile.allergies,
+              other_health_concerns: childProfile.other_health_concerns,
+            } : undefined}
+          />
           </motion.div>
         )}
       </div>

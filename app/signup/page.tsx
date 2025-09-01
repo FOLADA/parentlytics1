@@ -35,7 +35,8 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Eye, EyeOff } from 'lucide-react';
 import {FaGoogle} from 'react-icons/fa';
-import { supabase } from '../supabaseClient';
+import { supabase, checkSupabaseConnection, handleSupabaseError } from '../supabaseClient';
+import { useAuth } from '@/context/ChildContext';
 
 // Reusing the same brand colors and theme from SignIn
 const brandColors = {
@@ -164,6 +165,7 @@ const theme = createTheme({
 });
 
 export default function SignUpPage() {
+  const { signup } = useAuth();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [fullName, setFullName] = React.useState('');
@@ -189,30 +191,91 @@ export default function SignUpPage() {
     event.preventDefault();
     setError('');
     setSuccess('');
+    
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
+    
     setLoading(true);
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { full_name: fullName } }
-    });
-    setLoading(false);
-    if (error) {
-      setError(error.message);
-    } else {
-      setSuccess('რეგისტრაცია წარმატებულია! გადავდივართ ბავშვის პროფილის შექმნაზე...');
-      setFullName('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
+    
+    try {
+      // First check if Supabase is accessible
+      const isConnected = await checkSupabaseConnection();
       
-      // Redirect to setup-child immediately after successful signup
-      setTimeout(() => {
-        window.location.href = '/setup-child';
-      }, 1500);
+      if (!isConnected) {
+        console.warn('Supabase not accessible, using mock authentication');
+        // Use context signup for mock authentication
+        try {
+          await signup(email, password, fullName);
+          setSuccess('რეგისტრაცია წარმატებულია! (Mock Mode) გადავდივართ ბავშვის პროფილის შექმნაზე...');
+          setFullName('');
+          setEmail('');
+          setPassword('');
+          setConfirmPassword('');
+          
+          // Redirect to setup-child
+          setTimeout(() => {
+            window.location.href = '/setup-child';
+          }, 1500);
+        } catch (error) {
+          setError('Mock authentication failed. Please try again.');
+        }
+        return;
+      }
+      
+      // Try real Supabase authentication
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { full_name: fullName } }
+      });
+      
+      if (error) {
+        const handledError = handleSupabaseError(error);
+        if (handledError) {
+          setError(handledError.message || 'Registration failed. Please try again.');
+        } else {
+          // Error was handled gracefully, use context signup as fallback
+          try {
+            await signup(email, password, fullName);
+            setSuccess('რეგისტრაცია წარმატებულია! (Fallback Mode) გადავდივართ ბავშვის პროფილის შექმნაზე...');
+            setFullName('');
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+            
+            setTimeout(() => {
+              window.location.href = '/setup-child';
+            }, 1500);
+          } catch (fallbackError) {
+            setError('Fallback authentication failed. Please try again.');
+          }
+        }
+      } else {
+        // Real Supabase signup successful, also use context signup
+        try {
+          await signup(email, password, fullName);
+          setSuccess('რეგისტრაცია წარმატებულია! გადავდივართ ბავშვის პროფილის შექმნაზე...');
+          setFullName('');
+          setEmail('');
+          setPassword('');
+          setConfirmPassword('');
+          
+          // Redirect to setup-child immediately after successful signup
+          setTimeout(() => {
+            window.location.href = '/setup-child';
+          }, 1500);
+        } catch (contextError) {
+          console.error('Context signup failed:', contextError);
+          setError('Registration successful but context setup failed. Please try logging in.');
+        }
+      }
+    } catch (err) {
+      console.error('Unexpected error during signup:', err);
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 

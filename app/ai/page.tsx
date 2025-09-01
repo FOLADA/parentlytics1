@@ -2,6 +2,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { Send, Plus, MessageCircle, Bot, User, Sparkles, Loader2, Brain } from "lucide-react";
+import LoadingStates, { InlineLoader } from '../../components/LoadingStates';
 import { motion, AnimatePresence } from "framer-motion";
 import { useProtectedRoute } from '../hooks/useProtectedRoute';
 
@@ -238,8 +239,7 @@ export default function AIPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span className="text-sm">წერს...</span>
+              <InlineLoader size="small" message="წერს..." />
             </motion.div>
           )}
         </motion.div>
@@ -330,7 +330,7 @@ export default function AIPage() {
             whileTap={{ scale: 0.95 }}
           >
             {isSending ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <InlineLoader size="small" message="" />
             ) : (
               <Send className="w-5 h-5" />
             )}

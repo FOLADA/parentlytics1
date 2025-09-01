@@ -13,7 +13,12 @@ import {
   Wheat 
 } from 'lucide-react';
 
-// ... (interface remains unchanged)
+interface NutritionChartProps {
+  totalCalories: number;
+  targetCalories: number;
+  nutritionData: any;
+  childAgeInMonths: number;
+}
 
 export default function NutritionChart({ 
   totalCalories, 
@@ -21,28 +26,29 @@ export default function NutritionChart({
   nutritionData, 
   childAgeInMonths 
 }: NutritionChartProps) {
-  // ... (calculation logic remains unchanged)
+  // Calculate calorie percentage
+  const caloriePercentage = targetCalories > 0 ? (totalCalories / targetCalories) * 100 : 0;
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-lg border border-blue-200">
+    <div className="bg-white rounded-2xl p-4 md:p-6 shadow-lg border border-blue-200">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
-        <Heart className="w-6 h-6 text-purple-500" />
-        <h3 className="text-xl font-semibold text-gray-800">დღევანდელი კვების შეჯამება</h3>
+      <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+        <Heart className="w-5 h-5 md:w-6 md:h-6 text-purple-500" />
+        <h3 className="text-lg md:text-xl font-semibold text-gray-800">დღევანდელი კვების შეჯამება</h3>
       </div>
 
       {/* Main Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-6">
         {/* Total Meals */}
-        <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
+        <div className="bg-white rounded-lg p-3 md:p-4 shadow-sm border border-gray-100">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-gray-800">5</div>
-              <div className="text-sm text-gray-600">სულ კვება</div>
+              <div className="text-xl md:text-2xl font-bold text-gray-800">5</div>
+              <div className="text-xs md:text-sm text-gray-600">სულ კვება</div>
               <div className="text-xs text-purple-600">+2 გუშინდელთან შედარებით</div>
             </div>
-            <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
-              <Heart className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-500 rounded-lg flex items-center justify-center">
+              <Heart className="w-4 h-4 md:w-5 md:h-5 text-white" />
             </div>
           </div>
         </div>
@@ -89,7 +95,12 @@ export default function NutritionChart({
             <span className="text-sm font-medium text-gray-700">რძე</span>
             <span className="text-sm text-gray-500">{Math.round(totalCalories * 0.8)}/750ml</span>
           </div>
-          {/* ... progress bar remains unchanged */}
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+              style={{ width: `${Math.min((totalCalories * 0.8 / 750) * 100, 100)}%` }}
+            ></div>
+          </div>
         </div>
 
         {/* Solid Food Progress */}
@@ -98,7 +109,12 @@ export default function NutritionChart({
             <span className="text-sm font-medium text-gray-700">მყარი საკვები</span>
             <span className="text-sm text-gray-500">{Math.round(totalCalories * 0.15)}/250გ</span>
           </div>
-          {/* ... progress bar remains unchanged */}
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+              style={{ width: `${Math.min((totalCalories * 0.15 / 250) * 100, 100)}%` }}
+            ></div>
+          </div>
         </div>
 
         {/* Water Progress */}
@@ -107,7 +123,12 @@ export default function NutritionChart({
             <span className="text-sm font-medium text-gray-700">წყალი</span>
             <span className="text-sm text-gray-500">50/100მლ</span>
           </div>
-          {/* ... progress bar remains unchanged */}
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+              style={{ width: `${Math.min((50 / 100) * 100, 100)}%` }}
+            ></div>
+          </div>
         </div>
       </div>
 
@@ -144,4 +165,4 @@ export default function NutritionChart({
       )}
     </div>
   );
-}
+} 

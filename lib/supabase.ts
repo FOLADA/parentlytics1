@@ -27,7 +27,7 @@ export async function getChildProfile(userId: string): Promise<ChildProfile | nu
       console.log('Supabase returned error:', error);
       const handledError = handleSupabaseError(error);
       if (handledError) {
-        console.error('Error fetching child profile:', error);
+      console.error('Error fetching child profile:', error);
       }
       return null;
     }
@@ -38,7 +38,7 @@ export async function getChildProfile(userId: string): Promise<ChildProfile | nu
     console.log('Exception caught in getChildProfile:', error);
     const handledError = handleSupabaseError(error);
     if (handledError) {
-      console.error('Error in getChildProfile:', error);
+    console.error('Error in getChildProfile:', error);
     }
     return null;
   }
@@ -70,13 +70,13 @@ export async function createChildProfile(profile: Omit<ChildProfile, 'id' | 'cre
     if (error) {
       const handledError = handleSupabaseError(error);
       if (handledError) {
-        console.error('Error creating child profile:', error);
-        console.error('Error details:', {
-          message: error.message,
-          details: error.details,
-          hint: error.hint,
-          code: error.code
-        });
+      console.error('Error creating child profile:', error);
+      console.error('Error details:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
       }
       return null;
     }
@@ -86,7 +86,7 @@ export async function createChildProfile(profile: Omit<ChildProfile, 'id' | 'cre
   } catch (error) {
     const handledError = handleSupabaseError(error);
     if (handledError) {
-      console.error('Error in createChildProfile:', error);
+    console.error('Error in createChildProfile:', error);
     }
     return null;
   }
@@ -104,7 +104,7 @@ export async function updateChildProfile(id: string, updates: Partial<ChildProfi
     if (error) {
       const handledError = handleSupabaseError(error);
       if (handledError) {
-        console.error('Error updating child profile:', error);
+      console.error('Error updating child profile:', error);
       }
       return null;
     }
@@ -113,7 +113,7 @@ export async function updateChildProfile(id: string, updates: Partial<ChildProfi
   } catch (error) {
     const handledError = handleSupabaseError(error);
     if (handledError) {
-      console.error('Error in updateChildProfile:', error);
+    console.error('Error in updateChildProfile:', error);
     }
     return null;
   }
@@ -134,7 +134,7 @@ export async function getTodayMeal(userId: string): Promise<DailyMeal | null> {
     if (error && error.code !== 'PGRST116') { // PGRST116 is "not found"
       const handledError = handleSupabaseError(error);
       if (handledError) {
-        console.error('Error fetching today\'s meal:', error);
+      console.error('Error fetching today\'s meal:', error);
       }
       return null;
     }
@@ -143,7 +143,7 @@ export async function getTodayMeal(userId: string): Promise<DailyMeal | null> {
   } catch (error) {
     const handledError = handleSupabaseError(error);
     if (handledError) {
-      console.error('Error in getTodayMeal:', error);
+    console.error('Error in getTodayMeal:', error);
     }
     return null;
   }
@@ -160,7 +160,7 @@ export async function createDailyMeal(meal: Omit<DailyMeal, 'id' | 'created_at'>
     if (error) {
       const handledError = handleSupabaseError(error);
       if (handledError) {
-        console.error('Error creating daily meal:', error);
+      console.error('Error creating daily meal:', error);
       }
       return null;
     }
@@ -169,7 +169,7 @@ export async function createDailyMeal(meal: Omit<DailyMeal, 'id' | 'created_at'>
   } catch (error) {
     const handledError = handleSupabaseError(error);
     if (handledError) {
-      console.error('Error in createDailyMeal:', error);
+    console.error('Error in createDailyMeal:', error);
     }
     return null;
   }
@@ -185,7 +185,7 @@ export async function getAllChildProfiles(userId: string): Promise<ChildProfile[
     if (error) {
       const handledError = handleSupabaseError(error);
       if (handledError) {
-        console.error('Error fetching child profiles:', error);
+      console.error('Error fetching child profiles:', error);
       }
       return [];
     }
@@ -194,7 +194,7 @@ export async function getAllChildProfiles(userId: string): Promise<ChildProfile[
   } catch (error) {
     const handledError = handleSupabaseError(error);
     if (handledError) {
-      console.error('Error in getAllChildProfiles:', error);
+    console.error('Error in getAllChildProfiles:', error);
     }
     return [];
   }
